@@ -21,7 +21,7 @@ namespace SchoolWeb.Models
         public string Grade { get; set; }
 
         // relation
-        public int TeacherId { get; set; }
+        public string TeacherId { get; set; }
 
         [ForeignKey("TeacherId")]
         public Teacher Teacher { get; set; }

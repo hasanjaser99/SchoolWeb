@@ -108,8 +108,7 @@ namespace SchoolWeb.DataAccess.Migrations
                 name: "Teachers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: false),
                     Field = table.Column<string>(nullable: false),
@@ -276,7 +275,7 @@ namespace SchoolWeb.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Grade = table.Column<string>(nullable: false),
-                    TeacherId = table.Column<int>(nullable: false)
+                    TeacherId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -298,7 +297,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     ClassNumber = table.Column<int>(nullable: false),
                     Day = table.Column<string>(nullable: false),
                     SectionId = table.Column<int>(nullable: false),
-                    TeacherId = table.Column<int>(nullable: false),
+                    TeacherId = table.Column<string>(nullable: true),
                     CourseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -323,7 +322,7 @@ namespace SchoolWeb.DataAccess.Migrations
                 columns: table => new
                 {
                     CourseId = table.Column<int>(nullable: false),
-                    TeacherId = table.Column<int>(nullable: false)
+                    TeacherId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -347,7 +346,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     AssignmentsMark = table.Column<int>(nullable: false),
                     FinalMark = table.Column<int>(nullable: false),
                     CourseId = table.Column<int>(nullable: false),
-                    StudentId = table.Column<int>(nullable: false)
+                    StudentId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -358,8 +357,7 @@ namespace SchoolWeb.DataAccess.Migrations
                 name: "Students",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     ArabicName = table.Column<string>(nullable: false),
                     EnglishName = table.Column<string>(nullable: false),
                     ParentEmail = table.Column<string>(nullable: false),
@@ -388,7 +386,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     Name = table.Column<string>(nullable: false),
                     Grade = table.Column<string>(nullable: false),
                     Semester = table.Column<int>(nullable: false),
-                    StudentId = table.Column<int>(nullable: true)
+                    StudentId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -409,7 +407,7 @@ namespace SchoolWeb.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BusFees = table.Column<int>(nullable: false),
                     Discount = table.Column<double>(nullable: false),
-                    StudentId = table.Column<int>(nullable: false)
+                    StudentId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

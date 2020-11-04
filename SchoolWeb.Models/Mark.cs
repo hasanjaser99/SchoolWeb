@@ -30,7 +30,7 @@ namespace SchoolWeb.Models
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
 
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
 
         [ForeignKey("StudentId")]
         public Student Student { get; set; }

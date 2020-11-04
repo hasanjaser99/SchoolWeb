@@ -9,8 +9,7 @@ namespace SchoolWeb.Models
 {
     public class Student
     {
-        [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = "يرجى إدخال اسم الطالب باللغة العربية")]
         [DisplayName("الإسم باللغة العربية")]

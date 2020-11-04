@@ -9,8 +9,7 @@ namespace SchoolWeb.Models
     public class Teacher
     {
 
-        [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = "يرجى إدخال إسم المعلم")]
         [DisplayName("إسم المعلم")]

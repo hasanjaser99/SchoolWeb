@@ -26,7 +26,7 @@ namespace SchoolWeb.Models
         [ForeignKey("SectionId")]
         public Section Section { get; set; }
 
-        public int TeacherId { get; set; }
+        public string TeacherId { get; set; }
 
         [ForeignKey("TeacherId")]
         public Teacher Teacher { get; set; }

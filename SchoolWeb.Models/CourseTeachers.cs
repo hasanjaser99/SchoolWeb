@@ -9,7 +9,7 @@ namespace SchoolWeb.Models
         public int CourseId { get; set; }
         public Course Course { get; set; }
 
-        public int TeacherId { get; set; }
+        public string TeacherId { get; set; }
         public Teacher Teacher { get; set; }
     }
 }

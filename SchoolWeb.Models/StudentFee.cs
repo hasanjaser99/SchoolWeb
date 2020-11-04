@@ -21,7 +21,7 @@ namespace SchoolWeb.Models
         public double Discount { get; set; }
 
         //// relations
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
 
         [ForeignKey("StudentId")]
         public Student Student { get; set; }
