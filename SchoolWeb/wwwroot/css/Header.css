@@ -1,0 +1,34 @@
+﻿nav {
+    background-color: #333333;
+}
+
+    nav img {
+        border-radius: 60px;
+        margin-left: 10px;
+    }
+
+.navbar-brand {
+    color: #fdfdfd;
+    font-size: 1.2rem;
+}
+
+.navbar-nav li a {
+    color: #fdfdfd;
+}
+
+    .navbar-nav li a:hover {
+        color: #038242;
+    }
+
+.navbar-nav .active-link {
+    background-color: #038242;
+    border-radius: 5px;
+}
+
+    .navbar-nav .active-link a {
+        color: #fdfdfd;
+    }
+
+        .navbar-nav .active-link a:hover {
+            color: #fdfdfd;
+        }

@@ -3,27 +3,114 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SchoolWeb</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css" integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/Header.css" />
     @RenderSection("Css", required: false)
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SchoolWeb</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-md navbar-toggleable-md border-bottom box-shadow mb-3">
+            <div class="container" style="flex-direction:row-reverse">
+                <img src="~/images/schoolLogo.jpg" width="60px" height="60px" />
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">روضة جبل الأميرة رحمة</a>
+                <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
+                <div class="navbar-collapse collapse d-md-inline-flex flex-md-row-reverse">
+                    @*<partial name="_LoginPartial" />*@
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Public" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
 
+                        @{
+                            var activeClass = "pr-1 active-link";
+                            var active = ViewData["Active"];
+
+                            if (active == "login")
+                            {
+                                <li class="nav-item pl-1 @activeClass">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                        تسجيل الدخول
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item pl-1">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                        تسجيل الدخول
+                                    </a>
+                                </li>
+                            }
+
+                            if (active == "aboutSchool")
+                            {
+                                <li class="nav-item pl-1 @activeClass">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                        عن الروضة
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item pl-1">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                        عن الروضة
+                                    </a>
+                                </li>
+                            }
+
+                            if (active == "studentPortal")
+                            {
+                                <li class="nav-item pl-1 @activeClass">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                        بوابة الطالب
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item pl-1">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                        بوابة الطالب
+                                    </a>
+                                </li>
+                            }
+
+                            if (active == "feesAndRegisteraion")
+                            {
+                                <li class="nav-item pl-1 @activeClass">
+                                    <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="RegisterationDetails">
+                                        التسجيل و الرسوم
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item pl-1">
+                                    <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="RegisterationDetails">
+                                        التسجيل و الرسوم
+                                    </a>
+                                </li>
+
+                            }
+
+                            if (active == "home")
+                            {
+                                <li class="nav-item pl-1 @activeClass">
+                                    <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item pl-1">
+                                    <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                                </li>
+                            }
+
+                        }
                     </ul>
                 </div>
             </div>

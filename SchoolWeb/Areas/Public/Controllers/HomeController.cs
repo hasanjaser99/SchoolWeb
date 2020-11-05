@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace SchoolWeb.Areas.Public.Controllers
@@ -10,8 +11,9 @@ namespace SchoolWeb.Areas.Public.Controllers
     [Area("Public")]
     public class HomeController : Controller
     {
+
         // GET: HomeController
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -84,5 +86,11 @@ namespace SchoolWeb.Areas.Public.Controllers
                 return View();
             }
         }
+
+        public IActionResult RegisterationDetails()
+        {
+            return View();
+        }
+
     }
 }
