@@ -1,0 +1,46 @@
+﻿.navContainer {
+    height: 200px;
+    width: 300px;
+    border: 1px solid black;
+}
+
+.navContainer .mainContainer{
+     height: 55px;
+     border-bottom: 1px solid black;
+     background-color: #038242;
+ }
+
+.navContainer .mainContainer p {
+     color: #fdfdfd;
+     text-align: center;
+     padding: 12px 0;
+     font-size: 1.1rem;
+}
+
+.navContainer .subContainer {
+     height: 48px;
+     border-bottom: 1px solid black;
+}
+
+.navContainer .activeContainer {
+    background-color: #F3F3F3
+}
+
+.navContainer .subContainer p {
+     padding: 12px;
+     font-size: 1rem;
+}
+
+.navContainer .subContainer p a {
+     color: #038242;
+     text-decoration: none
+}
+
+@media only screen and (max-width: 768px) {
+    .navContainer {
+        margin: 20px auto;
+    }
+}
+
+
+
