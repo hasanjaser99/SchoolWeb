@@ -53,6 +53,7 @@ button.accept-policy {
 
 /* Sticky footer styles
 -------------------------------------------------- */
+
 html {
   position: relative;
   min-height: 100%;
@@ -60,12 +61,26 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 150px;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        margin-bottom: 300px;
+    }
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    min-height: 100px;
+    max-height: 550px;
+    white-space: nowrap;
+    background-color: #038242;
+    font-size: 12px;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

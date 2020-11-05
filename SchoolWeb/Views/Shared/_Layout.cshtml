@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - SchoolWeb</title>
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css" integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Css", required: false)
 </head>
 <body>
     <header>
@@ -20,11 +21,9 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="Public" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -36,13 +35,64 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - SchoolWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- footer-->
+    <footer 
+            class="border-top footer text-white center  "
+           
+            >
+        <div class="container row  ">
+
+            <div class="col-md-4 col-sm-6 m-auto  ">
+                <span class="d-block">
+                    <p class="d-inline-block"> الزرقاء - جبل الأميرة رحمة - دوار القدس </p>
+                    <i class="fas fa-map-marker-alt"></i>
+
+                </span>
+                <a class="d-block">
+                    <p class="d-inline-block">الشكاوي والإقتراحات </p>
+                    <i class="fas fa-comment"></i>
+
+                </a>
+            </div>
+
+            <div class="col-md-4 col-sm-6 m-auto ">
+                <span class="d-block">
+                    <p class="d-inline-block"> rawdatrahma@yahoo.com </p>
+                    <i class="fas fa-envelope"></i>
+
+                </span>
+                <span class="d-block">
+                    <p class="d-inline-block">facebook.com/RwdtJblAlamyrtRhmt </p>
+                    <i class="fab fa-facebook-f"></i>
+
+                </span>
+            </div>
+
+            <div class="col-md-4  col-sm-7 m-auto  ">
+                <span class="d-block">
+                    <p class="d-inline-block"> 0786287411 </p>
+                    <i class="fas fa-phone"></i>
+
+                </span>
+                <span class="d-block">
+                    <p class="d-inline-block">03932221 </p>
+                    <i class="fas fa-phone"></i>
+
+                </span>
+            </div>
+
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+
+    <!-- scripts-->
+
+    <script src="https://kit.fontawesome.com/87912b9913.js"
+            crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
     <script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js" integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k" crossorigin="anonymous"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
