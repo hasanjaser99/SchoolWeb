@@ -12,15 +12,15 @@
 }
 
 <div class="mt-5">
-    <div class="row">
-        <partial 
-                 name="~/Areas/Public/Views/Partials/_AboutSchoolNav.cshtml" 
-                 for="@pageTitle"
-                 />
-        <div class="col-lg-6 col-md-6 ">
+    <div class="row flex-sm-row-reverse">
+
+        <div class="col-lg-6 col-md-6 center ">
             <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
 
         </div>
+        <partial name="~/Areas/Public/Views/Partials/_AboutSchoolNav.cshtml"
+                 for="@pageTitle" />
+     
     </div>
 </div>
 
