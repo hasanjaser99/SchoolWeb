@@ -79,8 +79,4 @@ body {
     background-color: #038242;
     font-size: 12px;
 }
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+

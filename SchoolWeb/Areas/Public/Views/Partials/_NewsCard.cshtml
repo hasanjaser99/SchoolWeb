@@ -1,21 +1,18 @@
-﻿
+﻿@model SchoolWeb.Models.News;
 
 <div class="card  border-0 m-auto col-lg-3 col-md-6 col-sm-8 mb-sm-5 ">
-    <img src="~/images/greenBoard.jpg"
-         alt="..."
+    <img src="@Model.NewsImages.FirstOrDefault().ImageUrl"
+         alt="صورة عن الخبر"
          style="height:200px; width:100%; margin:0;">
     <div class="card-body p-0 ">
-
         <p class="card-text text-black-50">
-            اول يوم دوام
+            @Model.Title
         </p>
         <p class="text-black-50 d-inline-block" style="font-size:12px;">
-            20/4/1999
+            @Model.Date.ToString("dd/MM/yyyy")
         </p>
-        <i 
-           class="far fa-calendar-alt ml-2"
-           style="color:#038242"
-           ></i>
+        <i class="far fa-calendar-alt ml-2"
+           style="color:#038242"></i>
 
 
     </div>
