@@ -2,18 +2,21 @@
     <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
 }
 
-@model IEnumerable<Activity>
+@model IEnumerable<SchoolWeb.Models.News>
 
 @{
     ViewData["Title"] = "عن الروضة";
     ViewData["Active"] = "aboutSchool";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var pageTitle = "Activities";
+    var pageTitle = "News";
 }
 
 <div class="mt-5">
     <div class="row">
-        <partial name="~/Areas/Public/Views/Partials/_AboutSchoolNav.cshtml" for="@pageTitle" />
+        <partial 
+                 name="~/Areas/Public/Views/Partials/_AboutSchoolNav.cshtml" 
+                 for="@pageTitle"
+                 />
         <div class="col-lg-6 col-md-6 ">
             <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
 
@@ -22,21 +25,18 @@
 </div>
 
 
-<div class="mt-5" >
+<div class="mt-5">
     <p style="font-weight: bold; margin-top: 50px; border-bottom: 2px solid #038242; display: inline-block;">
-        نشاطات الطلاب
+        اخبار الروضة
     </p>
 
     <div class=" row mt-4 mb-sm-5">
         @{
-            foreach (var activity in Model)
+            foreach (var news in Model)
             {
-                <partial 
-                         name="~/Areas/Public/Views/Partials/_ActivityCard.cshtml"
-                         for="@activity" />
+                <partial  name="~/Areas/Public/Views/Partials/_NewsCard.cshtml" for="@news" />
+
             }
         }
-
-
     </div>
 </div>

@@ -1,17 +1,34 @@
-﻿<div class="col-lg-6 col-md-6 navigation">
+﻿
+@model string;
+
+@{ 
+    string isActive(string pageName)
+    {
+        if (pageName==Model)
+        {
+            return "activeContainer";
+        }
+        return "";
+    }
+}
+<div class="col-lg-6 col-md-6 navigation">
     <div class="navContainer">
         <div class="mainContainer">
             <p>عن الروضة</p>
         </div>
-        <div class="subContainer activeContainer">
+        <div class="subContainer @isActive("Activities")">
             <p>
                 <a asp-area="Public" asp-controller="AboutSchool" asp-action="Index">
-                نشاطات الطلاب 
+                    نشاطات الطلاب
                 </a>
             </p>
         </div>
-        <div class="subContainer">
-            <p><a href="#">الأخبار</a></p>
+        <div class="subContainer @isActive("News")">
+            <p>
+                <a asp-area="Public" asp-controller="AboutSchool" asp-action="News">
+                    الأخبار
+                </a>
+            </p>
         </div>
         <div class="subContainer">
             <p><a href="#">الهيئة التدريسية</a></p>

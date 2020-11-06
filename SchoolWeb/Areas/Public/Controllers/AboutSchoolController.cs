@@ -28,5 +28,19 @@ namespace SchoolWeb.Areas.Public.Controllers
 
             return View(ListOfActivities);
         }
+
+        public IActionResult News()
+        {
+            var ListOfNews = _unitOfWork
+                             .News
+                             .GetAll(includeProperities: "NewsImages")
+                             .ToList()
+                             .OrderBy(i => i.Date)
+                             .Take(3);
+
+            return View(ListOfNews);
+        }
+
+
     }
 }
