@@ -1,0 +1,41 @@
+﻿@section Css {
+    <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+}
+
+@model IEnumerable<Activity>
+
+@{
+    ViewData["Title"] = "عن الروضة";
+    ViewData["Active"] = "aboutSchool";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mt-5">
+    <div class="row">
+        <partial name="~/Areas/Public/Views/Partials/_AboutSchoolNav.cshtml" />
+        <div class="col-lg-6 col-md-6 ">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+
+        </div>
+    </div>
+</div>
+
+
+<div class="mt-5" >
+    <p class="sub-title"  style="font-weight: bold; margin-top: 50px; border-bottom: 2px solid #038242; display: inline-block;">
+        نشاطات الطلاب
+    </p>
+
+    <div class=" row mt-4 mb-sm-5">
+        @{
+            foreach (var activity in Model)
+            {
+                <partial 
+                         name="~/Areas/Public/Views/Partials/_ActivityCard.cshtml"
+                         for="@activity" />
+            }
+        }
+
+
+    </div>
+</div>

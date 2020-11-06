@@ -3,7 +3,7 @@
 @model SchoolWeb.Models.ViewModels.NewsAndActivitiesVM;
     ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "الرئيسية";
     ViewData["Active"] = "home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -62,7 +62,7 @@
 <div class="mt-5">
     <p class="sub-title">اخبار الروضة </p>
 
-    <div class="flex-row-reverse row mt-4 mb-sm-5">
+    <div class=" row mt-4 mb-sm-5">
         @{
             foreach (var news in Model.ListOfNews)
             {
@@ -78,7 +78,7 @@
 <div class="mt-5">
     <p class="sub-title">نشاطات الطلاب</p>
 
-    <div class="flex-row-reverse row mt-4 mb-sm-5 ">
+    <div class=" row mt-4 mb-sm-5  ">
         @{
             foreach (var activity in Model.ListOfActivities)
             {
