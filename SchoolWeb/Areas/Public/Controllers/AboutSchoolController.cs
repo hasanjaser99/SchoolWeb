@@ -17,14 +17,17 @@ namespace SchoolWeb.Areas.Public.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+        
+        
+        // for activites page
         public IActionResult Index()
-        {
+        {           
+            
             var ListOfActivities = _unitOfWork
                             .Activity
                             .GetAll(includeProperities: "ActivityImages")
                             .ToList()
-                            .OrderBy(i => i.Date)
-                            .Take(3);
+                            .OrderBy(i => i.Date);
 
             return View(ListOfActivities);
         }
@@ -35,12 +38,17 @@ namespace SchoolWeb.Areas.Public.Controllers
                              .News
                              .GetAll(includeProperities: "NewsImages")
                              .ToList()
-                             .OrderBy(i => i.Date)
-                             .Take(3);
+                             .OrderBy(i => i.Date);
 
             return View(ListOfNews);
         }
 
+
+        public IActionResult AboutUs()
+        {
+
+            return View();
+        }
 
     }
 }

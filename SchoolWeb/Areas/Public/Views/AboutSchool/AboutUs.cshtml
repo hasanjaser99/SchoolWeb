@@ -1,0 +1,56 @@
+﻿@section Css {
+    <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+}
+
+
+@{
+    ViewData["Title"] = "نبذة عنا";
+    ViewData["Active"] = "aboutSchool";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageTitle = "AboutUs";
+}
+
+<div class="mt-5">
+    <div class="row flex-sm-row-reverse">
+
+        <div class="col-lg-6 col-md-6 center ">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+
+        </div>
+        <partial name="~/Areas/Public/Views/Partials/_AboutSchoolNav.cshtml"
+                 for="@pageTitle" />
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="mt-5 col-sm-8 ">
+        <div class="mt-sm-5">
+            <p style="font-weight: bold; display: inline-block; font-size:20px;" class="green-font">
+                : من نحن
+            </p>
+            <p class="mt-3">
+                يسعدنا دعوتكم لتسجيل أطفالكم الأحبة في الروضة ،حيث التعليم المميز والأمثل.
+                بادارة ومعلمات قديرات ومتخصصات نهتم بالتربية الاسلامية وتعليم الانجليزية والكمبيوتر.
+                نتميز بالموقع والمساحات والغرف الصفية الواسعة وبالحدائق.
+                ألعاب داخلية و خارجية ممتعة.
+                نهتم بالنشاطات المختلفة والتواصل مع أولياء الأمور.
+            </p>
+        </div>
+
+        <div class="mt-sm-5">
+            <p style="font-weight: bold; display: inline-block; font-size:20px;" class="green-font">
+                : رؤيتنا
+            </p>
+            <p class="mt-3">
+                يسعدنا دعوتكم لتسجيل أطفالكم الأحبة في الروضة ،حيث التعليم المميز والأمثل.
+                بادارة ومعلمات قديرات ومتخصصات نهتم بالتربية الاسلامية وتعليم الانجليزية والكمبيوتر.
+                نتميز بالموقع والمساحات والغرف الصفية الواسعة وبالحدائق.
+                ألعاب داخلية و خارجية ممتعة.
+                نهتم بالنشاطات المختلفة والتواصل مع أولياء الأمور.
+            </p>
+        </div>
+    </div>
+
+</div>
