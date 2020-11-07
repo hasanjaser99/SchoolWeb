@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BulkyBook.DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,12 @@ namespace SchoolWeb.Areas.Public.Controllers
     [Area("Public")]
     public class HomeController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public HomeController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         // GET: HomeController
         public IActionResult Index()
@@ -85,11 +92,6 @@ namespace SchoolWeb.Areas.Public.Controllers
             {
                 return View();
             }
-        }
-
-        public IActionResult RegisterationDetails()
-        {
-            return View();
         }
 
     }

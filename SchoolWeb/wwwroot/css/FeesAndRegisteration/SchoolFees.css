@@ -1,0 +1,33 @@
+﻿.feesDetails h2 {
+    color: #038242;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 20px
+}
+
+.feesDetails .table {
+    width: 50%;
+    text-align: center;
+}
+
+.feesDetails .table th {
+    background-color: #038242;
+}
+
+.feesDetails .table th span {
+    color: #fdfdfd;
+    font-size: 0.9rem;
+}
+
+.feesDetails .table td {
+    color: #038242;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+    .detailsImageContainer {
+        margin: 20px auto;
+        text-align: center
+    }
+}

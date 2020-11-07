@@ -26,11 +26,11 @@ namespace SchoolWeb.Models
 
         [Required(ErrorMessage = "يرجى إدخال حالة الدفع")]
         [DisplayName("حالة الدفع")]
-        public int IsPaied { get; set; }
+        public Boolean IsPaied { get; set; }
 
 
         //// relations
-        public int StudentFeeId { get; set; }
+        public int? StudentFeeId { get; set; }
 
         [ForeignKey("StudentFeeId")]
         public StudentFee StudentFee { get; set; }

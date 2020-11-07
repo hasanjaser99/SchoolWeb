@@ -18,7 +18,7 @@ namespace SchoolWeb.Models
         public string ImageUrl { get; set; }
 
         //// relations
-        public int NewsId { get; set; }
+        public int? NewsId { get; set; }
 
         [ForeignKey("NewsId")]
         public News News { get; set; }

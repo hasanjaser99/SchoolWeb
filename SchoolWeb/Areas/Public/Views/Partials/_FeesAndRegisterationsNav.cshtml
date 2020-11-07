@@ -1,0 +1,73 @@
+﻿@model string
+
+    <div class="navContainer">
+        <div class="mainContainer">
+            <p>التسجيل و الرسوم</p>
+        </div>
+        @{
+            if (Model == "regDeatils")
+            {
+                <div class="subContainer activeContainer">
+                    <p>
+                        <a asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="RegisterationDetails">
+                            تفاصيل التسجيل
+                        </a>
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="subContainer">
+                    <p>
+                        <a asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="RegisterationDetails">
+                            تفاصيل التسجيل
+                        </a>
+                    </p>
+                </div>
+            }
+
+            if (Model == "schoolFees")
+            {
+                <div class="subContainer activeContainer">
+                    <p>
+                        <a asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="SchoolFees">
+                            الرسوم
+                        </a>
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="subContainer">
+                    <p>
+                        <a asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="SchoolFees">
+                            الرسوم
+                        </a>
+                    </p>
+                </div>
+            }
+
+            if (Model == "register")
+            {
+                <div class="subContainer activeContainer">
+                    <p>
+                        <a asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="Register">
+                            تسجيل الطالب
+                        </a>
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="subContainer">
+                    <p>
+                        <a asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="Register">
+                            تسجيل الطالب
+                        </a>
+                    </p>
+                </div>
+            }
+
+        }
+
+    </div>
