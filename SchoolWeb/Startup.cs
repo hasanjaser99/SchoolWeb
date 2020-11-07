@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SchoolWeb.Data;
-using BulkyBook.DataAccess.Repository;
+using SchoolWeb.DataAccess.Repository;
 
 namespace SchoolWeb
 {

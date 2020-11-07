@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BulkyBook.DataAccess.Repository;
+using SchoolWeb.DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Mvc;
