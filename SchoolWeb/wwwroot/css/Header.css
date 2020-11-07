@@ -2,10 +2,10 @@
     background-color: #333333;
 }
 
-    nav img {
-        border-radius: 60px;
-        margin-left: 10px;
-    }
+nav img {
+    border-radius: 60px;
+    margin-left: 10px;
+}
 
 .navbar-brand {
     color: #fdfdfd;
@@ -16,19 +16,61 @@
     color: #fdfdfd;
 }
 
-    .navbar-nav li a:hover {
-        color: #038242;
-    }
+.navbar-nav li a:hover {
+    color: #038242;
+}
 
 .navbar-nav .active-link {
     background-color: #038242;
     border-radius: 5px;
 }
 
-    .navbar-nav .active-link a {
-        color: #fdfdfd;
-    }
+.navbar-nav .active-link a {
+    color: #fdfdfd;
+}
 
-        .navbar-nav .active-link a:hover {
-            color: #fdfdfd;
-        }
+.navbar-nav .active-link a:hover {
+    color: #fdfdfd;
+}
+
+/* list */
+
+.dropbtn {
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #038242;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    color: #f1f1f1;
+    background-color: #038242;
+    border-radius: 5px;
+}
