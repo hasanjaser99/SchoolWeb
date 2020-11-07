@@ -1,7 +1,9 @@
 
-﻿
+
+@model SchoolWeb.Models.ViewModels.NewsAndActivitiesVM;
+    ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "الرئيسية";
     ViewData["Active"] = "home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -55,33 +57,35 @@
 </span>
 <!------------------------------------  end of slider ------------------------------------->
 
+
+
 <div class="mt-5">
     <p class="sub-title">اخبار الروضة </p>
 
-    <div class="flex-row-reverse row mt-4 mb-sm-5">
-
-        <partial name="~/Areas/Public/Views/Partials/_NewsAndActivityCard.cshtml" />
-
-        <partial name="~/Areas/Public/Views/Partials/_NewsAndActivityCard.cshtml" />
-
-        <partial name="~/Areas/Public/Views/Partials/_NewsAndActivityCard.cshtml" />
-
+    <div class=" row mt-4 mb-sm-5">
+        @{
+            foreach (var news in Model.ListOfNews)
+            {
+                <partial name="~/Areas/Public/Views/Partials/_NewsCard.cshtml" for="@news" />
+               
+            }
+        }
     </div>
 </div>
+
 
 
 <div class="mt-5">
     <p class="sub-title">نشاطات الطلاب</p>
 
-    <div class="flex-row-reverse row mt-4 mb-sm-5 ">
+    <div class=" row mt-4 mb-sm-5  ">
+        @{
+            foreach (var activity in Model.ListOfActivities)
+            {
+                <partial name="~/Areas/Public/Views/Partials/_ActivityCard.cshtml" for="@activity" />
+            }
+        }
 
-
-
-        <partial name="~/Areas/Public/Views/Partials/_NewsAndActivityCard.cshtml" />
-
-        <partial name="~/Areas/Public/Views/Partials/_NewsAndActivityCard.cshtml" />
-
-        <partial name="~/Areas/Public/Views/Partials/_NewsAndActivityCard.cshtml" />
 
     </div>
 </div>

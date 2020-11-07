@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css" integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/Header.css" />
+    <link rel="stylesheet" href="~/css/publicStyles.css" />
     @RenderSection("Css", required: false)
 
 </head>
@@ -24,93 +25,57 @@
                     @*<partial name="_LoginPartial" />*@
                     <ul class="navbar-nav flex-grow-1">
 
+
                         @{
-                            var activeClass = "pr-1 active-link";
-                            var active = ViewData["Active"];
+                            string isActive(string pageName)
+                            {
+                                var active = ViewData["Active"];
+                                if (pageName == active)
+                                {
+                                    return "pr-1 active-link";
 
-                            if (active == "login")
-                            {
-                                <li class="nav-item pl-1 @activeClass">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
-                                        تسجيل الدخول
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item pl-1">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
-                                        تسجيل الدخول
-                                    </a>
-                                </li>
-                            }
-
-                            if (active == "aboutSchool")
-                            {
-                                <li class="nav-item pl-1 @activeClass">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
-                                        عن الروضة
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item pl-1">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
-                                        عن الروضة
-                                    </a>
-                                </li>
-                            }
-
-                            if (active == "studentPortal")
-                            {
-                                <li class="nav-item pl-1 @activeClass">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
-                                        بوابة الطالب
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item pl-1">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">
-                                        بوابة الطالب
-                                    </a>
-                                </li>
-                            }
-
-                            if (active == "feesAndRegisteraion")
-                            {
-                                <li class="nav-item pl-1 @activeClass">
-                                    <a class="nav-link" asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="RegisterationDetails">
-                                        التسجيل و الرسوم
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item pl-1">
-                                    <a class="nav-link" asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="RegisterationDetails">
-                                        التسجيل و الرسوم
-                                    </a>
-                                </li>
-
-                            }
-
-                            if (active == "home")
-                            {
-                                <li class="nav-item pl-1 @activeClass">
-                                    <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">الرئيسية</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item pl-1">
-                                    <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">الرئيسية</a>
-                                </li>
+                                }
+                                return "";
                             }
 
                         }
+
+                        <li class="nav-item pl-1 @isActive("login")">
+                            <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                تسجيل الدخول
+                            </a>
+                        </li>
+
+                        <li class="nav-item pl-1 @isActive("aboutSchool")">
+                            <a class="nav-link" asp-area="Public" asp-controller="AboutSchool" asp-action="Index">
+                                عن الروضة
+                            </a>
+                        </li>
+
+                        <li class="nav-item pl-1 @isActive("studentPortal")">
+                            <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                                بوابة الطالب
+                            </a>
+                        </li>
+
+                        <li class="nav-item pl-1 @isActive("feesAndRegisteraion")">
+                            <a class="nav-link" asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="RegisterationDetails">
+                                التسجيل و الرسوم
+                            </a>
+                        </li>
+
+                        <li class="nav-item pl-1 dropdown @isActive("management") "
+                            style="float:right;">
+                            <a class=" dropbtn nav-link " asp-area="" asp-controller="" asp-action="">الإدارة</a>
+                            <div class="dropdown-content">
+                                <a asp-area="Admin" asp-controller="SchoolInfo" asp-action="News">Link 1</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item pl-1 @isActive("home")">
+                            <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -123,8 +88,9 @@
     </div>
 
     <!-- footer-->
-    <footer class="border-top footer text-white center  ">
-        <div class="container row  ">
+
+    <footer class="border-top footer text-white center">
+        <div class="container row  pt-3 pb-3 pt-sm-4">
 
             <div class="col-md-4 col-sm-6 m-auto  ">
                 <span class="d-block">

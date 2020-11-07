@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace BulkyBook.DataAccess.Repository
+namespace SchoolWeb.DataAccess.Repository
 {
     public interface IRepository<T> where T : class
     {
@@ -13,8 +13,7 @@ namespace BulkyBook.DataAccess.Repository
         IEnumerable<T> GetAll(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperities = null
-            );
+            string includeProperities = null);
 
         T GetFirstOrDefault(
             Expression<Func<T, bool>> filter = null,

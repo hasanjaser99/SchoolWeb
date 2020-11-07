@@ -1,7 +1,7 @@
 ﻿
 using SchoolWeb.Data;
 
-namespace BulkyBook.DataAccess.Repository
+namespace SchoolWeb.DataAccess.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {

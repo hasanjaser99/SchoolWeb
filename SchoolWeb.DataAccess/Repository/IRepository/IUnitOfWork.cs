@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BulkyBook.DataAccess.Repository
+namespace SchoolWeb.DataAccess.Repository
 {
     public interface IUnitOfWork : IDisposable
     {

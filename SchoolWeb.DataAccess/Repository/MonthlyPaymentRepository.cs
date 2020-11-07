@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BulkyBook.DataAccess.Repository
+namespace SchoolWeb.DataAccess.Repository
 {
     public class MonthlyPaymentRepository : Repository<MonthlyPayment>, IMonthlyPaymentRepository
     {

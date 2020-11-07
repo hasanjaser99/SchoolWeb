@@ -62,6 +62,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 150px;
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -69,6 +70,8 @@ body {
         margin-bottom: 300px;
     }
 }
+
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -79,8 +82,4 @@ body {
     background-color: #038242;
     font-size: 12px;
 }
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+

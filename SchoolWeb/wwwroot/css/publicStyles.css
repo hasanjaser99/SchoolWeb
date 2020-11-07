@@ -1,0 +1,13 @@
+﻿.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-green{
+background-color:#038242
+}
+
+.green-font {
+    color: #038242
+}
