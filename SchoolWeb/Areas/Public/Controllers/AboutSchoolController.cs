@@ -50,5 +50,12 @@ namespace SchoolWeb.Areas.Public.Controllers
             return View();
         }
 
+        public IActionResult Teachers()
+        {
+
+            return View();
+        }
+        
+
     }
 }
