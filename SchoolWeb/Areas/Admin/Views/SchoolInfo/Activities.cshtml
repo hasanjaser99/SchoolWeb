@@ -1,0 +1,48 @@
+﻿@section Css {
+    <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+}
+
+@model IEnumerable<SchoolWeb.Models.Activity>
+
+@{
+    ViewData["Title"] = "الإدارة - نشاطات الطلاب";
+    ViewData["Active"] = "management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageTitle = "Activities";
+}
+
+<div class="mt-5">
+    <div class="row flex-sm-row-reverse">
+
+        <div class="col-lg-6 col-md-6 center ">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+
+        </div>
+        <partial name="~/Areas/Public/Views/Partials/Navs/_SchoolInfoNav.cshtml"
+                 for="@pageTitle" />
+     
+    </div>
+</div>
+
+
+<div class="mt-5">
+    <p style="font-weight: bold; margin-top: 50px; border-bottom: 2px solid #038242; display: inline-block;">
+        نشاطات الطلاب
+    </p>
+
+    <div class=" row mt-4 mb-sm-5" style="display:flex; justify-content:space-between;">
+        @{
+            foreach (var news in Model)
+            {
+                <partial  name="~/Areas/Public/Views/Partials/Cards/_ActionableActivityCard.cshtml" for="@news" />
+
+            }
+        }
+    </div>
+
+</div>
+
+<!---------------------- add new news -------------------->
+<a class="btn" style="background-color: #038242;width:200px;height:60px;">
+    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">إضافة نشاط جديد</p>
+</a>

@@ -5,8 +5,8 @@
 @model IEnumerable<SchoolWeb.Models.News>
 
 @{
-    ViewData["Title"] = "عن الروضة";
-    ViewData["Active"] = "aboutSchool";
+    ViewData["Title"] = "الإدارة-الأخبار";
+    ViewData["Active"] = "management";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var pageTitle = "News";
 }
@@ -18,7 +18,7 @@
             <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
 
         </div>
-        <partial name="~/Areas/Public/Views/Partials/Navs/_AboutSchoolNav.cshtml"
+        <partial name="~/Areas/Public/Views/Partials/Navs/_SchoolInfoNav.cshtml"
                  for="@pageTitle" />
      
     </div>
@@ -30,13 +30,19 @@
         اخبار الروضة
     </p>
 
-    <div class=" row mt-4 mb-sm-5 " style="display:flex; justify-content:space-between;">
+    <div class=" row mt-4 mb-sm-5" style="display:flex; justify-content:space-between;">
         @{
             foreach (var news in Model)
             {
-                <partial  name="~/Areas/Public/Views/Partials/Cards/_NewsCard.cshtml" for="@news" />
+                <partial  name="~/Areas/Public/Views/Partials/Cards/_ActionableNewsCard.cshtml" for="@news" />
 
             }
         }
     </div>
+
 </div>
+
+<!---------------------- add new news -------------------->
+<a class="btn" style="background-color: #038242;width:200px;height:60px;">
+    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">إضافة خبر جديد</p>
+</a>

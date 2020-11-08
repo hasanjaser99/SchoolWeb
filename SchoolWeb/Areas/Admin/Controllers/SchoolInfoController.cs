@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Models;
 using SchoolWeb.Models.ViewModels;
 
-namespace SchoolWeb.Areas.Public.Controllers
+namespace SchoolWeb.Areas.Admin.Controllers
 {
-    [Area("Public")]
+    [Area("Admin")]
     public class SchoolInfoController : Controller
     {
 
@@ -23,8 +23,9 @@ namespace SchoolWeb.Areas.Public.Controllers
         }
 
         // GET: HomeController
+        // for FeesOfRegistration page
         public IActionResult Index()
-        {
+        {   ///
             //var ListOfNews = _unitOfWork
             //                .News
             //                .GetAll(includeProperities: "NewsImages")
@@ -48,7 +49,29 @@ namespace SchoolWeb.Areas.Public.Controllers
             return View();
         }
 
-        
+
+        public IActionResult News()
+        {
+            var ListOfNews = _unitOfWork
+                             .News
+                             .GetAll(includeProperities: "NewsImages")
+                             .ToList()
+                             .OrderBy(i => i.Date);
+
+            return View(ListOfNews);
+        }
+        public IActionResult Activities()
+        {
+            var ListOfActivities = _unitOfWork
+                            .Activity
+                            .GetAll(includeProperities: "ActivityImages")
+                            .ToList()
+                            .OrderBy(i => i.Date);
+
+            return View(ListOfActivities);
+        }
+
+
         //public IActionResult RegisterationDetails()
         //{
         //    return View();
