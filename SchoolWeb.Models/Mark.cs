@@ -25,7 +25,7 @@ namespace SchoolWeb.Models
         public int FinalMark { get; set; }
 
         // relations
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
 
         [ForeignKey("CourseId")]
         public Course Course { get; set; }

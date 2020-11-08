@@ -21,7 +21,7 @@ namespace SchoolWeb.Models
         public string Day { get; set; }
 
         //// relations
-        public int SectionId { get; set; }
+        public int? SectionId { get; set; }
 
         [ForeignKey("SectionId")]
         public Section Section { get; set; }
@@ -31,7 +31,7 @@ namespace SchoolWeb.Models
         [ForeignKey("TeacherId")]
         public Teacher Teacher { get; set; }
 
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
 
         [ForeignKey("CourseId")]
         public Course Course { get; set; }

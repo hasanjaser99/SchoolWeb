@@ -1,0 +1,112 @@
+﻿@model SchoolWeb.Models.ViewModels.StudentRegisterVM
+@using SchoolWeb.Utility
+
+
+
+@section Css {
+    <link rel="stylesheet" href="~/css/FeesAndRegisteration/FeesAndRegisterationNav.css" />
+    <link rel="stylesheet" href="~/css/FeesAndRegisteration/Register.css" />
+}
+
+@{
+    ViewData["Title"] = "تسجيل الطالب";
+    ViewData["Active"] = "feesAndRegisteraion";
+    string activeNav = "register";
+
+}
+
+<div class="mt-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <partial name="~/Areas/Public/Views/Partials/_FeesAndRegisterationsNav.cshtml" model="activeNav" />
+            <div class="registerImageContainer">
+                <img src="~/images/Welcome.jpg" width="200px" height="200px" style="display:block" />
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 registerFormContainer">
+            <h2>تسجيل الطالب</h2>
+            <form class="mt-5" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.ArabicName"></label>
+                    <input class="form-control text-right" asp-for="@Model.Student.ArabicName">
+                    <span asp-validation-for="@Model.Student.ArabicName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.EnglishName"></label>
+                    <input class="form-control" asp-for="@Model.Student.EnglishName">
+                    <span asp-validation-for="@Model.Student.EnglishName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.ParentEmail"></label>
+                    <input class="form-control" asp-for="@Model.Student.ParentEmail">
+                    <span asp-validation-for="@Model.Student.ParentEmail" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Password"></label>
+                    <input type="password" class="form-control" asp-for="@Model.Password">
+                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.ConfirmPassword"></label>
+                    <input type="password" class="form-control" asp-for="@Model.ConfirmPassword">
+                    <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.Address"></label>
+                    <input class="form-control" asp-for="@Model.Student.Address">
+                    <span asp-validation-for="@Model.Student.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.ParentPhoneNumber"></label>
+                    <input class="form-control" asp-for="@Model.Student.ParentPhoneNumber">
+                    <span asp-validation-for="@Model.Student.ParentPhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.Grade"></label>
+                    @Html.DropDownListFor(m => m.Student.Grade, Model.Grades,
+                   "-اختر المستوى الدراسي-", new{@class = "form-control",
+                       style = "text-align-last:right;"})
+                    <span asp-validation-for="@Model.Student.Grade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.BussState"></label>
+                    @Html.DropDownListFor(m => m.Student.BussState, Model.BussStates,
+                   "-اختر طريقة المواصلات-", new { @class = "form-control", 
+                       style= "text-align-last:right;"})
+                    <span asp-validation-for="@Model.Student.BussState" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.BornCertificateImage"></label>
+                    <input asp-for="@Model.Photo" class="form-control" />
+                    <span asp-validation-for="@Model.Photo" class="text-danger"></span>
+                </div>
+                <div class="registerationButton mt-5 mb-4">
+                    <button class="btn" style="background-color: #038242;width:200px;height:60px;" type="submit">
+                        <p style="color:#fdfdfd; font-size:1.1rem;padding: 4px 0;">تسجيل الطالب</p>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+
+        function validateInput() {
+            if (document.getElementById("uploadBox").value == "") {
+                swal("Error", "الرجاء إرفاق صورة لشهادة الميلاد", "error");
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+}

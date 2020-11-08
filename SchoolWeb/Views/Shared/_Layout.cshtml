@@ -26,52 +26,52 @@
                     <ul class="navbar-nav flex-grow-1">
 
 
-                        @{ 
+                        @{
                             string isActive(string pageName)
                             {
                                 var active = ViewData["Active"];
-                                if (pageName== active)
+                                if (pageName == active)
                                 {
                                     return "pr-1 active-link";
-                                    
+
                                 }
                                 return "";
                             }
+
                         }
-   
+
                         <li class="nav-item pl-1 @isActive("login")">
                             <a class="nav-link" asp-area="" asp-controller="" asp-action="">
                                 تسجيل الدخول
                             </a>
                         </li>
-                      
+
                         <li class="nav-item pl-1 @isActive("aboutSchool")">
                             <a class="nav-link" asp-area="Public" asp-controller="AboutSchool" asp-action="Index">
                                 عن الروضة
                             </a>
                         </li>
-                            
+
                         <li class="nav-item pl-1 @isActive("studentPortal")">
                             <a class="nav-link" asp-area="" asp-controller="" asp-action="">
                                 بوابة الطالب
                             </a>
                         </li>
-                            
+
                         <li class="nav-item pl-1 @isActive("feesAndRegisteraion")">
-                            <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="RegisterationDetails">
+                            <a class="nav-link" asp-area="Public" asp-controller="FeesAndRegisteration" asp-action="RegisterationDetails">
                                 التسجيل و الرسوم
                             </a>
                         </li>
-                             
-                        <li 
-                            class="nav-item pl-1 dropdown @isActive("management") "
+
+                        <li class="nav-item pl-1 dropdown @isActive("management") "
                             style="float:right;">
                             <a class=" dropbtn nav-link " asp-area="" asp-controller="" asp-action="">الإدارة</a>
                             <div class="dropdown-content">
                                 <a  asp-area="Admin" asp-controller="SchoolInfo" asp-action="News">الأخبار</a>
                             </div>
                         </li>
-                            
+
                         <li class="nav-item pl-1 @isActive("home")">
                             <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">الرئيسية</a>
                         </li>
@@ -88,10 +88,8 @@
     </div>
 
     <!-- footer-->
-    <footer 
-            class="border-top footer text-white center  "
-           
-            >
+
+    <footer class="border-top footer text-white center">
         <div class="container row  pt-3 pb-3 pt-sm-4">
 
             <div class="col-md-4 col-sm-6 m-auto  ">
@@ -146,7 +144,7 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
     <script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js" integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k" crossorigin="anonymous"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)

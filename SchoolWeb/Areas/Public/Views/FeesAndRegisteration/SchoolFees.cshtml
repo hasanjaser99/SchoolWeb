@@ -1,0 +1,81 @@
+﻿@model IEnumerable<SchoolFee>
+@using SchoolWeb.Utility
+
+@section Css {
+    <link rel="stylesheet" href="~/css/FeesAndRegisteration/FeesAndRegisterationNav.css" />
+    <link rel="stylesheet" href="~/css/FeesAndRegisteration/SchoolFees.css" />
+}
+
+@{
+    ViewData["Title"] = "الرسوم المدرسية";
+    ViewData["Active"] = "feesAndRegisteraion";
+    string activeNav = "schoolFees";
+
+}
+
+<div class="mt-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <partial name="~/Areas/Public/Views/Partials/_FeesAndRegisterationsNav.cshtml" model="activeNav" />
+        </div>
+        <div class="col-lg-6 col-md-6 detailsImageContainer">
+            <img src="~/images/fees.jpg" width="220px" height="190px" />
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-3">
+        <div class="col-12 feesDetails">
+            <h2>: الرسوم</h2>
+            <table align="right" class="table table-bordered mt-5">
+                <tr>
+                    <th>
+                        <span>المجموع</span>
+                    </th>
+                    <th>
+                        <span>رسوم الفصل الثاني</span>
+                    </th>
+                    <th>
+                        <span>رسوم الفصل الأول</span>
+                    </th>
+                    <th>
+                        <span>الصف</span>
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    var halfSchoolFees = item.SchoolFees / 2;
+                    var grade = StaticFunctions.GetGrade(item.Grade);
+
+                    <tr>
+                        <td>
+                            <span class="d-inline-block">دينار</span>
+                            <span class="d-inline-block">@item.SchoolFees</span>
+                        </td>
+                        <td>
+                            <span class="d-inline-block">دينار</span>
+                            <span class="d-inline-block">@halfSchoolFees</span>
+                        </td>
+                        <td>
+                            <span class="d-inline-block">دينار</span>
+                            <span class="d-inline-block">@halfSchoolFees</span>
+                        </td>
+                        <td>@grade</td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p> تبدأ رسوم المواصلات من 100 دينار شامل الذهاب و العودة وتختلف من شخص لآخر حسب المنطقة *</p>
+            <div class="registerationButton mt-5 mb-4">
+                <a asp-action="Register" class="btn" style="background-color: #038242;width:200px;height:60px;">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">تسجيل الطالب الآن</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

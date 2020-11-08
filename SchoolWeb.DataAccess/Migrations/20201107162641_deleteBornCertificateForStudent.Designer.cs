@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolWeb.Data;
 
 namespace SchoolWeb.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201107162641_deleteBornCertificateForStudent")]
+    partial class deleteBornCertificateForStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,14 +271,14 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("ClassNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Day")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SectionId")
+                    b.Property<int>("SectionId")
                         .HasColumnType("int");
 
                     b.Property<string>("TeacherId")
@@ -326,7 +328,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<string>("TeacherId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.HasKey("TeacherId", "CourseId");
@@ -346,7 +348,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("AssignmentsMark")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<int>("FinalMark")
@@ -390,7 +392,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("SchoolFeesAmount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentFeeId")
+                    b.Property<int>("StudentFeeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -434,7 +436,7 @@ namespace SchoolWeb.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("NewsId")
+                    b.Property<int>("NewsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -518,10 +520,10 @@ namespace SchoolWeb.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SectionId")
+                    b.Property<int>("SectionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentFeeId")
+                    b.Property<int>("StudentFeeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -681,11 +683,15 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.Course", "Course")
                         .WithMany("Classes")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.Section", "Section")
                         .WithMany("Classes")
-                        .HasForeignKey("SectionId");
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.Teacher", "Teacher")
                         .WithMany("Classes")
@@ -718,7 +724,9 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.Student", "Student")
                         .WithMany()
@@ -729,14 +737,18 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany("MonthlyPayments")
-                        .HasForeignKey("StudentFeeId");
+                        .HasForeignKey("StudentFeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.NewsImages", b =>
                 {
                     b.HasOne("SchoolWeb.Models.News", "News")
                         .WithMany("NewsImages")
-                        .HasForeignKey("NewsId");
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.Section", b =>
@@ -750,11 +762,15 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.Section", "Section")
                         .WithMany("Students")
-                        .HasForeignKey("SectionId");
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany()
-                        .HasForeignKey("StudentFeeId");
+                        .HasForeignKey("StudentFeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.StudentFee", b =>

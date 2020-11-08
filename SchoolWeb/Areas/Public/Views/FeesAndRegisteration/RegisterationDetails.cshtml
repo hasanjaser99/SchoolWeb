@@ -1,16 +1,19 @@
 ﻿@section Css {
-    <link rel="stylesheet" href="~/css/RegisterationDetails/RegisterationDetailsNav.css" />
-    <link rel="stylesheet" href="~/css/RegisterationDetails/RegisterationDetails.css" />
+    <link rel="stylesheet" href="~/css/FeesAndRegisteration/FeesAndRegisterationNav.css" />
+    <link rel="stylesheet" href="~/css/FeesAndRegisteration/RegisterationDetails.css" />
 }
 
 @{
-    ViewData["Title"] = "الرسوم و التسجيل";
+    ViewData["Title"] = "تفاصيل التسجيل";
     ViewData["Active"] = "feesAndRegisteraion";
+    string activeNav = "regDetails";
 }
 
 <div class="mt-5">
     <div class="row">
-        <partial name="_FeesAndRegisterationsNav" />
+        <div class="col-lg-6 col-md-6">
+            <partial name="~/Areas/Public/Views/Partials/_FeesAndRegisterationsNav.cshtml" model="activeNav" />
+        </div>
         <div class="col-lg-6 col-md-6 detailsContainer">
             <h2>: تفاصيل التسجيل</h2>
             <p>
@@ -52,7 +55,11 @@
 
     <div class="row flex-row-reverse mt-5 mb-5">
         <div class="col-12 registerationButton">
-            <partial name="_LargeButton" />
+            <div class="registerationButton mt-5 mb-4">
+                <a asp-action="Register" class="btn" style="background-color: #038242;width:200px;height:60px;">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">تسجيل الطالب الآن</p>
+                </a>
+            </div>
         </div>
     </div>
 </div>
