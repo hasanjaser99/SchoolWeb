@@ -7,6 +7,8 @@ namespace SchoolWeb.Utility
 {
     public static class StaticData
     {
+        public const string Role_Waiting = "Waiting";
+
         public const string Role_Student = "Student";
 
         public const string Role_Teacher = "Teacher";

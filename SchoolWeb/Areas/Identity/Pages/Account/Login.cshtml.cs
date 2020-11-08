@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using SchoolWeb.Utility;
 
 namespace SchoolWeb.Areas.Identity.Pages.Account
 {
@@ -21,7 +22,7 @@ namespace SchoolWeb.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager)
         {
@@ -33,8 +34,6 @@ namespace SchoolWeb.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
         public string ReturnUrl { get; set; }
 
         [TempData]
@@ -42,11 +41,11 @@ namespace SchoolWeb.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "يرجى ادخال البريد الإلكتروني")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "يرجى ادخال كلمة المرور")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -66,7 +65,6 @@ namespace SchoolWeb.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
         }
@@ -82,6 +80,16 @@ namespace SchoolWeb.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    if (User.IsInRole(StaticData.Role_Waiting))
+                    {
+                        await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+                        ModelState.AddModelError(string.Empty,
+                            "الرجاء انتظار قبولك من قبل الإدارة و شكرا");
+
+                        return Page();
+
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
@@ -96,7 +104,8 @@ namespace SchoolWeb.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty,
+                        "يرجى التأكد من البريد الإلكتروني وكلمة المرور");
                     return Page();
                 }
             }
