@@ -1,0 +1,60 @@
+﻿
+@model string;
+
+@{ 
+    string isActive(string pageName)
+    {
+        if (pageName==Model)
+        {
+            return "activeContainer";
+        }
+        return "";
+    }
+}
+<div class="col-lg-6 col-md-6 navigation">
+    <div class="navContainer">
+        <!----------------------------- navigation header --------------------------->
+        <div class="mainContainer">
+            <p>بيانات الروضة</p>
+        </div>
+
+        <!----------------------------- navigation items --------------------------->
+
+        <div class="subContainer @isActive("AboutUs")">
+            <p>
+                <a asp-area="Public" asp-controller="AboutSchool" asp-action="Index">
+                    نبذة عنا
+                </a>
+            </p>
+        </div>
+
+        <div class="subContainer @isActive("FeesOfRegistration")">
+            <p>
+                <a asp-area="Admin" asp-controller="SchoolInfo" asp-action="FeesOfRegistration">
+                    رسوم التسجيل
+                </a>
+            </p>
+        </div>
+
+
+        <div class="subContainer @isActive("News")">
+            <p>
+                <a asp-area="Admin" asp-controller="SchoolInfo" asp-action="News">
+                    الأخبار
+                </a>
+            </p>
+        </div>
+
+
+
+
+        <div class="subContainer @isActive("Activities")">
+            <p>
+                <a asp-area="Admin" asp-controller="SchoolInfo" asp-action="Activities">
+                    نشاطات الطلاب
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+

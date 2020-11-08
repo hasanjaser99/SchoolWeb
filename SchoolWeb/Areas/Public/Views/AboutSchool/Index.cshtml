@@ -18,7 +18,7 @@
             <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
 
         </div>
-        <partial name="~/Areas/Public/Views/Partials/_AboutSchoolNav.cshtml" for="@pageTitle" />
+        <partial name="~/Areas/Public/Views/Partials/Navs/_AboutSchoolNav.cshtml" for="@pageTitle" />
         
     </div>
 </div>
@@ -29,12 +29,12 @@
         نشاطات الطلاب
     </p>
 
-    <div class=" row mt-4 mb-sm-5">
+    <div class=" row mt-4 mb-sm-5" style="display:flex; justify-content:space-between;">
         @{
             foreach (var activity in Model)
             {
                 <partial 
-                         name="~/Areas/Public/Views/Partials/_ActivityCard.cshtml"
+                         name="~/Areas/Public/Views/Partials/Cards/_ActivityCard.cshtml"
                          for="@activity" />
             }
         }

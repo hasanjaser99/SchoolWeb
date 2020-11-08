@@ -62,11 +62,11 @@
 <div class="mt-5">
     <p class="sub-title">اخبار الروضة </p>
 
-    <div class=" row mt-4 mb-sm-5">
+    <div class=" row mt-4 mb-sm-5" style="display:flex; justify-content:space-between;">
         @{
             foreach (var news in Model.ListOfNews)
             {
-                <partial name="~/Areas/Public/Views/Partials/_NewsCard.cshtml" for="@news" />
+                <partial name="~/Areas/Public/Views/Partials/Cards/_NewsCard.cshtml" for="@news" />
                
             }
         }
@@ -78,11 +78,11 @@
 <div class="mt-5">
     <p class="sub-title">نشاطات الطلاب</p>
 
-    <div class=" row mt-4 mb-sm-5  ">
+    <div class=" row mt-4 mb-sm-5  " style="display:flex; justify-content:space-between;">
         @{
             foreach (var activity in Model.ListOfActivities)
             {
-                <partial name="~/Areas/Public/Views/Partials/_ActivityCard.cshtml" for="@activity" />
+                <partial name="~/Areas/Public/Views/Partials/Cards/_ActivityCard.cshtml" for="@activity" />
             }
         }
 

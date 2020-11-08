@@ -1,0 +1,37 @@
+﻿@model SchoolWeb.Models.News;
+
+<div class="card  border-0  col-lg-3 col-md-6 col-sm-8 mb-sm-5 ">
+
+    <!---------------------- Image ------------------------->
+    <img src="@Model.NewsImages.FirstOrDefault().ImageUrl"
+         alt="صورة عن الخبر"
+         style="height:200px; width:100%; margin:0;">
+
+    <!---------------------- card body ------------------------->
+    <div class="card-body p-0 ">
+        <p class="card-text text-black-50">
+            @Model.Title
+        </p>
+        <p class="text-black-50 d-inline-block" style="font-size:12px;">
+            @Model.Date.ToString("dd/MM/yyyy")
+        </p>
+        <i class="far fa-calendar-alt ml-2"
+           style="color:#038242"></i>
+
+
+        <!---------------------- Actions ------------------------->
+        <br />
+        <span style=" display:flex; justify-content:space-between;">
+            <a class="btn p-sm-0"
+               style="background-color:#ff3232;width:100px;height:35px;">
+                <p class="text-white font-weight-bold mt-1">حذف</p>
+            </a>
+            <a class="btn p-sm-0"
+               style="background-color:#f3f3f3;width:100px;height:35px; border:1px solid #038242">
+                <p class="green-font font-weight-bold mt-1">تعديل</p>
+            </a>
+        </span>
+
+
+    </div>
+</div>
