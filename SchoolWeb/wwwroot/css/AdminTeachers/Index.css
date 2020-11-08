@@ -1,0 +1,47 @@
+﻿
+.teachersTable .table {
+    width: 100%;
+    text-align: center;
+}
+
+    .teachersTable .table th {
+        background-color: #038242;
+    }
+
+        .teachersTable .table th span {
+            color: #fdfdfd;
+            font-size: 0.9rem;
+        }
+
+    .teachersTable .table td {
+        color: #038242;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+.actionButtons {
+    display: flex;
+    justify-content: center;
+}
+
+    .actionButtons .deleteButton {
+        background-color: #ff3232;
+        width: 50px;
+        height: 35px;
+        margin-right: 20px
+    }
+
+    .actionButtons .editButton {
+        background-color: #f3f3f3;
+        width: 50px;
+        height: 35px;
+        border: 1px solid #038242
+    }
+
+
+@media only screen and (max-width: 768px) {
+    .registerationButton {
+        display: flex;
+        justify-content: center
+    }
+}
