@@ -55,6 +55,5 @@ namespace SchoolWeb.Models
         [ForeignKey("StudentFeeId")]
         public StudentFee StudentFee { get; set; }
 
-        public IEnumerable<Course> Courses { get; set; }
     }
 }

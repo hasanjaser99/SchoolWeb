@@ -1,0 +1,95 @@
+﻿@model SchoolWeb.Models.ViewModels.UpsertTeacherVM
+
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AdminTeachers/Upsert.css" />
+}
+
+
+@{
+    ViewData["Title"] = "إدارة المعلمين";
+    ViewData["Active"] = "management";
+
+}
+
+<div class="mt-5">
+    <div class="row">
+        <div class="registerSchoolLogo col-lg-6 col-md-6" style="text-align:left">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+        </div>
+        <div class="col-lg-6 col-md-6 registerFormContainer">
+            <h2>تسجيل الطالب</h2>
+            <form class="mt-5" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.Teacher.Id" />
+                <div class="form-group">
+                    <label asp-for="@Model.Teacher.Email"></label>
+                    @if (String.IsNullOrEmpty(Model.Teacher.Id))
+                    {
+                        <input class="form-control text-right" asp-for="@Model.Teacher.Email">
+
+                    }
+                    else
+                    {
+                        <input class="form-control text-right" asp-for="@Model.Teacher.Email" readonly>
+
+                    }
+                    <span asp-validation-for="@Model.Teacher.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Teacher.Name"></label>
+                    <input class="form-control text-right" asp-for="@Model.Teacher.Name">
+                    <span asp-validation-for="@Model.Teacher.Name" class="text-danger"></span>
+                </div>
+                @{
+                    if (String.IsNullOrEmpty(Model.Teacher.Id))
+                    {
+                        <div class="form-group">
+                            <label asp-for="@Model.Password"></label>
+                            <input type="password" class="form-control text-right" asp-for="@Model.Password">
+                            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.ConfirmPassword"></label>
+                            <input type="password" class="form-control text-right" asp-for="@Model.ConfirmPassword">
+                            <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    }
+                }
+                <div class="form-group">
+                    <label asp-for="@Model.Teacher.Field"></label>
+                    <input class="form-control" asp-for="@Model.Teacher.Field">
+                    <span asp-validation-for="@Model.Teacher.Field" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Teacher.Experience"></label>
+                    <textarea asp-for="@Model.Teacher.Experience" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.Teacher.Experience" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Teacher.PhoneNumber"></label>
+                    <input class="form-control" asp-for="@Model.Teacher.PhoneNumber">
+                    <span asp-validation-for="@Model.Teacher.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Teacher.Address"></label>
+                    <input class="form-control" asp-for="@Model.Teacher.Address">
+                    <span asp-validation-for="@Model.Teacher.Address" class="text-danger"></span>
+                </div>
+
+                <div class="registerationButtons mt-5 mb-4">
+                    <button asp-action="Index" class="btn" style="background-color: #f3f3f3;width:150px;height:50px;
+                           margin-right:50px; border:1px solid #038242;">
+                        <span style="color:#038242; font-size:1.1rem;">إلغاء</span>
+                    </button>
+                    <button class="btn" style="background-color: #038242;width:150px;height:50px;" type="submit">
+                        <span style="color:#fdfdfd; font-size:1.1rem;">حفظ</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+

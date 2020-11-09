@@ -18,7 +18,7 @@ namespace SchoolWeb.Models
         public string ImageUrl { get; set; }
 
         //// relations
-        public int ActivityId { get; set; }
+        public int? ActivityId { get; set; }
 
         [ForeignKey("ActivityId")]
         public Activity Activity { get; set; }

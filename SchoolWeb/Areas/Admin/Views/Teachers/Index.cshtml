@@ -39,14 +39,14 @@
             </tr>
             @foreach (var teacher in Model)
             {
-                <tr>
+                <tr id="@teacher.Id">
                     <td>
                         <span class="actionButtons">
-                            <a class="deleteButton btn p-sm-0" style="">
+                            <a class="deleteButton btn p-sm-0" onclick="DeleteTeacher(`@teacher.Id`)">
                                 <p class="text-white font-weight-bold mt-1">حذف</p>
                             </a>
                             <a class="editButton btn p-sm-0"
-                               style="">
+                               asp-action="Upsert" asp-route-teacherId="@teacher.Id">
                                 <p class="green-font font-weight-bold mt-1">تعديل</p>
                             </a>
                         </span>
@@ -68,13 +68,14 @@
 <div class="row flex-row-reverse mt-5 mb-5">
     <div class="col-12 registerationButton">
         <div class="registerationButton mt-5 mb-4">
-            <a asp-action="" class="btn" style="background-color: #038242;width:200px;height:60px;">
+            <a asp-action="Upsert" class="btn" style="background-color: #038242;width:200px;height:60px;">
                 <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">إضافة معلم جديد</p>
             </a>
         </div>
     </div>
 </div>
 
-@*@section Scripts{
-        <script src="~/js/adminTeachers.js"></script>
-    }*@
+
+@section Scripts {
+    <script src="~/js/admin-teachers.js"></script>
+}

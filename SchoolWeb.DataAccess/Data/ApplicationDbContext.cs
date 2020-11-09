@@ -21,12 +21,22 @@ namespace SchoolWeb.Data
 
             builder.Entity<CourseTeachers>().HasKey(i => new { i.TeacherId, i.CourseId });
 
-            var cascadeFKs = builder.Model.GetEntityTypes()
-                    .SelectMany(t => t.GetForeignKeys())
-                    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+            builder.Entity<Section>()
+            .HasMany(s => s.Students)
+            .WithOne(s => s.Section)
+            .OnDelete(DeleteBehavior.Restrict);
 
-            foreach (var fk in cascadeFKs)
-                fk.DeleteBehavior = DeleteBehavior.Restrict;
+
+
+            builder.Entity<Teacher>()
+            .HasMany(t => t.Classes)
+            .WithOne(c => c.Teacher)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Teacher>()
+            .HasMany(t => t.Sections)
+            .WithOne(s => s.Teacher)
+            .OnDelete(DeleteBehavior.Restrict);
 
 
         }
