@@ -71,9 +71,11 @@
                             style="float:right;">
                             <a class=" dropbtn nav-link " asp-area="" asp-controller="" asp-action="">الإدارة</a>
                             <div class="dropdown-content">
-                                <a asp-area="Admin" asp-controller="SchoolInfo" asp-action="News">بيانات الروضة</a>
+
+                                <a  asp-area="Admin" asp-controller="SchoolInfo" asp-action="News">بيانات الروضة</a>
                                 <a asp-area="Admin" asp-controller="Teachers" asp-action="Index">المعلمين</a>
                                 <a asp-area="Admin" asp-controller="CoursesAndSections" asp-action="Courses">الصفوف و الحصص</a>
+
                             </div>
                         </li>
 
@@ -152,6 +154,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false) 
 </body>
 </html>

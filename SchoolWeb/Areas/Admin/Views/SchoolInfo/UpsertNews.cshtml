@@ -1,0 +1,122 @@
+﻿
+
+@model SchoolWeb.Models.ViewModels.NewsWithImagesVM
+
+@section Css {
+    <link rel="stylesheet" href="~/css/NewsAndActivitiesUpsert.css" />
+}
+
+@{
+    if (Model.Id == 0)
+        ViewData["Title"] = "إضافة خبر";
+    else
+        ViewData["Title"] = "تعديل الخبر";
+    ViewData["Active"] = "management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class=" mt-sm-5 row ">
+    <!------------------------ First col-Img container --------------------------->
+    <div class="col-lg-4 col-md-6 mr-auto" style="display:flex; justify-content:start;">
+
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+        
+    </div>
+
+    <!------------------------ second col-form --------------------------->
+    <div class="col-sm-6 registerFormContainer m-auto">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+        <form class="mt-5" method="post" enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Id" />
+            <div class="form-group">
+                <label asp-for="@Model.Title"></label>
+                <input class="form-control text-right" asp-for="@Model.Title">
+                <span asp-validation-for="@Model.Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Description"></label>
+                <input class="form-control text-right" asp-for="@Model.Description">
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="@Model.Date"></label>
+                <input class="form-control text-right" asp-for="@Model.Date">
+                <span asp-validation-for="@Model.Date" class="text-danger"></span>
+            </div>
+
+            @if (Model.Id != 0 && Model.NewsImages != null)
+            {
+                <input type="hidden" asp-for="@Model.NewsImages" />
+                <div class="form-group">
+                    <br />
+                    @foreach (var image in Model.NewsImages)
+                    {
+
+                        <div class=" m-auto pt-2" style="display:inline-block;" id="@image.Id">
+                            <img src="@image.ImageUrl" height="100x" width="100px" />
+                            <br />
+                            <a class="btn btn-danger btn-sm"
+                               style="width:100px; border-radius:0;"
+                               onclick="DeleteNewsImage(@image.Id)">
+                                حذف
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="@Model.NewsImagesFiles">تحميل الصور</label>
+                <input class="form-control text-right" multiple="multiple" asp-for="@Model.NewsImagesFiles" accept="image/*" />
+                <span asp-validation-for="@Model.NewsImagesFiles" class="text-danger"></span>
+            </div>
+
+
+            <!-------------------------------- Form Actions-------------------------------->
+            <div class="registerationButton mt-5 mb-4" style="display:flex; justify-content:space-between;">
+                <a class="btn"
+                   style="background-color: #f3f3f3; border:2px solid #038242; width:200px; height:60px;"
+                   asp-area="Admin" asp-controller="SchoolInfo" asp-action="News">
+                    <p style="color: #038242;font-size: 1.1rem;padding: 4px 0; font-weight:bold">إلغاء</p>
+                </a>
+
+                <button class="btn"
+                        style="background-color: #038242;width:200px;height:60px;" type="submit">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 4px 0;font-weight:bold">@ViewData["Title"]</p>
+                </button>
+
+            </div>
+
+        </form>
+
+
+
+       
+    </div>
+</div>
+
+<script type="text/javascript">
+    function DeleteNewsImage(imgId) {
+        console.log(imgId);
+        imgId = 1 * imgId;
+        $.ajax({
+            type: "DELETE",
+            url: `/Admin/SchoolInfo/DeleteNewsImage/${imgId}`,
+            success: function (data) {
+                if (data.success) {
+                    $(`#${imgId}`).remove();
+                }
+                else {
+                    console.log(data.message)
+                }
+            }
+
+        });
+            
+    };
+</script>

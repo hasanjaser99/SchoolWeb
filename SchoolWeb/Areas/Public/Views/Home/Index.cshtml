@@ -1,7 +1,8 @@
 
 
 @model SchoolWeb.Models.ViewModels.NewsAndActivitiesVM;
-    ﻿
+    
+@using SchoolWeb.Utility
 @{
     ViewData["Title"] = "الرئيسية";
     ViewData["Active"] = "home";
@@ -22,25 +23,19 @@
             <div class=" carousel-item active text-white text-center col-12 ">
                 <h2>اهدافنا </h2>
                 <p>
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشياي اشي
+                    @StaticData.aboutUsText
                 </p>
             </div>
             <div class="carousel-item text-white text-center col-12 ">
                 <h2>نبذة عنا </h2>
                 <p>
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشياي اشي
+                    @StaticData.aboutUsText
                 </p>
             </div>
             <div class="carousel-item text-white text-center col-12 ">
                 <h2>لماذا نحن  </h2>
                 <p>
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي
-                    اي اشي اي اشي اي اشي اي اشي اي اشي اي اشي اي اشياي اشي
+                    @StaticData.aboutUsText
                 </p>
             </div>
 
