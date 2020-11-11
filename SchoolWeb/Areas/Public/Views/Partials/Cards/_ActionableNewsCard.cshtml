@@ -23,11 +23,17 @@
         <br />
         <span style=" display:flex; justify-content:space-between;">
             <a class="btn p-sm-0"
-               style="background-color:#ff3232;width:100px;height:35px;">
+               style="background-color:#ff3232;width:100px;height:35px;"
+               asp-area="Admin" asp-controller="SchoolInfo" asp-action="DeleteNews"
+               asp-route-id="@Model.Id"
+               >
                 <p class="text-white font-weight-bold mt-1">حذف</p>
             </a>
             <a class="btn p-sm-0"
-               style="background-color:#f3f3f3;width:100px;height:35px; border:1px solid #038242">
+               style="background-color:#f3f3f3;width:100px;height:35px; border:1px solid #038242"
+               asp-area="Admin" asp-controller="SchoolInfo" asp-action="UpsertNews"
+               asp-route-id="@Model.Id"
+               >
                 <p class="green-font font-weight-bold mt-1">تعديل</p>
             </a>
         </span>

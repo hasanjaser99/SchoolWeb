@@ -30,7 +30,7 @@
         اخبار الروضة
     </p>
 
-    <div class=" row mt-4 mb-sm-5" style="display:flex; justify-content:space-between;">
+    <div class=" row mt-4 mb-sm-5" style="display:flex; justify-content:flex-end;">
         @{
             foreach (var news in Model)
             {
@@ -43,6 +43,8 @@
 </div>
 
 <!---------------------- add new news -------------------->
-<a class="btn" style="background-color: #038242;width:200px;height:60px;">
+<a asp-area="Admin" asp-controller="SchoolInfo" asp-action="UpsertNews"
+   class="btn" style="background-color: #038242;width:200px;height:60px;"
+   >
     <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">إضافة خبر جديد</p>
 </a>

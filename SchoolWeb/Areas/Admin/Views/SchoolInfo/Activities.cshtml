@@ -30,11 +30,11 @@
         نشاطات الطلاب
     </p>
 
-    <div class=" row mt-4 mb-sm-5" style="display:flex; justify-content:space-between;">
+    <div class=" row mt-4 mb-sm-5" style="display:inline-flex;justify-content:flex-end;">
         @{
-            foreach (var news in Model)
+            foreach (var activity in Model)
             {
-                <partial  name="~/Areas/Public/Views/Partials/Cards/_ActionableActivityCard.cshtml" for="@news" />
+                <partial  name="~/Areas/Public/Views/Partials/Cards/_ActionableActivityCard.cshtml" for="@activity" />
 
             }
         }
@@ -42,7 +42,9 @@
 
 </div>
 
-<!---------------------- add new news -------------------->
-<a class="btn" style="background-color: #038242;width:200px;height:60px;">
-    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">إضافة نشاط جديد</p>
+<!---------------------- add new Activity -------------------->
+<a 
+   class="btn" style="background-color: #038242;width:200px;height:60px;"
+   asp-area="Admin" asp-controller="SchoolInfo" asp-action="UpsertActivities">
+ <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">إضافة نشاط جديد</p>
 </a>

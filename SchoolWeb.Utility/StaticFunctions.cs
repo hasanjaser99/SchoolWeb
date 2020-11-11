@@ -13,7 +13,7 @@ namespace SchoolWeb.Utility
                 return "تمهيدي";
             }
 
-            return "روضة";
+            return "بستان";
         }
     }
 }
