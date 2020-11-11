@@ -1,0 +1,88 @@
+﻿@model SchoolWeb.Models.ViewModels.UpsertCourseVM
+
+
+@section Css {
+    <link rel="stylesheet" href="~/css/CoursesAndSections/UpsertCourse.css" />
+}
+
+
+@{
+    ViewData["Title"] = "اضافة مادة جديدة";
+    ViewData["Active"] = "management";
+
+}
+
+<div class="mt-5">
+    <div class="row">
+        <div class="registerSchoolLogo col-lg-6 col-md-6" style="text-align:left">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+        </div>
+        <div class="col-lg-6 col-md-6 registerFormContainer">
+            <h2>إضافة مادة</h2>
+            <form class="mt-5" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.Course.Id" />
+
+                <div class="form-group">
+                    <label asp-for="@Model.Course.Name"></label>
+                    <input class="form-control text-right" asp-for="@Model.Course.Name">
+                    <span asp-validation-for="@Model.Course.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Course.Grade"></label>
+                    @Html.DropDownListFor(m => m.Course.Grade, Model.Grades,
+                   "-اختر المستوى الدراسي-", new
+                        {
+                            @class = "form-control",
+                       style = "text-align-last:right;"
+                        })
+
+                    <span asp-validation-for="@Model.Course.Grade" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Course.Semester"></label>
+                    @Html.DropDownListFor(m => m.Course.Semester, Model.Semesters,
+                   "-اختر الفصل الدراسي-", new
+                        {
+                            @class = "form-control",
+                       style = "text-align-last:right;"
+                        })
+                    <span asp-validation-for="@Model.Course.Semester" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Course.CourseTeachers"></label>
+                    @Html.ListBoxFor(m => m.SelectedTeachers, Model.Teachers, new
+               {
+                   @class = "form-control selectpicker",
+                   style = "text-align:right;",
+                   multiple = "multiple",
+                   title = "-اختر معلمو المادة-"
+               })
+                    <span asp-validation-for="@Model.Course.CourseTeachers" class="text-danger"></span>
+                </div>
+
+
+                <div class="mt-5 mb-4">
+                    <a asp-action="Courses" class="btn d-inline-flex justify-content-center align-items-center"
+                       style="background-color: #f3f3f3;width:150px;height:50px;
+                           margin-right:50px; border:1px solid #038242;">
+                        <span style="color:#038242; font-size:1.1rem;">إلغاء</span>
+                    </a>
+                    <button class="btn" style="background-color: #038242;width:150px;height:50px;" type="submit">
+                        <span style="color:#fdfdfd; font-size:1.1rem;">حفظ</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

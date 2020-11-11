@@ -20,11 +20,26 @@ namespace SchoolWeb.Utility
                      new SelectListItem{ Text="روضة", Value="KG2"},
         };
 
+        public static List<SelectListItem> SelectedGradesList = new List<SelectListItem>() {
+                     new SelectListItem{ Text = "جميع المستويات الدراسية", Value="All"
+                         , Selected = true},
+                     new SelectListItem{ Text="تمهيدي", Value="KG1"},
+                     new SelectListItem{ Text="روضة", Value="KG2"},
+        };
+
+
         public static List<SelectListItem> BussStatesList = new List<SelectListItem>() {
                     new SelectListItem { Text = "ذهاب", Value="Go"},
                     new SelectListItem { Text = "عودة", Value="Back"},
                     new SelectListItem { Text = "ذهاب و عودة", Value="GoAndBack"},
                     new SelectListItem { Text = "بدون مواصلات", Value="without"},
         };
+
+        public static List<SelectListItem> SemestersList = new List<SelectListItem>() {
+                    new SelectListItem { Text = "الفصل الأول", Value="1"},
+                    new SelectListItem { Text = "الفصل الثاني", Value="2"},
+        };
+
+
     }
 }

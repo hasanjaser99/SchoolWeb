@@ -1,0 +1,37 @@
+﻿@model string
+
+@{
+    string isActive(string pageName)
+    {
+        if (pageName == Model)
+        {
+            return "activeContainer";
+        }
+        return "";
+    }
+}
+
+<div class="navContainer">
+    <div class="mainContainer">
+        <p>الصفوف و الحصص</p>
+    </div>
+
+    <div class="subContainer @isActive("courses")">
+        <p>
+            <a asp-area="" asp-controller="" asp-action="">
+                المواد الدراسية
+            </a>
+        </p>
+    </div>
+
+
+
+    <div class="subContainer @isActive("aa")">
+        <p>
+            <a asp-area="" asp-controller="" asp-action="">
+                الشعب و الحصص
+            </a>
+        </p>
+    </div>
+
+</div>

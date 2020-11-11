@@ -1,0 +1,65 @@
+﻿@model SchoolWeb.Models.ViewModels.CoursesIndexVM
+@using SchoolWeb.Utility
+
+@section Css {
+    <link rel="stylesheet" href="~/css/CoursesAndSections/CoursesAndSectionsNav.css" />
+    <link rel="stylesheet" href="~/css/CoursesAndSections/Courses.css" />
+}
+
+@{
+    ViewData["Title"] = "المواد الدراسية";
+    ViewData["Active"] = "management";
+    string activeNav = "courses";
+}
+
+<div class="mt-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <partial name="~/Areas/Public/Views/Partials/Navs/_CoursesAndSectionsNav.cshtml" model="activeNav" />
+        </div>
+        <div class="schoolLogo col-lg-6 col-md-6">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse mt-5">
+        <div class="col-12" style="display:flex;justify-content:flex-end">
+            @Html.DropDownListFor(m => m.Grades, Model.Grades,
+ new
+      {
+
+     @class = "form-control",
+     @onchange = "PopulateTable()",
+     style = "text-align-last:right; width:20%"
+ })
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse">
+        <div class="coursesTable col-12 mt-1">
+
+            <div id="table">
+                <partial name="~/Areas/Public/Views/Partials/CoursesAndSections/_CoursesTable.cshtml" ,
+                         model="@Model.Courses" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse mt-5 mb-5">
+        <div class="col-12 registerationButton">
+            <div class="registerationButton mt-5 mb-4">
+                <a asp-action="UpsertCourse" class="btn" style="background-color: #038242;width:200px;height:60px;">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">اضافة مادة جديدة</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/courses.js"></script>
+}
+
+
+

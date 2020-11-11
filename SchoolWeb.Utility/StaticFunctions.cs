@@ -15,5 +15,15 @@ namespace SchoolWeb.Utility
 
             return "روضة";
         }
+
+        public static string GetSemester(int semester)
+        {
+            if(semester == 1)
+            {
+                return "الأول";
+            }
+
+            return "الثاني";
+        }
     }
 }

@@ -23,6 +23,7 @@
     color: #038242;
     font-size: 0.85rem;
     font-weight: bold;
+    vertical-align: middle;
 }
 
 @media only screen and (max-width: 768px) {
