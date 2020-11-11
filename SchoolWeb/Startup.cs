@@ -37,8 +37,8 @@ namespace SchoolWeb
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddRazorPages();
+            services.AddControllersWithViews();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>
             {

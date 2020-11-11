@@ -1,0 +1,32 @@
+﻿.sectionsTable .table {
+    width: 70%;
+    text-align: center;
+}
+
+    .sectionsTable .table th {
+        background-color: #038242;
+    }
+
+        .sectionsTable .table th span {
+            color: #fdfdfd;
+            font-size: 0.9rem;
+        }
+
+    .sectionsTable .table td {
+        color: #038242;
+        font-size: 0.85rem;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+
+@media only screen and (max-width: 768px) {
+    .schoolLogo {
+        text-align: center
+    }
+
+    .registerationButton {
+        display: flex;
+        justify-content: center
+    }
+}
