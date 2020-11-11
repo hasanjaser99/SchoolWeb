@@ -1,15 +1,15 @@
-﻿@model SchoolWeb.Models.ViewModels.CoursesIndexVM
+﻿@model SchoolWeb.Models.ViewModels.SectionsIndexVM
 @using SchoolWeb.Utility
 
 @section Css {
     <link rel="stylesheet" href="~/css/CoursesAndSections/CoursesAndSectionsNav.css" />
-    <link rel="stylesheet" href="~/css/CoursesAndSections/Courses.css" />
+    <link rel="stylesheet" href="~/css/CoursesAndSections/Sections.css" />
 }
 
 @{
-    ViewData["Title"] = "المواد الدراسية";
+    ViewData["Title"] = "الشعب و الحصص";
     ViewData["Active"] = "management";
-    string activeNav = "courses";
+    string activeNav = "sections";
 }
 
 <div class="mt-5">
@@ -37,11 +37,11 @@
     </div>
 
     <div class="row flex-row-reverse">
-        <div class="coursesTable col-12 mt-1">
+        <div class="sectionsTable col-12 mt-1">
 
             <div id="table">
-                <partial name="~/Areas/Public/Views/Partials/CoursesAndSections/_CoursesTable.cshtml" ,
-                         model="@Model.Courses" />
+                <partial name="~/Areas/Public/Views/Partials/CoursesAndSections/_SectionsTable.cshtml" ,
+                         model="@Model.Sections" />
             </div>
         </div>
     </div>
@@ -49,8 +49,8 @@
     <div class="row flex-row-reverse mt-5 mb-5">
         <div class="col-12">
             <div class="mt-5 mb-4">
-                <a asp-action="UpsertCourse" class="btn" style="background-color: #038242;width:200px;height:60px;">
-                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">اضافة مادة جديدة</p>
+                <a asp-action="UpsertSection" class="btn" style="background-color: #038242;width:200px;height:60px;">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">اضافة شعبة جديدة</p>
                 </a>
             </div>
         </div>
@@ -58,7 +58,7 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/courses.js"></script>
+    <script src="~/js/sections.js"></script>
 }
 
 

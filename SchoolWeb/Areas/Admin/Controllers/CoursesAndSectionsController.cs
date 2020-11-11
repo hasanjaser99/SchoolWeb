@@ -26,6 +26,8 @@ namespace SchoolWeb.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /////////// Courses /////////////////
+
         //Get courses
         public IActionResult Courses()
         {
@@ -213,6 +215,113 @@ namespace SchoolWeb.Areas.Admin.Controllers
             return View(upsertCourseVM);
         }
 
+        /////////// End Courses /////////////////
+
+
+
+        /////////// Sections And Classes /////////////////
+
+
+        // Get Sections
+        public IActionResult Sections()
+        {
+            var sectionsIndexVM = new SectionsIndexVM()
+            {
+                Sections = _unitOfWork.Section.GetAll(
+                    includeProperities: "Teacher,Students"),
+
+                Grades = StaticData.SelectedGradesList
+            };
+
+            return View(sectionsIndexVM);
+        }
+
+        //populate table when dropdownlist value changed
+        [HttpPost]
+        public IActionResult PopulateSectionsTable(string grade)
+
+        {
+            //initialize empty sections
+            var sections = Enumerable.Empty<Section>();
+
+            if (grade == "All")
+            {
+                sections = _unitOfWork.Section.GetAll(
+                    includeProperities: "Teacher,Students");
+            }
+            else
+            {
+                sections = _unitOfWork.Section
+                    .GetAll(c => c.Grade == grade,
+                    includeProperities: "Teacher,Students");
+            }
+
+
+            return PartialView("~/Areas/Public/Views/Partials/CoursesAndSections/_SectionsTable.cshtml"
+                , sections);
+
+        }
+
+        //Get Add/Edit Section
+        public IActionResult UpsertSection(int id)
+        {
+            var upsertSectionVM = new UpsertSectionVM();
+
+            if (id != 0)
+            {
+                upsertSectionVM.Section = _unitOfWork.Section.GetFirstOrDefault(s => s.Id == id,
+                    includeProperities: "Teacher");
+            }
+            else
+            {
+                upsertSectionVM.Section = new Section();
+
+            }
+
+            upsertSectionVM.Grades = StaticData.GradesList;
+            upsertSectionVM.Teachers = _unitOfWork.Teacher.GetAll()
+                .Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.Id,
+
+                });
+
+            return View(upsertSectionVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpsertSection(UpsertSectionVM upsertSectionVM)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (upsertSectionVM.Section.Id == 0)
+                {
+                    _unitOfWork.Section.Add(upsertSectionVM.Section);
+                }
+                else
+                {
+                    _unitOfWork.Section.Update(upsertSectionVM.Section);
+                }
+
+                _unitOfWork.Save();
+
+                return RedirectToAction(nameof(Sections));
+            }
+
+            return View(upsertSectionVM);
+
+        }
+
+
+
+
+
+        /////////// End Sections And Classes /////////////////
+
+
 
 
 
@@ -232,6 +341,22 @@ namespace SchoolWeb.Areas.Admin.Controllers
             _unitOfWork.Save();
 
             return Json(new { success = true, message = "تم حذف المادة بنجاح" });
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteSection(int id)
+        {
+            var section = _unitOfWork.Section.GetFirstOrDefault(s => s.Id == id);
+
+            if (section == null)
+            {
+                return Json(new { success = false, message = "حدث خطأ في عملية الحذف" });
+            }
+
+            _unitOfWork.Section.Remove(section);
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "تم حذف الشعبة بنجاح" });
         }
 
         #endregion

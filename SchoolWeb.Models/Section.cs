@@ -24,6 +24,7 @@ namespace SchoolWeb.Models
         public string TeacherId { get; set; }
 
         [ForeignKey("TeacherId")]
+        [DisplayName("مربي الصف")]
         public Teacher Teacher { get; set; }
 
         public IEnumerable<Class> Classes { get; set; }
