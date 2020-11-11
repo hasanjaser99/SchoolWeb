@@ -37,6 +37,75 @@ namespace SchoolWeb.Areas.Admin.Controllers
             return View();
         }
 
+        /**************************************** Functions **********************************/
+
+        void uploadAndCreateImage(
+            string webRootPath,IFormFileCollection files,IFormFile file,int tableItemId,string imgTable)
+        {
+            string folderPath;
+            string imgUrlFilePath;
+            var imageUrl = "";
+
+            if(imgTable == "News")
+            {
+                folderPath = @"images\news";
+                imgUrlFilePath = @"\images\news\";
+            }
+            else
+            {
+                folderPath = @"images\activities";
+                imgUrlFilePath = @"\images\activities\";
+            }
+
+            string fileName = Guid.NewGuid().ToString();
+            var uploads = Path.Combine(webRootPath, folderPath);
+            var extention = Path.GetExtension(files[0].FileName);
+
+            using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extention), FileMode.Create))
+            {
+                files[0].CopyTo(fileStreams);
+            }
+
+            imageUrl = imgUrlFilePath + fileName + extention;
+
+            if (imgTable == "News")
+            {
+            var img = new NewsImages()
+            {
+                ImageUrl = imageUrl,
+                NewsId = tableItemId
+            };
+            // adding image
+            _unitOfWork.NewsImages.Add(img);
+
+
+            }
+            else
+            {
+                var img = new ActivityImages()
+                {
+                    ImageUrl = imageUrl,
+                    ActivityId = tableItemId
+                };
+                // adding image
+                _unitOfWork.ActivityImages.Add(img);
+
+
+            }
+
+        }
+
+        /*************************************************************************************/
+
+        void removeImageFromServer( string ImageUrl)
+        {
+            string webRootPath = _hostEnvironment.WebRootPath;
+            var imagePath = Path.Combine(webRootPath, ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+        }
         //________________________________ news related actions___________________________________
         public IActionResult News()
         {
@@ -89,64 +158,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
             }
         }
         /*************************************************************************************/
-        void uploadAndCreateImage(
-            string webRootPath,IFormFileCollection files,IFormFile file,int tableItemId,string imgTable)
-        {
-            string folderPath;
-            string imgUrlFilePath;
-            var imageUrl = "";
-
-            if(imgTable == "News")
-            {
-                folderPath = @"images\news";
-                imgUrlFilePath = @"\images\news\";
-            }
-            else
-            {
-                folderPath = @"images\activities";
-                imgUrlFilePath = @"images\activities\";
-            }
-
-            string fileName = Guid.NewGuid().ToString();
-            var uploads = Path.Combine(webRootPath, folderPath);
-            var extention = Path.GetExtension(files[0].FileName);
-
-            using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extention), FileMode.Create))
-            {
-                files[0].CopyTo(fileStreams);
-            }
-
-            imageUrl = imgUrlFilePath + fileName + extention;
-
-            if (imgTable == "News")
-            {
-            var img = new NewsImages()
-            {
-                ImageUrl = imageUrl,
-                NewsId = tableItemId
-            };
-            // adding image
-            _unitOfWork.NewsImages.Add(img);
-
-
-            }
-            else
-            {
-                var img = new ActivityImages()
-                {
-                    ImageUrl = imageUrl,
-                    ActivityId = tableItemId
-                };
-                // adding image
-                _unitOfWork.ActivityImages.Add(img);
-
-
-            }
-
-        }
-
-        /*************************************************************************************/
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpsertNews(NewsWithImagesVM newsWithImagesVM)
@@ -255,19 +267,17 @@ namespace SchoolWeb.Areas.Admin.Controllers
             // getting newsItem
             var newsItem = _unitOfWork
                                  .News
-                                 .GetFirstOrDefault(u => u.Id == id);
-            // getting images
-            var images = _unitOfWork
-                                 .NewsImages
-                                 .GetAll(u => u.Id == id);
+                                 .GetFirstOrDefault(u => u.Id == id,includeProperities : "NewsImages");
 
+
+            
             //deleting images from server
-            foreach (var image in images)
+            foreach (var image in newsItem.NewsImages)
             {
-                System.IO.File.Delete(image.ImageUrl);
-                image.NewsId = null;
+                // delete file from server
+                removeImageFromServer(image.ImageUrl);
+                
             }
-            _unitOfWork.Save();
             
             _unitOfWork.News.Remove(newsItem);
             _unitOfWork.Save();
@@ -475,27 +485,25 @@ namespace SchoolWeb.Areas.Admin.Controllers
         /*************************************************************************************/
         public IActionResult DeleteActivity(int id)
         {
-            // getting newsItem
-            var newsItem = _unitOfWork
-                                 .News
-                                 .GetFirstOrDefault(u => u.Id == id);
-            // getting images
-            var images = _unitOfWork
-                                 .NewsImages
-                                 .GetAll(u => u.Id == id);
+            // getting activityItem
+            var activityItem = _unitOfWork
+                                 .Activity
+                                 .GetFirstOrDefault(u => u.Id == id, includeProperities: "ActivityImages");
+
+
 
             //deleting images from server
-            foreach (var image in images)
+            foreach (var image in activityItem.ActivityImages)
             {
-                System.IO.File.Delete(image.ImageUrl);
-                image.NewsId = null;
+                // delete file from server
+                removeImageFromServer(image.ImageUrl);
+
             }
+
+            _unitOfWork.Activity.Remove(activityItem);
             _unitOfWork.Save();
 
-            _unitOfWork.News.Remove(newsItem);
-            _unitOfWork.Save();
-
-            return RedirectToAction(nameof(News));
+            return RedirectToAction(nameof(Activities));
         }
 
         /*************************************************************************************/
