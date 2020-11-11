@@ -1,0 +1,9 @@
+﻿.loginContainer {
+    margin-top: 100px;
+    margin-bottom: 30px;
+    border: 1px solid #038242;
+}
+
+.loginFormContainer input {
+    text-align: right !important;
+}

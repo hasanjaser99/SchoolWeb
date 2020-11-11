@@ -27,6 +27,7 @@ namespace SchoolWeb.Models
         //// relations
         public IEnumerable<Class> Classes { get; set; }
 
+        [DisplayName("المعلمون")]
         public IEnumerable<CourseTeachers> CourseTeachers { get; set; }
     }
 }

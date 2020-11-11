@@ -17,7 +17,6 @@ namespace SchoolWeb.Areas.Public.Controllers
     [Area("Public")]
     public class FeesAndRegisterationController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
@@ -30,13 +29,11 @@ namespace SchoolWeb.Areas.Public.Controllers
 
         public FeesAndRegisterationController(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IUnitOfWork unitOfWork,
             IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
             _hostEnvironment = hostEnvironment;
@@ -107,14 +104,20 @@ namespace SchoolWeb.Areas.Public.Controllers
                         await _roleManager.CreateAsync(new IdentityRole(
                               StaticData.Role_Student));
                     }
+                    if (!await _roleManager.RoleExistsAsync(StaticData.Role_Waiting))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(
+                              StaticData.Role_Waiting));
+                    }
+
                     if (!await _roleManager.RoleExistsAsync(StaticData.Role_Teacher))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(
                               StaticData.Role_Teacher));
                     }
 
-                    // assign user a student role
-                    await _userManager.AddToRoleAsync(identityUser, StaticData.Role_Student);
+                    // assign user a student waiting role
+                    await _userManager.AddToRoleAsync(identityUser, StaticData.Role_Waiting);
 
 
                     //get born certificate image
@@ -173,6 +176,12 @@ namespace SchoolWeb.Areas.Public.Controllers
                         {
                             ModelState.AddModelError(string.Empty,
                                 "كلمة المرور يجب ان تحتوي على حرف كبير واحد على الأقل");
+                        }
+
+                        if (error.Code == "DuplicateUserName")
+                        {
+                            ModelState.AddModelError(string.Empty,
+                                "البريد الاكتروني مسجل من قبل , يرجى استخدام بريد إلكتروني آخر");
                         }
                     }
                 }

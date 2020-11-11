@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Teacher>
+
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AdminTeachers/Index.css" />
+}
+
+
+@{
+    ViewData["Title"] = "إدارة المعلمين";
+    ViewData["Active"] = "management";
+
+}
+
+<div class="teachersTable row mt-5 mb-3">
+    <div class="col-12 center">
+        <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+
+    </div>
+    <div class="col-12 mt-5">
+        <table id="tblData" align="right" class="table table-bordered mt-5">
+            <tr>
+                <th></th>
+                <th>
+                    <span>العنوان</span>
+                </th>
+                <th>
+                    <span>رقم الهاتف</span>
+                </th>
+                <th>
+                    <span>الخبرة</span>
+                </th>
+                <th>
+                    <span>المجال</span>
+                </th>
+                <th>
+                    <span>الإسم</span>
+                </th>
+            </tr>
+            @foreach (var teacher in Model)
+            {
+                <tr id="@teacher.Id">
+                    <td>
+                        <span class="tableActionButtons">
+                            <a class="deleteButton btn p-sm-0" onclick="DeleteTeacher(`@teacher.Id`)">
+                                <p class="text-white font-weight-bold mt-1">حذف</p>
+                            </a>
+                            <a class="editButton btn p-sm-0"
+                               asp-action="Upsert" asp-route-teacherId="@teacher.Id">
+                                <p class="green-font font-weight-bold mt-1">تعديل</p>
+                            </a>
+                        </span>
+                    </td>
+                    <td>@teacher.Address</td>
+                    <td>@teacher.PhoneNumber</td>
+                    <td>@teacher.Experience</td>
+                    <td>@teacher.Field</td>
+                    <td>@teacher.Name</td>
+
+                </tr>
+
+
+            }
+        </table>
+    </div>
+</div>
+
+<div class="row flex-row-reverse mt-5 mb-5">
+    <div class="col-12 registerationButton">
+        <div class="registerationButton mt-5 mb-4">
+            <a asp-action="Upsert" class="btn" style="background-color: #038242;width:200px;height:60px;">
+                <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">إضافة معلم جديد</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/admin-teachers.js"></script>
+}

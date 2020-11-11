@@ -11,3 +11,22 @@ background-color:#038242
 .green-font {
     color: #038242
 }
+
+.tableActionButtons {
+    display: flex;
+    justify-content: center;
+}
+
+    .tableActionButtons .deleteButton {
+        background-color: #ff3232;
+        width: 50px;
+        height: 35px;
+        margin-right: 20px
+    }
+
+    .tableActionButtons .editButton {
+        background-color: #f3f3f3;
+        width: 50px;
+        height: 35px;
+        border: 1px solid #038242
+    }

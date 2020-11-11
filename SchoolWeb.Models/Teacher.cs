@@ -19,6 +19,11 @@ namespace SchoolWeb.Models
         [DisplayName("رقم الهاتف")]
         public string PhoneNumber { get; set; }
 
+        [Required(ErrorMessage = "يرجى إدخال البريد الإلكتروني")]
+        [DisplayName("البريد الإلكتروني")]
+        [EmailAddress]
+        public string Email { get; set; }
+
         [Required(ErrorMessage = "يرجى إدخال المجال")]
         [DisplayName("المجال")]
         public string Field { get; set; }

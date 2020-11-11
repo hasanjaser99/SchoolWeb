@@ -1,0 +1,30 @@
+﻿.registerFormContainer h2 {
+    color: #038242;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 20px
+}
+
+.registerFormContainer p {
+    font-size: 1rem;
+    line-height: 40px;
+}
+
+.registerFormContainer input, textarea {
+    text-align: right !important;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    .registerSchoolLogo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .registerationButtons {
+        display: flex;
+        justify-content: center
+    }
+}

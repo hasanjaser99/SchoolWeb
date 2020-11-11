@@ -1,0 +1,31 @@
+﻿.coursesTable .table {
+    width: 60%;
+    text-align: center;
+}
+
+    .coursesTable .table th {
+        background-color: #038242;
+    }
+
+        .coursesTable .table th span {
+            color: #fdfdfd;
+            font-size: 0.9rem;
+        }
+
+    .coursesTable .table td {
+        color: #038242;
+        font-size: 0.85rem;
+        font-weight: bold;
+        vertical-align:middle;
+    }
+
+
+@media only screen and (max-width: 768px) {
+    .schoolLogo {
+        text-align: center
+    }
+    .registerationButton {
+        display:flex;
+        justify-content:center
+    }
+}
