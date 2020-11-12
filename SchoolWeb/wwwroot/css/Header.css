@@ -33,7 +33,7 @@ nav img {
     color: #fdfdfd;
 }
 
-/* list */
+/* dropDown */
 
 .dropbtn {
     cursor: pointer;
@@ -65,12 +65,25 @@ nav img {
     background-color: #f1f1f1;
 }
 
+.dropDownIcon {
+    color: #f1f1f1;
+}
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+.dropdown:hover .dropDownIcon {
+    color: #038242;
+}
+
 .dropdown:hover .dropbtn {
-    color: #f1f1f1;
-    background-color: #038242;
+    border: 1px solid #038242;
+    margin-left: 5px;
+    margin-right: 5px;
     border-radius: 5px;
 }
+
+.dropdown-toggle::after {
+    display: none;
+}
+
