@@ -1,0 +1,187 @@
+﻿@using SchoolWeb.Utility
+
+@model SchoolWeb.Models.ViewModels.FeesOfRegisterationVM
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+    <link rel="stylesheet" href="~/css/FeesAndRegisteration/SchoolFees.css" />
+}
+
+@{
+    ViewData["Title"] = "الإدارة - رسوم والتسجيل";
+    ViewData["Active"] = "management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageTitle = "FeesOfRegistration";
+}
+
+Model
+<div class="mt-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <partial name="~/Areas/Public/Views/Partials/Navs/_SchoolInfoNav.cshtml" model="pageTitle" />
+        </div>
+        <div class="col-lg-6 col-md-6 detailsImageContainer">
+            <img src="~/SVGs//schoolLogo.svg" width="220px" height="190px" />
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-3">
+        <div class="col-12 feesDetails">
+            <h2>: الرسوم</h2>
+            <table align="right" class="table table-bordered mt-5">
+                <tr>
+                    <th>
+                    </th>
+                    <th>
+                        <span>المجموع</span>
+                    </th>
+                    <th>
+                        <span>رسوم الفصل الثاني</span>
+                    </th>
+                    <th>
+                        <span>رسوم الفصل الأول</span>
+                    </th>
+                    <th>
+                        <span>الصف</span>
+                    </th>
+                </tr>
+                @foreach (var item in Model.SchoolFees)
+                {
+                    double halfSchoolFees = item.SchoolFees / 2.0;
+                    var grade = StaticFunctions.GetGrade(item.Grade);
+
+                    <tr id="@item.Grade">
+                        <td>
+                            <a class="btn btn-outline-danger text-danger"
+                               onclick="deleteSchoolFeese(@item.Grade.ToUpper())">
+                                حذف
+                            </a>
+                        </td>
+                        <td>
+                            <span class="d-inline-block">دينار</span>
+                            <span class="d-inline-block">@item.SchoolFees</span>
+                        </td>
+                        <td>
+                            <span class="d-inline-block">دينار</span>
+                            <span class="d-inline-block">@halfSchoolFees</span>
+                        </td>
+                        <td>
+                            <span class="d-inline-block">دينار</span>
+                            <span class="d-inline-block">@halfSchoolFees</span>
+                        </td>
+                        <td>@grade</td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p> تبدأ رسوم المواصلات من 100 دينار شامل الذهاب و العودة وتختلف من شخص لآخر حسب المنطقة *</p>
+            <div class="registerationButton mt-5 mb-4">
+                <button data-toggle="modal"
+                        data-target="#addingFeesModal"
+                        class="btn text-white"
+                        style="background-color: #038242;width:200px;height:60px;">
+                    اضافة أو تعديل الرسوم
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---------------------------------------- Modal ---------------------------------------->
+
+<div class="modal fade" id="addingFeesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content align-items-center ">
+
+
+            <img src="~/SVGs/schoolLogo.svg" class="mt-2" height="150" width="150" />
+
+            <!--------------------------------- Form --------------------------------------->
+
+            <form class="mt-5 w-75 mb-4 " method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.schoolFeeItem.Grade"></label>
+
+                    <select class="form-control w-100"
+                            style="text-align-last:right; border-color:#038242;
+                            color:#038242; display:flex; justify-items:center;"
+                            asp-for="@Model.schoolFeeItem.Grade"
+                            asp-items="@Model.Grades">
+                    </select>
+
+                    <span asp-validation-for="@Model.schoolFeeItem.Grade"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.schoolFeeItem.SchoolFees"></label>
+                    <br />
+                    <input class="form-control w-100"
+                           asp-for="@Model.schoolFeeItem.SchoolFees" />
+                    <span asp-validation-for="@Model.schoolFeeItem.SchoolFees"
+                          class="text-danger"></span>
+                </div>
+
+                <!--------------------------------- Actions --------------------------------------->
+                <div class=" w-100 justify-content-between mt-4 "
+                     style="display:flex">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                            style="background-color: #f3f3f3;
+                                border: 2px solid #038242;
+                                color: #038242;width:120px;
+                                height: 60px;">
+                        إلغاء
+                    </button>
+
+                    <button type="submit"
+                            class="btn text-white"
+                            style="background-color: #038242;width:120px;height:60px;">
+                        تم
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+<script type="text/javascript">
+    function deleteSchoolFeese(grade) {
+
+        grade = grade.id;
+        console.log(grade);
+        $.ajax({
+            type: "DELETE",
+            dataType: 'JSON',  
+            url: `/Admin/SchoolInfo/deleteSchoolFees`,
+            data: {g:grade},
+            success: function (res) {
+                console.log(grade);
+
+                console.log(res.message);
+                if (res.success) {
+                    $(`#${grade}`).remove();
+                }
+                else {
+                    console.log(res.message)
+                }
+            }
+
+        });
+    };
+</script>

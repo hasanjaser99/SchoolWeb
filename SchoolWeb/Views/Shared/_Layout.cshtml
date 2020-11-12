@@ -66,18 +66,21 @@
                                 التسجيل و الرسوم
                             </a>
                         </li>
-
-                        <li class="nav-item pl-1 dropdown @isActive("management") "
-                            style="float:right;">
-                            <a class=" dropbtn nav-link " asp-area="" asp-controller="" asp-action="">الإدارة</a>
-                            <div class="dropdown-content">
-
-                                <a  asp-area="Admin" asp-controller="SchoolInfo" asp-action="News">بيانات الروضة</a>
+                        <li class="nav-item pl-1 dropdown @isActive("management") ">
+                            
+                            <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-caret-down dropDownIcon" ></i>
+                                الإدارة
+                            </a>
+                         
+                            <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                <a asp-area="Admin" asp-controller="SchoolInfo" asp-action="Index">بيانات الروضة</a>
                                 <a asp-area="Admin" asp-controller="Teachers" asp-action="Index">المعلمين</a>
                                 <a asp-area="Admin" asp-controller="CoursesAndSections" asp-action="Courses">الصفوف و الحصص</a>
 
                             </div>
                         </li>
+
 
                         <li class="nav-item pl-1 @isActive("home")">
                             <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">الرئيسية</a>

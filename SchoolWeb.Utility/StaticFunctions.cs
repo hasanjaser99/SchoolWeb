@@ -12,8 +12,13 @@ namespace SchoolWeb.Utility
             {
                 return "تمهيدي";
             }
+            if (grade.ToUpper() == "KG2")
+            {
+                return "بستان";
+            }
 
-            return "بستان";
+            return "";
+
         }
 
         public static string GetSemester(int semester)
