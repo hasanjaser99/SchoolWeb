@@ -1,18 +1,19 @@
-﻿.sectionsTable .table {
-    width: 70%;
+﻿.classesTable .table {
+    width: 100%;
     text-align: center;
 }
 
-    .sectionsTable .table th {
+    .classesTable .table th {
         background-color: #038242;
+        vertical-align: middle;
     }
 
-        .sectionsTable .table th span {
+        .classesTable .table th span {
             color: #fdfdfd;
             font-size: 0.9rem;
         }
 
-    .sectionsTable .table td {
+    .classesTable .table td {
         color: #038242;
         font-size: 0.85rem;
         font-weight: bold;
@@ -23,5 +24,10 @@
 @media only screen and (max-width: 768px) {
     .schoolLogo {
         text-align: center
+    }
+
+    .registerationButton {
+        display: flex;
+        justify-content: center
     }
 }
