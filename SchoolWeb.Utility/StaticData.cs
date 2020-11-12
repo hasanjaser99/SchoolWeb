@@ -22,14 +22,14 @@ namespace SchoolWeb.Utility
         // dropDown data 
         public static List<SelectListItem> GradesList = new List<SelectListItem>() {
                      new SelectListItem{ Text="تمهيدي", Value="KG1"},
-                     new SelectListItem{ Text="روضة", Value="KG2"},
+                     new SelectListItem{ Text="بستان", Value="KG2"},
         };
 
         public static List<SelectListItem> SelectedGradesList = new List<SelectListItem>() {
                      new SelectListItem{ Text = "جميع المستويات الدراسية", Value="All"
                          , Selected = true},
                      new SelectListItem{ Text="تمهيدي", Value="KG1"},
-                     new SelectListItem{ Text="روضة", Value="KG2"},
+                     new SelectListItem{ Text="بستان", Value="KG2"},
         };
 
 

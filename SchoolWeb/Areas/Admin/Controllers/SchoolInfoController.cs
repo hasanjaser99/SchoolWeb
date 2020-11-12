@@ -11,7 +11,7 @@ using SchoolWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-
+using SchoolWeb.Utility;
 
 namespace SchoolWeb.Areas.Admin.Controllers
 {
@@ -28,25 +28,16 @@ namespace SchoolWeb.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET: HomeController
-        // for FeesOfRegistration page
-        public IActionResult Index()
-        {   ///
-           
-            
-            return View();
-        }
-
         /**************************************** Functions **********************************/
 
         void uploadAndCreateImage(
-            string webRootPath,IFormFileCollection files,IFormFile file,int tableItemId,string imgTable)
+            string webRootPath, IFormFileCollection files, IFormFile file, int tableItemId, string imgTable)
         {
             string folderPath;
             string imgUrlFilePath;
             var imageUrl = "";
 
-            if(imgTable == "News")
+            if (imgTable == "News")
             {
                 folderPath = @"images\news";
                 imgUrlFilePath = @"\images\news\";
@@ -70,13 +61,13 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
             if (imgTable == "News")
             {
-            var img = new NewsImages()
-            {
-                ImageUrl = imageUrl,
-                NewsId = tableItemId
-            };
-            // adding image
-            _unitOfWork.NewsImages.Add(img);
+                var img = new NewsImages()
+                {
+                    ImageUrl = imageUrl,
+                    NewsId = tableItemId
+                };
+                // adding image
+                _unitOfWork.NewsImages.Add(img);
 
 
             }
@@ -97,7 +88,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
         /*************************************************************************************/
 
-        void removeImageFromServer( string ImageUrl)
+        void removeImageFromServer(string ImageUrl)
         {
             string webRootPath = _hostEnvironment.WebRootPath;
             var imagePath = Path.Combine(webRootPath, ImageUrl.TrimStart('\\'));
@@ -106,6 +97,80 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 System.IO.File.Delete(imagePath);
             }
         }
+
+
+
+        //________________________________ actions ___________________________________
+
+        // GET: HomeController
+        // for FeesOfRegistration page
+        public IActionResult Index()
+        {
+            var schoolFees = _unitOfWork.SchoolFee.GetAll();
+
+            var feesOfRegisterationVM = new FeesOfRegisterationVM()
+            {
+                SchoolFees= schoolFees,
+                Grades = StaticData.GradesList
+            };
+
+            return View(feesOfRegisterationVM);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(FeesOfRegisterationVM feesOfRegisterationVM)
+        {
+            var schoolFee = feesOfRegisterationVM.schoolFeeItem;
+
+            var schoolFeeItem = _unitOfWork
+                                .SchoolFee
+                                .GetFirstOrDefault(sf => sf.Grade.Equals(schoolFee.Grade));
+
+            if (schoolFeeItem==null)
+            {
+                _unitOfWork.SchoolFee.Add(schoolFee);
+            }
+            else
+            {
+                schoolFeeItem.SchoolFees = schoolFee.SchoolFees;
+                _unitOfWork.SchoolFee.Update(schoolFeeItem);
+            }
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
+        #region API CALLS
+
+        [HttpDelete]
+        public IActionResult deleteSchoolFees(string g)
+        {
+            try
+            {
+                var schoolFeeItem = _unitOfWork
+                                .SchoolFee
+                                .GetFirstOrDefault(sf => sf.Grade.Equals(g));
+
+                _unitOfWork.SchoolFee.Remove(schoolFeeItem);
+                _unitOfWork.Save();
+                return Json(new { success = true, message = "Delete Successful" });
+
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "Delete falid" });
+
+            }
+
+
+
+        }
+        #endregion
+
         //________________________________ news related actions___________________________________
         public IActionResult News()
         {
@@ -315,7 +380,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Delete falid" });
             }
@@ -536,7 +601,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Delete falid" });
             }
