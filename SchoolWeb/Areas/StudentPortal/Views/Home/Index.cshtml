@@ -1,8 +1,10 @@
-﻿@section Css {
+﻿
+@model SchoolWeb.Models.Student
+
+@section Css {
     <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
 }
 
-@model SchoolWeb.Models.Student
 
 @{
     ViewData["Title"] = "الصفحة الشخصية";
@@ -20,12 +22,13 @@
         </div>
         <partial name="~/Areas/Public/Views/Partials/Navs/_StudentPortalNav.cshtml"
                  for="@pageTitle" />
-     
+
     </div>
 </div>
 
 <div class="row center">
     <partial name="~/Areas/Public/Views/Partials/Cards/_StudentCard.cshtml"
-             for="@pageTitle" />
+             for="@Model" />
 
 </div>
+

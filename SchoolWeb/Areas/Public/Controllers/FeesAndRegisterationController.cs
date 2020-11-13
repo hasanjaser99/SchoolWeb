@@ -145,7 +145,7 @@ namespace SchoolWeb.Areas.Public.Controllers
                         Id = identityUser.Id,
                         ArabicName = studentRegisterVM.Student.ArabicName,
                         EnglishName = studentRegisterVM.Student.EnglishName,
-                        Address = studentRegisterVM.Student.EnglishName,
+                        Address = studentRegisterVM.Student.Address,
                         ParentEmail = studentRegisterVM.Student.ParentEmail,
                         ParentPhoneNumber = studentRegisterVM.Student.ParentPhoneNumber,
                         BornCertificateImage = imageUrl,

@@ -1,20 +1,25 @@
 ﻿
+@model SchoolWeb.Models.Student
+
+@using SchoolWeb.Utility
+
+
 <div class="row flex-row-reverse col-10 pb-5 pt-5 mt-5 mb-sm-5 shadow " style="border:2px solid #038242; border-radius:8px">
 
     <!----------------------- img container ------------------------------->
     <div class="col-lg-4 center ">
-        <img src="~/SVGs/defaultStudentImg.svg" height="220" width="220" />
+        <img src="~/SVGs/defaultStudentImg.svg" height="220" width="220" asp-append-version="true" />
     </div>
 
     <!----------------------- profile content container ------------------------------->
     <div class="col-lg-6 center mt-sm-3 mt-lg-0" style=" justify-content:flex-end" >
         <div>
-            <p class="font-weight-bold">يزن نبيل عباس الهندي</p>
-            <p class="font-weight-bold">yazan nabeel abbas hindi</p>
-            <p class="font-weight-bold">تمهيدي</p>
-            <p class="font-weight-bold">yhindi918@gmail.com</p>
-            <p class="font-weight-bold">الزرقاء-جبل الأميرة رحمة دوار القدس </p>
-            <p class="font-weight-bold">0780433377</p>
+            <p class="font-weight-bold">@Model.ArabicName</p>
+            <p class="font-weight-bold">@Model.EnglishName</p>
+            <p class="font-weight-bold">@StaticFunctions.GetGrade(Model.Grade)</p>
+            <p class="font-weight-bold">@Model.ParentEmail</p>
+            <p class="font-weight-bold">@Model.Address</p>
+            <p class="font-weight-bold">@Model.ParentPhoneNumber</p>
         </div>
     </div>
 
