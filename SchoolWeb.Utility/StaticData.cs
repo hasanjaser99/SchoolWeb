@@ -47,12 +47,33 @@ namespace SchoolWeb.Utility
                     new SelectListItem { Text = "الفصل الثاني", Value="2"},
         };
 
+        public static List<SelectListItem> ClassNumbersList = new List<SelectListItem>() {
+                    new SelectListItem { Text = "الحصة الأولى", Value="1"},
+                    new SelectListItem { Text = "الحصة الثانية", Value="2"},
+                    new SelectListItem { Text = "الحصة الثالثة", Value="3"},
+                    new SelectListItem { Text = "الحصة الرابعة", Value="4"},
+                    new SelectListItem { Text = "الحصة الخامسة", Value="5"},
+        };
+
+        public static List<SelectListItem> DaysList = new List<SelectListItem>() {
+                    new SelectListItem { Text = "الأحد", Value="1"},
+                    new SelectListItem { Text = "الإثنين", Value="2"},
+                    new SelectListItem { Text = "الثلاثاء", Value="3"},
+                    new SelectListItem { Text = "الأربعاء", Value="4"},
+                    new SelectListItem { Text = "الخميس", Value="5"},
+        };
+
 
 
         // static info 
 
         public const string aboutUsText = " يسعدنا دعوتكم لتسجيل أطفالكم الأحبة في الروضة ،حيث التعليم المميز والأمثل. بادارة ومعلمات قديرات ومتخصصات نهتم بالتربية الاسلامية وتعليم الانجليزية والكمبيوتر. نتميز بالموقع والمساحات والغرف الصفية الواسعة وبالحدائق.  ألعاب داخلية و خارجية ممتعة. نهتم بالنشاطات المختلفة والتواصل مع أولياء الأمور.";
         public const string regestirationDetails = " يسعدنا دعوتكم لتسجيل أطفالكم الأحبة في الروضة ،حيث التعليم المميز والأمثل. بادارة ومعلمات قديرات ومتخصصات نهتم بالتربية الاسلامية وتعليم الانجليزية والكمبيوتر. نتميز بالموقع والمساحات والغرف الصفية الواسعة وبالحدائق.  ألعاب داخلية و خارجية ممتعة. نهتم بالنشاطات المختلفة والتواصل مع أولياء الأمور.";
+
+
+        public static int[] Classes = { 1, 2, 3, 4, 5 };
+
+        public static int[] Days = { 1, 2, 3, 4, 5 };
 
 
     }

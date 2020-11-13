@@ -204,10 +204,6 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                     _unitOfWork.Save();
 
-
-                    //if(oldCourseTeachers.Contains("as"))
-
-                    //upsertCourseVM.Course.CourseTeachers.
                 }
                 return RedirectToAction(nameof(Courses));
 
@@ -219,7 +215,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
 
 
-        /////////// Sections And Classes /////////////////
+        /////////// Sections /////////////////
 
 
         // Get Sections
@@ -269,11 +265,16 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
             if (id != 0)
             {
-                upsertSectionVM.Section = _unitOfWork.Section.GetFirstOrDefault(s => s.Id == id,
+                // Edit Section
+
+                upsertSectionVM.Section = _unitOfWork.Section
+                    .GetFirstOrDefault(s => s.Id == id,
                     includeProperities: "Teacher");
             }
             else
             {
+                //Add Section
+
                 upsertSectionVM.Section = new Section();
 
             }
@@ -299,14 +300,43 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                 if (upsertSectionVM.Section.Id == 0)
                 {
+                    //Add section
                     _unitOfWork.Section.Add(upsertSectionVM.Section);
+
+                    _unitOfWork.Save();
+
+                    //Add classes to section
+                    for (int d = 1; d <= StaticData.Days.Length; d++)
+                    {
+                        for (int c = 1; c <= StaticData.Classes.Length; c++)
+                        {
+                            var claSs = new Class()
+                            {
+                                ClassNumber = c,
+                                Day = d,
+                                SectionId = upsertSectionVM.Section.Id,
+
+                            };
+
+                            _unitOfWork.Class.Add(claSs);
+
+                        }
+
+                    }
+
+                    _unitOfWork.Save();
+
                 }
                 else
                 {
+                    //update section
+
                     _unitOfWork.Section.Update(upsertSectionVM.Section);
+
+                    _unitOfWork.Save();
+
                 }
 
-                _unitOfWork.Save();
 
                 return RedirectToAction(nameof(Sections));
             }
@@ -319,9 +349,77 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
 
 
-        /////////// End Sections And Classes /////////////////
+        /////////// End Sections /////////////////
 
 
+
+        /////////// Classes /////////////////
+
+        // Get Classes
+        public IActionResult Classes(int sectionId)
+        {
+            var classes = _unitOfWork.Class.GetAll(c => c.SectionId == sectionId,
+                includeProperities: "Teacher,Course");
+
+            return View(classes);
+        }
+
+        // Get Edit Classes
+        public IActionResult EditClasses(int sectionId)
+        {
+            var editClassesVM = new EditClassesVM()
+            {
+                Classes = _unitOfWork.Class.GetAll(c => c.SectionId == sectionId,
+                includeProperities: "Teacher,Course"),
+
+                Teachers = _unitOfWork.Teacher.GetAll().Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.Id,
+
+                }),
+
+                Courses = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+
+                }),
+
+                ClassNumbers = StaticData.ClassNumbersList,
+
+                Days = StaticData.DaysList,
+
+                SectionId = sectionId, //just to pass it to post action
+            };
+
+            return View(editClassesVM);
+        }
+
+        // Post Edit Class
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditClasses(EditClassesVM editClassesVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var claSs = _unitOfWork.Class
+                    .GetFirstOrDefault(c => c.SectionId == editClassesVM.SectionId
+                    && c.Day == editClassesVM.SelectedDay
+                    && c.ClassNumber == editClassesVM.SelectedClassNumber);
+
+                claSs.TeacherId = editClassesVM.SelectedTeacher;
+                claSs.CourseId = editClassesVM.SelectedCourse;
+
+                _unitOfWork.Save();
+
+                return RedirectToAction("EditClasses", "CoursesAndSections",
+                    new { sectionId = editClassesVM.SectionId });
+            }
+
+            return View(editClassesVM);
+        }
 
 
 

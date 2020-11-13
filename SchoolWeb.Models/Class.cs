@@ -18,7 +18,7 @@ namespace SchoolWeb.Models
 
         [Required(ErrorMessage = "يرجى إدخال اليوم")]
         [DisplayName("اليوم")]
-        public string Day { get; set; }
+        public int Day { get; set; }
 
         //// relations
         public int? SectionId { get; set; }

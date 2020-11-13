@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Class>
+@using SchoolWeb.Utility
+
+@section Css {
+    <link rel="stylesheet" href="~/css/CoursesAndSections/Classes.css" />
+}
+
+@{
+    ViewData["Title"] = "الجدول الدراسي";
+    ViewData["Active"] = "management";
+}
+
+<div class="mt-5">
+    <div class="row">
+        <div class="schoolLogo col-12">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse">
+        <div class="classesTable col-12 mt-1">
+
+            <table align="right" class="table table-bordered mt-5">
+                @*table row headers and thats are classesNumber*@
+                <tr>
+                    @for (int c = StaticData.Classes.Length; c >= 1; c--)
+                    {
+                        <th>
+                            <span>@StaticFunctions.GetClassName(c)</span>
+                        </th>
+                    }
+
+                    <th>
+                        <span>اليوم/الحصة</span>
+                    </th>
+                </tr>
+                @*table row data and that number of days*@
+                @for (int d = 1; d <= StaticData.Days.Length; d++)
+                {
+                    <tr>
+                        @*cells in row and that number of classes*@
+                        @for (int c = StaticData.Classes.Length; c >= 1; c--)
+                        {
+                            var claSs = Model.FirstOrDefault
+                                (cl => cl.Day == d && cl.ClassNumber == c);
+
+                            var courseName = claSs.Course != null ? claSs.Course.Name : "";
+                            var teacherName = claSs.Teacher != null ? claSs.Teacher.Name : "";
+
+                            <td>
+                                <p>@courseName</p>
+                                <p>@teacherName</p>
+                            </td>
+                        }
+
+                        <th>
+                            <span>@StaticFunctions.GetDayName(d)</span>
+                        </th>
+
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse mt-5 mb-5">
+        <div class="col-12">
+            <div class="mt-5 mb-4">
+                <a asp-action="EditClasses" asp-route-sectionId="@Model.FirstOrDefault().SectionId" class="btn" style="background-color: #038242;width:200px;height:60px;">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">تعديل الجدول</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
