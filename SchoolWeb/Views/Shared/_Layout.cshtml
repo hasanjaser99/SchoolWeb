@@ -32,7 +32,7 @@
                         @{
                             string isActive(string pageName)
                             {
-                                var active = ViewData["Active"];
+                                string active =ViewData["Active"].ToString();
                                 if (pageName == active)
                                 {
                                     return "pr-1 active-link";
@@ -56,7 +56,7 @@
                         </li>
 
                         <li class="nav-item pl-1 @isActive("studentPortal")">
-                            <a class="nav-link" asp-area="" asp-controller="" asp-action="">
+                            <a class="nav-link" asp-area="StudentPortal" asp-controller="Home" asp-action="Index">
                                 بوابة الطالب
                             </a>
                         </li>
