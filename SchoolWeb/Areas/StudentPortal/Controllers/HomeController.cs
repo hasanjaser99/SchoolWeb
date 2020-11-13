@@ -35,5 +35,20 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
             
             return View(sutdent);
         }
+
+        public IActionResult AccountStatment()
+        {
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = claims.Value;
+            var studentFee = _unitOfWork
+                            .StudentFee
+                            .GetFirstOrDefault(stdFee => stdFee.StudentId == userId, "MonthlyPayments");
+
+
+            return View(studentFee.MonthlyPayments);
+        }
+
     }
 }
