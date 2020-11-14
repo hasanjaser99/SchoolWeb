@@ -1,0 +1,13 @@
+﻿@model IEnumerable<SelectListItem>
+
+
+<select id="sections" class="form-control" style="text-align-last: right; width: 50%" onchange="PopulateTable()">
+    <option disabled selected>اختر الشعبة</option>
+    @if (Model != null)
+    {
+        @foreach (var sect in Model)
+        {
+            <option value="@sect.Value" label="@sect.Text" selected="@sect.Selected"></option>
+        }
+    }
+</select>
