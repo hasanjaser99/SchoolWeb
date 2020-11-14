@@ -1,0 +1,70 @@
+﻿@model SchoolWeb.Models.ViewModels.AdminStudentsInfoVM
+@using SchoolWeb.Utility
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AdminStudents/AdminStudentsNav.css" />
+    <link rel="stylesheet" href="~/css/AdminStudents/StudentsInfo.css" />
+}
+
+@{
+    ViewData["Title"] = "بيانات الطلاب";
+    ViewData["Active"] = "management";
+    string activeNav = "studentsInfo";
+}
+
+
+<div class="mt-5">
+    <div class="row pb-3">
+        <div class="col-lg-6 col-md-6">
+            <partial name="~/Areas/Public/Views/Partials/Navs/_StudentsAdminNav.cshtml" model="activeNav" />
+        </div>
+        <div class="schoolLogo col-lg-6 col-md-6">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse mt-5">
+        <div class="col-6" style="display:flex;justify-content:flex-end">
+            @Html.DropDownListFor(m => m.Grades, Model.Grades,
+ new
+      {
+
+     @class = "form-control",
+     @onchange = "PopulateSections()",
+     style = "text-align-last:right; width:50%"
+ })
+        </div>
+        <div class="col-6" style="display:flex;justify-content:flex-end" id="sectionsDiv">
+            <partial name="~/Areas/Public/Views/Partials/AdminStudents/_SectionsDropDownList.cshtml" ,
+                     model="@Model.Sections" />
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse">
+        <div class="studentsTable col-12 mt-1">
+
+            <div id="table">
+                <partial name="~/Areas/Public/Views/Partials/AdminStudents/_StudentsTable.cshtml" ,
+                         model="@Model.Students" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row flex-row-reverse mt-5 mb-5">
+        <div class="col-12">
+            <div class="mt-5 mb-4">
+                <a asp-action="" class="btn" style="background-color: #038242;width:200px;height:60px;">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 9px 0;">اضافة طالب جديد</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-studentsInfo.js"></script>
+}
+
+
+
