@@ -1,0 +1,30 @@
+﻿
+
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+}
+
+
+@{
+    ViewData["Title"] = "الصفحة الشخصية";
+    ViewData["Active"] = "studentPortal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageTitle = "Marks";
+}
+
+<div class="mt-5">
+    <div class="row flex-sm-row-reverse">
+
+        <div class="col-lg-6 col-md-6 ">
+            <img src="~/SVGs/Schedule.svg" width="220" height="220" />
+
+        </div>
+        <partial name="~/Areas/Public/Views/Partials/Navs/_StudentPortalNav.cshtml"
+                 for="@pageTitle" />
+
+    </div>
+</div>
+
+
+

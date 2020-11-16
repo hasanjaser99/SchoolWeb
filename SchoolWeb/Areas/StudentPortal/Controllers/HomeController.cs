@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SchoolWeb.DataAccess.Repository;
+using SchoolWeb.Models;
+using SchoolWeb.Models.ViewModels;
 
 namespace SchoolWeb.Areas.StudentPortal.Controllers
 {
@@ -24,7 +26,8 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
             _unitOfWork = unitOfWork;
         }
 
-
+        /********************************** profile ***********************************/
+        // profile page
         public IActionResult Index()
         {
 
@@ -51,6 +54,48 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
 
 
             return View(studentFee.MonthlyPayments);
+        }
+
+        /********************************** Class Schedule ***********************************/
+
+        public IActionResult ClassSchedule()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = claims.Value;
+            var student = _unitOfWork
+                            .Student
+                            .GetFirstOrDefault(std => std.Id == userId);
+
+            var Classes = _unitOfWork
+                            .Class
+                            .GetAll(c => c.SectionId == student.SectionId, includeProperities: "Teacher,Course");
+
+            List<Teacher> TeatchersList = new List<Teacher>();
+
+            foreach (var Class in Classes)
+            {
+                if (Class.Teacher != null) TeatchersList.Add(Class.Teacher);
+
+            }
+
+
+            ClassScheduleVM classSchedule = new ClassScheduleVM()
+            {
+                Classes = Classes,
+                Teachers = TeatchersList.Distinct().ToList()
+            };
+
+            return View(classSchedule);
+        }
+
+
+        /********************************** marks ***********************************/
+        public IActionResult Marks()
+        {
+
+
+            return View();
         }
 
     }

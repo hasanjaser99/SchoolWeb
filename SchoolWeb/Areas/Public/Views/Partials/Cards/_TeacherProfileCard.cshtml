@@ -1,0 +1,27 @@
+﻿
+@model SchoolWeb.Models.Teacher
+
+@using SchoolWeb.Utility
+
+
+<div class="row flex-row-reverse col-10 pb-5 pt-5 mt-5 mb-sm-5 shadow " style="border:2px solid #038242; border-radius:8px">
+
+    <!----------------------- img container ------------------------------->
+    <div class="col-lg-4 center ">
+        <img src="@Model.ImageUrl" height="220" width="220" asp-append-version="true"
+             style="border:2px hidden #ffffff; border-radius:50%; overflow:hidden; background-color:#555555;"/>
+    </div>
+
+    <!----------------------- profile content container ------------------------------->
+    <div class="col-lg-6 center mt-sm-3 mt-lg-0" style=" justify-content:flex-end" >
+        <div>
+            <p class="font-weight-bold">@Model.Name</p>
+            <p class="font-weight-bold">@Model.Field</p>
+            <p class="font-weight-bold">@Model.Experience</p>
+            <p class="font-weight-bold">@Model.Email</p>
+            <p class="font-weight-bold">@Model.Address</p>
+            <p class="font-weight-bold">@Model.PhoneNumber</p>
+        </div>
+    </div>
+
+</div>

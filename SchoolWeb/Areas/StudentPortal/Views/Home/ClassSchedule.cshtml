@@ -1,0 +1,92 @@
+﻿
+@model SchoolWeb.Models.ViewModels.ClassScheduleVM
+
+@using SchoolWeb.Utility
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+    <link rel="stylesheet" href="~/css/CoursesAndSections/Classes.css" />
+}
+
+
+@{
+    ViewData["Title"] = "الجدول الدراسي ";
+    ViewData["Active"] = "studentPortal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageTitle = "ClassSchedule";
+}
+
+<div class="mt-5">
+    <div class="row flex-sm-row-reverse">
+
+        <div class="col-lg-6 col-md-6 ">
+            <img src="~/SVGs/Schedule.svg" width="220" height="220" />
+
+        </div>
+        <partial name="~/Areas/Public/Views/Partials/Navs/_StudentPortalNav.cshtml"
+                 for="@pageTitle" />
+
+    </div>
+</div>
+
+
+<div class="row flex-row-reverse">
+    <div class="classesTable col-12 mt-1">
+
+        <table align="right" class="table table-bordered mt-5">
+            @*table row headers and thats are classesNumber*@
+            <tr>
+                @for (int c = StaticData.Classes.Length; c >= 1; c--)
+                {
+                    <th>
+                        <span>@StaticFunctions.GetClassName(c)</span>
+                    </th>
+                }
+
+                <th>
+                    <span>اليوم/الحصة</span>
+                </th>
+            </tr>
+
+            @*table row data and that number of days*@
+            @for (int d = 1; d <= StaticData.Days.Length; d++)
+            {
+                <tr>
+                    @*cells in row and that number of classes*@
+                    @for (int c = StaticData.Classes.Length; c >= 1; c--)
+                    {
+                        var claSs = Model.Classes.FirstOrDefault
+                            (cl => cl.Day == d && cl.ClassNumber == c);
+
+                        var courseName = claSs.Course != null ? claSs.Course.Name : "فراغ";
+                        
+
+                        <td>
+                            <p>@courseName</p>
+                            
+                        </td>
+                    }
+
+                    <th>
+                        <span>@StaticFunctions.GetDayName(d)</span>
+                    </th>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+<p class="green-font sub-title mt-5 border-0 ">: المعلمين </p>
+
+<div class="row flex-row-reverse pb-5">
+    
+
+    @foreach(var teacher in Model.Teachers)
+    {
+    <partial name="~/Areas/Public/Views/Partials/Cards/_TeacherCard.cshtml"
+             for="@teacher" />
+    }
+</div>
