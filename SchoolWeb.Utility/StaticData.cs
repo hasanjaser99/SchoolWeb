@@ -75,6 +75,8 @@ namespace SchoolWeb.Utility
 
         public static int[] Days = { 1, 2, 3, 4, 5 };
 
+        public const int NumberOfMonths = 8;
+
 
     }
 }

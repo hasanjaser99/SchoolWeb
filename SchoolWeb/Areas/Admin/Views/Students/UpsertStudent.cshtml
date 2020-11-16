@@ -1,0 +1,182 @@
+﻿@model SchoolWeb.Models.ViewModels.AdminUpsertStudentVM
+@using SchoolWeb.Utility
+
+
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AdminStudents/Register.css" />
+}
+
+@{
+    ViewData["Title"] = "اضافة طالب";
+    ViewData["Active"] = "management";
+}
+
+<div class="mt-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-6" style="text-align:left">
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+            @{
+                if (!String.IsNullOrEmpty(Model.Student.Id))
+                {
+                    <br /><br /><br /><br /><br />
+                    <h2 class="bornCertificateTitle">صورة شهادة الميلاد</h2>
+                    <img src=@Model.Student.BornCertificateImage width="250px" height="300px" />
+                    <br /><br />
+                    <h2 class="bornCertificateNote">لتعديل الصورة اختر صورة جديدة من الاسفل</h2>
+                    <br /><br /><br />
+
+                }
+            }
+        </div>
+        <div class="col-lg-6 col-md-6 registerFormContainer">
+            @if (!String.IsNullOrEmpty(Model.Student.Id))
+            {
+                <h2>تعديل الطالب</h2>
+
+            }
+            else
+            {
+                <h2>إضافة طالب</h2>
+
+            }
+            <form class="mt-5" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @{
+                    if (!String.IsNullOrEmpty(Model.Student.Id))
+                    {
+                        <input type="hidden" asp-for="@Model.Student.Id" />
+                        <input type="hidden" asp-for="@Model.Student.BornCertificateImage" />
+                        <input type="hidden" asp-for="@Model.Student.StudentFeeId" />
+                    }
+                }
+                <input id="sectionId" type="hidden" asp-for="@Model.SelectedSection" />
+                <div class="form-group">
+                    <label asp-for="@Model.Student.ArabicName"></label>
+                    <input class="form-control text-right" asp-for="@Model.Student.ArabicName">
+                    <span asp-validation-for="@Model.Student.ArabicName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.EnglishName"></label>
+                    <input class="form-control" asp-for="@Model.Student.EnglishName">
+                    <span asp-validation-for="@Model.Student.EnglishName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.ParentEmail"></label>
+
+                    @if (String.IsNullOrEmpty(Model.Student.Id))
+                    {
+                        <input class="form-control" asp-for="@Model.Student.ParentEmail">
+
+                    }
+                    else
+                    {
+                        <input class="form-control" asp-for="@Model.Student.ParentEmail" readonly>
+
+                    }
+                    <span asp-validation-for="@Model.Student.ParentEmail" class="text-danger"></span>
+
+                </div>
+
+                @if (String.IsNullOrEmpty(Model.Student.Id))
+                {
+                    <div class="form-group">
+                        <label asp-for="@Model.Password"></label>
+                        <input type="password" class="form-control" asp-for="@Model.Password">
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ConfirmPassword"></label>
+                        <input type="password" class="form-control" asp-for="@Model.ConfirmPassword">
+                        <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label asp-for="@Model.Student.Address"></label>
+                    <input class="form-control" asp-for="@Model.Student.Address">
+                    <span asp-validation-for="@Model.Student.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.ParentPhoneNumber"></label>
+                    <input class="form-control" asp-for="@Model.Student.ParentPhoneNumber">
+                    <span asp-validation-for="@Model.Student.ParentPhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.Grade"></label>
+                    @Html.DropDownListFor(m => m.Student.Grade, Model.Grades,
+                   "-اختر المستوى الدراسي-", new
+                   {
+                       @class = "form-control",
+                       id = "Grades",
+                       style = "text-align-last:right;",
+                       @onchange = "PopulateSections()",
+                   })
+                    <span asp-validation-for="@Model.Student.Grade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.SectionId"></label>
+                    <div id="sectionsDiv">
+                        <partial name="~/Areas/Public/Views/Partials/AdminStudents/_SectionsDropDownList.cshtml" ,
+                                 model="@Model.Sections"
+                                 view-data='@new ViewDataDictionary(ViewData) { { "sectionsWidth", "100%" } }' />
+                    </div>
+                    <span asp-validation-for="@Model.SelectedSection" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.BussState"></label>
+                    @Html.DropDownListFor(m => m.Student.BussState, Model.BussStates,
+                   "-اختر طريقة المواصلات-", new
+                        {
+                            @class = "form-control",
+                       style = "text-align-last:right;"
+                        })
+                    <span asp-validation-for="@Model.Student.BussState" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.BusFees"></label>
+                    <input asp-for="@Model.BusFees" class="form-control" min="0" max="1000" />
+                    <span asp-validation-for="@Model.BusFees" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Student.BornCertificateImage"></label>
+                    <input asp-for="@Model.Photo" class="form-control" />
+
+                    @if (String.IsNullOrEmpty(Model.Student.Id))
+                    {
+                        <span asp-validation-for="@Model.Photo" class="text-danger"></span>
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Discount"></label>
+                    <div class="row flex-row-reverse">
+                        <div class="col-11">
+                            <input asp-for="@Model.Discount" class="form-control" min="0" max="100" />
+                        </div>
+                        <div class="col-1">
+                            <span> % </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 mb-4">
+                    <button asp-action="StudentsInfo" class="btn" style="background-color: #f3f3f3;width:150px;height:50px;
+                           margin-right:50px; border:1px solid #038242;">
+                        <span style="color:#038242; font-size:1.1rem;">إلغاء</span>
+                    </button>
+                    <button class="btn" style="background-color: #038242;width:150px;height:50px;" type="submit">
+                        <span style="color:#fdfdfd; font-size:1.1rem;">حفظ</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-upsertStudent.js"></script>
+    @*<partial name="_ValidationScriptsPartial.cshtml" />*@
+}

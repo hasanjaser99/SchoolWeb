@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolWeb.Data;
 
 namespace SchoolWeb.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201116112457_changeBussAndSchoolFeesToDouble")]
+    partial class changeBussAndSchoolFeesToDouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -539,7 +541,12 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("Discount")
                         .HasColumnType("int");
 
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentFees");
                 });
@@ -713,8 +720,7 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany("MonthlyPayments")
-                        .HasForeignKey("StudentFeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StudentFeeId");
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.NewsImages", b =>
@@ -742,6 +748,13 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany()
                         .HasForeignKey("StudentFeeId");
+                });
+
+            modelBuilder.Entity("SchoolWeb.Models.StudentFee", b =>
+                {
+                    b.HasOne("SchoolWeb.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
                 });
 #pragma warning restore 612, 618
         }

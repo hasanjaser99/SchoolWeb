@@ -14,15 +14,15 @@ namespace SchoolWeb.Models
 
         [Required(ErrorMessage = "يرجى إدخال الشهر")]
         [DisplayName("الشهر")]
-        public string Month { get; set; }
+        public int Month { get; set; }
 
         [Required(ErrorMessage = "يرجى إدخال رسوم المدرسة")]
         [DisplayName("رسوم المدرسة")]
-        public int SchoolFeesAmount { get; set; }
+        public double SchoolFeesAmount { get; set; }
 
         [Required(ErrorMessage = "يرجى إدخال رسوم المواصلات")]
         [DisplayName("رسوم المواصلات")]
-        public int BusFeesAmount { get; set; }
+        public double BusFeesAmount { get; set; }
 
         [Required(ErrorMessage = "يرجى إدخال حالة الدفع")]
         [DisplayName("حالة الدفع")]

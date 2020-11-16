@@ -1,7 +1,16 @@
 ﻿@model IEnumerable<SelectListItem>
 
+@{
+    var width = "50%";
+    var onChange = "PopulateTable()";
+    if (ViewData["sectionsWidth"] == "100%" || ViewBag.sectionsDropDownWidth == "100%")
+    {
+        width = "100%";
+        onChange = "FillSectionWithValue()";
+    }
+}
 
-<select id="sections" class="form-control" style="text-align-last: right; width: 50%" onchange="PopulateTable()">
+<select id="sections" class="form-control" style="text-align-last: right; width:@width" onchange=@onChange>
     <option disabled selected>اختر الشعبة</option>
     @if (Model != null)
     {

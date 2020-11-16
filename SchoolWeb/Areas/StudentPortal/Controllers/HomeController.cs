@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using SchoolWeb.DataAccess.Repository;
 
 namespace SchoolWeb.Areas.StudentPortal.Controllers
-{   
+{
     [Area("StudentPortal")]
     public class HomeController : Controller
     {
@@ -23,16 +23,16 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
-        
+
 
         public IActionResult Index()
         {
 
             var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claims= claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var userId = claims.Value;
             var sutdent = _unitOfWork.Student.GetFirstOrDefault(std => std.Id == userId);
-            
+
             return View(sutdent);
         }
 
@@ -42,9 +42,12 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var userId = claims.Value;
-            var studentFee = _unitOfWork
-                            .StudentFee
-                            .GetFirstOrDefault(stdFee => stdFee.StudentId == userId, "MonthlyPayments");
+
+            var student = _unitOfWork.Student
+                .GetFirstOrDefault(s => s.Id == userId
+                , includeProperities: "StudentFee,StudentFee.MonthlyPayments");
+
+            var studentFee = student.StudentFee;
 
 
             return View(studentFee.MonthlyPayments);
