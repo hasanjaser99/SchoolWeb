@@ -68,5 +68,22 @@ namespace SchoolWeb.Utility
                 default: return "";
             }
         }
+
+        public static string getBussState(string bussState)
+        {
+            switch (bussState)
+            {
+                case "Go":
+                    return "ذهاب";
+                case "Back":
+                    return "عودة";
+                case "GoAndBack":
+                    return "ذهاب و عودة";
+                case "without":
+                    return "بدون مواصلات";
+
+                default: return "";
+            }
+        }
     }
 }

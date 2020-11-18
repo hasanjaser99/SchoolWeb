@@ -522,6 +522,72 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
         }
 
+
+
+        public IActionResult StudentDetails(string id)
+        {
+            var student = _unitOfWork.Student
+                .GetFirstOrDefault(s => s.Id == id
+                , includeProperities: "StudentFee,StudentFee.MonthlyPayments,Section,Section.Classes");
+
+            var monthlyPayments = student.StudentFee.MonthlyPayments.OrderBy(m => m.Month);
+
+
+            var classes = student.Section.Classes.GroupBy(c => c.CourseId)
+                .Select(c => c.First()).ToList();
+
+            var adminStudentDetailsVM = new AdminStudentDetailsVM()
+            {
+                Student = student,
+
+                Semesters = StaticData.SelectedSemestersList,
+
+                Marks = _unitOfWork.Mark.GetAll(includeProperities: "Course")
+                .Where(m => m.StudentId == id
+                && m.CourseId == getCourseIdFromClass((int)m.CourseId, classes)),
+
+                MonthlyPayments = monthlyPayments
+            };
+
+            return View(adminStudentDetailsVM);
+        }
+
+        //populate marks table when semester dropdownlist value changed
+        [HttpPost]
+        public IActionResult PopulateMarksTable(string semester, string studentId)
+
+        {
+            var student = _unitOfWork.Student
+                .GetFirstOrDefault(s => s.Id == studentId
+                , includeProperities: "Section,Section.Classes");
+
+
+            var classes = student.Section.Classes.GroupBy(c => c.CourseId)
+                .Select(c => c.First()).ToList();
+
+            var marks = Enumerable.Empty<Mark>();
+
+
+            if (semester == "All")
+            {
+                marks = _unitOfWork.Mark.GetAll(includeProperities: "Course")
+                .Where(m => m.StudentId == studentId
+                && m.CourseId == getCourseIdFromClass((int)m.CourseId, classes));
+            }
+            else
+            {
+                marks = _unitOfWork.Mark.GetAll(includeProperities: "Course")
+                    .Where(m => m.StudentId == studentId
+                    && m.CourseId == getCourseIdFromClass((int)m.CourseId, classes)
+                    && m.Course.Semester.ToString() == semester);
+            }
+
+
+            return PartialView("~/Areas/Public/Views/Partials/AdminStudents/_StudentMarksTable.cshtml"
+                , marks);
+
+        }
+
         //helpers functions
         private string getIdentityId(string studentId, IList<IdentityUser> identityUsers)
         {
@@ -535,6 +601,18 @@ namespace SchoolWeb.Areas.Admin.Controllers
             return "";
         }
 
+
+        private int getCourseIdFromClass(int courseId, IEnumerable<Class> classes)
+        {
+            var claSs = classes.FirstOrDefault(c => c.CourseId == courseId);
+
+            if (claSs != null)
+            {
+                return (int)claSs.CourseId;
+            }
+
+            return -1;
+        }
 
         #region API_CALLS
 

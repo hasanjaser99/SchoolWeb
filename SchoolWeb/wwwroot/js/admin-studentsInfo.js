@@ -4,8 +4,6 @@
         type: 'POST',
         cache: false,
         url: `/Admin/Students/PopulateSections/?grade=${grade}`,
-
-        data: { grade: grade },
         success: function (response) {
             $("#sectionsDiv").empty();
             $("#sectionsDiv").html(response);
@@ -21,8 +19,6 @@ function PopulateTable() {
         type: 'POST',
         cache: false,
         url: `/Admin/Students/PopulatestudentsTable/?grade=${grade}&section=${section}`,
-
-        data: { grade: grade },
         success: function (response) {
             $("#table").empty();
             $("#table").html(response);

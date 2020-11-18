@@ -47,6 +47,13 @@ namespace SchoolWeb.Utility
                     new SelectListItem { Text = "الفصل الثاني", Value="2"},
         };
 
+        public static List<SelectListItem> SelectedSemestersList = new List<SelectListItem>() {
+                    new SelectListItem{ Text = "جميع الفصول الدراسية", Value="All"
+                         , Selected = true},
+                    new SelectListItem { Text = "الفصل الأول", Value="1"},
+                    new SelectListItem { Text = "الفصل الثاني", Value="2"},
+        };
+
         public static List<SelectListItem> ClassNumbersList = new List<SelectListItem>() {
                     new SelectListItem { Text = "الحصة الأولى", Value="1"},
                     new SelectListItem { Text = "الحصة الثانية", Value="2"},
