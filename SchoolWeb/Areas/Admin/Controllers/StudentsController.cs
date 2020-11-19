@@ -470,6 +470,29 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     }
 
 
+                    var section = _unitOfWork.Section
+                        .GetFirstOrDefault(s => s.Id == student.SectionId,
+                        includeProperities: "Classes");
+
+                    var classes = section.Classes.GroupBy(c => c.CourseId)
+                        .Select(c => c.First()).ToList();
+
+                    foreach (var claSs in classes)
+                    {
+                        var mark = new Mark()
+                        {
+                            FirstMark = 0,
+                            SecondMark = 0,
+                            AssignmentsMark = 0,
+                            FinalMark = 0,
+                            StudentId = student.Id,
+                            CourseId = claSs.CourseId
+                        };
+
+                        _unitOfWork.Mark.Add(mark);
+                    }
+
+
                     _unitOfWork.Save();
 
                     return RedirectToAction(nameof(StudentsInfo));

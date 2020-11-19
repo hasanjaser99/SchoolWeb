@@ -159,11 +159,15 @@
                     </div>
                 </div>
                 <div class="mt-5 mb-4">
-                    <button asp-action="StudentsInfo" class="btn" style="background-color: #f3f3f3;width:150px;height:50px;
+                    <a asp-action="StudentsInfo" class="btn" style="background-color: #f3f3f3;width:150px;height:50px;
                            margin-right:50px; border:1px solid #038242;">
                         <span style="color:#038242; font-size:1.1rem;">إلغاء</span>
-                    </button>
-                    <button class="btn" style="background-color: #038242;width:150px;height:50px;" type="submit">
+                    </a>
+                    <button class="btn"
+                            data-toggle="modal"
+                            data-target="#loadingModal"
+                            style="background-color: #038242;width:150px;height:50px;"
+                            type="submit">
                         <span style="color:#fdfdfd; font-size:1.1rem;">حفظ</span>
                     </button>
                 </div>
@@ -171,9 +175,21 @@
             </form>
         </div>
     </div>
+</div>
 
 
+<!---------------------------------------- Modal ---------------------------------------->
 
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content align-items-center" style="height:300px;justify-content:center;">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <br />
+            <h2 style="font-size:1.1rem;">يرجى الإنتظار</h2>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
