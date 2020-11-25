@@ -29,14 +29,16 @@ namespace SchoolWeb.Areas.Public.Controllers
                             .GetAll(includeProperities: "NewsImages")
                             .ToList()
                             .OrderBy(i => i.Date)
-                            .Take(3);
+                            .Take(3)
+                            .OrderByDescending(i => i.Date);
 
             var ListOfActivities = _unitOfWork
                             .Activity
                             .GetAll(includeProperities: "ActivityImages")
                             .ToList()
                             .OrderBy(i => i.Date)
-                            .Take(3);
+                            .Take(3)
+                            .OrderByDescending(i => i.Date);
 
             var newsAndActivities = new NewsAndActivitiesVM()
             {
