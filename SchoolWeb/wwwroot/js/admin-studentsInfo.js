@@ -4,8 +4,6 @@
         type: 'POST',
         cache: false,
         url: `/Admin/Students/PopulateSections/?grade=${grade}`,
-
-        data: { grade: grade },
         success: function (response) {
             $("#sectionsDiv").empty();
             $("#sectionsDiv").html(response);
@@ -21,8 +19,6 @@ function PopulateTable() {
         type: 'POST',
         cache: false,
         url: `/Admin/Students/PopulatestudentsTable/?grade=${grade}&section=${section}`,
-
-        data: { grade: grade },
         success: function (response) {
             $("#table").empty();
             $("#table").html(response);
@@ -31,11 +27,11 @@ function PopulateTable() {
 
 }
 
-function DeleteCourse(courseId) {
-    var url = `/Admin/CoursesAndSections/DeleteCourse/?id=${courseId}`;
+function DeleteStudent(studentId) {
+    var url = `/Admin/Students/DeleteStudent/?id=${studentId}`;
     swal({
-        title: "هل متأكد من حذف المادة ؟",
-        text: "لن تستطيع اعادة بيانات المادة اذا تم حذفها",
+        title: "هل متأكد من حذف الطالب ؟",
+        text: "لن تستطيع اعادة بيانات الطالب اذا تم حذفها",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -47,7 +43,7 @@ function DeleteCourse(courseId) {
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.message);
-                        $(`#${courseId}`).remove();
+                        $(`#${studentId}`).remove();
                     } else {
                         toastr.error(data.message);
                     }

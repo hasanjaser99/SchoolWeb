@@ -45,6 +45,8 @@ namespace SchoolWeb.Models
 
 
         // relations
+
+        [DisplayName("الشعبة")]
         public int? SectionId { get; set; }
 
         [ForeignKey("SectionId")]

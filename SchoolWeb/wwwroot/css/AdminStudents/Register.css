@@ -1,0 +1,53 @@
+﻿.registerFormContainer h2 {
+    color: #038242;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 20px
+}
+
+.registerFormContainer p {
+    font-size: 1rem;
+    line-height: 40px;
+}
+
+.registerFormContainer input {
+    text-align: right !important;
+}
+
+.registerImageContainer {
+    text-align: left;
+    margin-top: 120px;
+}
+
+.registerImageContainer img {
+    margin-left: 30px;
+}
+
+.bornCertificateTitle {
+    color: #038242;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-left: 50px;
+}
+
+.bornCertificateNote {
+    color: #ff3232;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .registerImageContainer {
+        display:flex;
+        justify-content:center;
+        margin: 40px;
+    }
+
+    .registerationButton {
+        display: flex;
+        justify-content: center
+    }
+}

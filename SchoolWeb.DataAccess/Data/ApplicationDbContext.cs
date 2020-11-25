@@ -38,6 +38,11 @@ namespace SchoolWeb.Data
             .WithOne(s => s.Teacher)
             .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<StudentFee>()
+            .HasMany(s => s.MonthlyPayments)
+            .WithOne(m => m.StudentFee)
+            .OnDelete(DeleteBehavior.Cascade);
+
 
         }
 

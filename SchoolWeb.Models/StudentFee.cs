@@ -16,15 +16,10 @@ namespace SchoolWeb.Models
         [DisplayName("رسوم المواصلات")]
         public int BusFees { get; set; }
 
-        [Required(ErrorMessage = "يرجى إدخال نسبة الخصم")]
         [DisplayName("نسبة الخصم")]
-        public double Discount { get; set; }
+        public int Discount { get; set; }
 
         //// relations
-        public string StudentId { get; set; }
-
-        [ForeignKey("StudentId")]
-        public Student Student { get; set; }
 
         public IEnumerable<MonthlyPayment> MonthlyPayments { get; set; }
     }
