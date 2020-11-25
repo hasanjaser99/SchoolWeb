@@ -52,8 +52,8 @@ namespace SchoolWeb.Areas.Public.Controllers
 
         public IActionResult Teachers()
         {
-
-            return View();
+            var teachers = _unitOfWork.Teacher.GetAll();
+            return View(teachers);
         }
         
 
