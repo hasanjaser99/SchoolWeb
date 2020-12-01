@@ -1,4 +1,7 @@
-﻿@section Css {
+﻿
+@model IEnumerable<SchoolWeb.Models.Teacher>
+
+@section Css {
     <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
 }
 
@@ -31,11 +34,12 @@
         الهيئة التدريسية
     </p>
 
-    <div class=" row mt-4 mb-sm-5 mt-5 " style="display:flex; justify-content:space-between;">
-
-        <partial name="~/Areas/Public/Views/Partials/Cards/_TeacherCard.cshtml" />
-        <partial name="~/Areas/Public/Views/Partials/Cards/_TeacherCard.cshtml" />
-        <partial name="~/Areas/Public/Views/Partials/Cards/_TeacherCard.cshtml" />
+    <div class=" row flex-row-reverse mt-4 mb-sm-5 mt-5 " style="display:flex; justify-content:space-between;">
+        @foreach(var teacher in Model)
+        {
+        <partial name="~/Areas/Public/Views/Partials/Cards/_TeacherCard.cshtml" for="@teacher"/>
+        }
+   
 
     </div>
 </div>

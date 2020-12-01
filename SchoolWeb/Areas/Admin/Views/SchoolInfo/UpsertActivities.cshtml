@@ -57,16 +57,16 @@
                     @foreach (var image in Model.ActivityImages)
                     {
 
-                <div class=" m-auto pt-2" style="display:inline-block;" id="@image.Id">
-                    <img src="@image.ImageUrl" height="100px" width="100px" />
+                        <div class=" m-auto pt-2" style="display:inline-block;" id="@image.Id">
+                            <img src="@image.ImageUrl" height="100" width="100" />
                     
-                    <br />
-                    <a class="btn btn-danger btn-sm"
-                       style="width:100px; border-radius:0;"
-                       onclick="DeleteActivityImage(@image.Id)">
-                        حذف
-                    </a>
-                </div>
+                            <br />
+                            <a class="btn btn-danger btn-sm"
+                               style="width:100px; border-radius:0;"
+                               onclick="DeleteActivityImage(@image.Id)">
+                                حذف
+                            </a>
+                        </div>
                     }
                 </div>
             }
