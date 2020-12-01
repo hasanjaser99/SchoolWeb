@@ -58,7 +58,7 @@
                         <tr id="@student.Id">
                             <td>
                                 <span class="tableActionButtons">
-                                    <a class="deleteButton btn p-sm-0" onclick="DeleteStudent(`@student.Id`)">
+                                    <a class="deleteButton btn p-sm-0" onclick="DeleteRequest(`@student.Id`)">
                                         <p class="text-white font-weight-bold mt-1">رفض</p>
                                     </a>
 
@@ -75,7 +75,7 @@
                             <td>
                                 <span class="tableActionButtons">
                                     <a class="editButton btn p-sm-0"
-                                       asp-action="StudentDetails" asp-route-id="@student.Id">
+                                       asp-action="StudentDetails" asp-route-id="@student.Id" asp-route-from="Requests">
                                         <p class="green-font font-weight-bold mt-1">المزيد</p>
                                     </a>
                                 </span>
@@ -171,7 +171,7 @@
 
                     <button id="acceptDoneButton"
                             type="submit"
-                            onclick="ShowLoading()"
+                            onclick="acceptDone()"
                             class="btn text-white"
                             style="background-color: #038242;width:120px;height:60px;">
                         تم

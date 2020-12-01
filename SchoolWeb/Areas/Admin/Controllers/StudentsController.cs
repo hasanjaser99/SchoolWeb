@@ -552,30 +552,42 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
 
 
-        public IActionResult StudentDetails(string id)
+        public IActionResult StudentDetails(string id, string from)
         {
-            var student = _unitOfWork.Student
-                .GetFirstOrDefault(s => s.Id == id
-                , includeProperities: "StudentFee,StudentFee.MonthlyPayments,Section,Section.Classes");
+            var adminStudentDetailsVM = new AdminStudentDetailsVM();
 
-            var monthlyPayments = student.StudentFee.MonthlyPayments.OrderBy(m => m.Month);
+            var student = new Student();
 
-
-            var classes = student.Section.Classes.GroupBy(c => c.CourseId)
-                .Select(c => c.First()).ToList();
-
-            var adminStudentDetailsVM = new AdminStudentDetailsVM()
+            if (from == "Requests")
             {
-                Student = student,
+                student = _unitOfWork.Student.GetFirstOrDefault(s => s.Id == id);
+            }
+            else
+            {
 
-                Semesters = StaticData.SelectedSemestersList,
+                student = _unitOfWork.Student
+                    .GetFirstOrDefault(s => s.Id == id
+                    , includeProperities: "StudentFee,StudentFee.MonthlyPayments,Section,Section.Classes");
 
-                Marks = _unitOfWork.Mark.GetAll(includeProperities: "Course")
-                .Where(m => m.StudentId == id
-                && m.CourseId == getCourseIdFromClass((int)m.CourseId, classes)),
+                var monthlyPayments = student.StudentFee.MonthlyPayments.OrderBy(m => m.Month);
 
-                MonthlyPayments = monthlyPayments
-            };
+
+                var classes = student.Section.Classes.GroupBy(c => c.CourseId)
+                    .Select(c => c.First()).ToList();
+
+                adminStudentDetailsVM.Semesters = StaticData.SelectedSemestersList;
+
+                adminStudentDetailsVM.Marks = _unitOfWork.Mark.GetAll(includeProperities: "Course")
+                    .Where(m => m.StudentId == id
+                    && m.CourseId == getCourseIdFromClass((int)m.CourseId, classes));
+
+                adminStudentDetailsVM.MonthlyPayments = monthlyPayments;
+            }
+
+
+            adminStudentDetailsVM.Student = student;
+
+
 
             return View(adminStudentDetailsVM);
         }
@@ -801,6 +813,28 @@ namespace SchoolWeb.Areas.Admin.Controllers
             _unitOfWork.Save();
 
             return Json(new { success = true, message = "تم حذف الطالب بنجاح" });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteRequest(string id)
+        {
+            var student = _unitOfWork.Student.GetFirstOrDefault(s => s.Id == id);
+
+            if (student == null)
+            {
+                return Json(new { success = false, message = "حدث خطأ في عملية الحذف" });
+            }
+
+            //remove student from identity user
+            var identityUser = await _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(identityUser);
+
+            //remove student from students table
+            _unitOfWork.Student.Remove(student);
+
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "تم حذف طلب التسجيل بنجاح" });
         }
 
 

@@ -41,7 +41,7 @@ function FillSectionWithValue() {
     $('#sectionId').val(sectionId);
 }
 
-function ShowLoading() {
+function acceptDone() {
     $("#acceptDoneButton").submit();
 
     if ($("#BussFees").val().trim() != "" && $("#Discount").val().trim()) {
@@ -58,4 +58,31 @@ function ShowLoading() {
     }
 
 
+}
+
+
+function DeleteRequest(studentId) {
+    var url = `/Admin/Students/DeleteRequest/?id=${studentId}`;
+    swal({
+        title: "هل متأكد من رفض طلب التسجيل ؟",
+        text: "لن تستطيع اعادة بيانات الطلب اذا تم حذفها",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        $(`#${studentId}`).remove();
+                    } else {
+                        toastr.error(data.message);
+                    }
+                }
+            });
+        }
+    });
 }
