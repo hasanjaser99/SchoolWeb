@@ -44,16 +44,18 @@ function FillSectionWithValue() {
 function ShowLoading() {
     $("#acceptDoneButton").submit();
 
-    setTimeout(function () {
-        $("#modalContentContainer").empty();
-        $("#modalContentContainer").html(`<div class="modal-content align-items-center" style = "height:300px;justify-content:center;" >
+    if ($("#BussFees").val().trim() != "" && $("#Discount").val().trim()) {
+        setTimeout(function () {
+            $("#modalContentContainer").empty();
+            $("#modalContentContainer").html(`<div class="modal-content align-items-center" style = "height:300px;justify-content:center;" >
             <div class="spinner-border text-success" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
             <br />
             <h2 style="font-size:1.1rem;">يرجى الإنتظار</h2>
         </div>`);
-    }, 3);
+        }, 3);
+    }
 
 
 }
