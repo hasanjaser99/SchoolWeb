@@ -18,7 +18,7 @@
 
     <div class="subContainer @isActive("studentsInfo")">
         <p>
-            <a asp-area="Admin" asp-controller="CoursesAndSections" asp-action="Courses">
+            <a asp-area="Admin" asp-controller="Students" asp-action="StudentsInfo">
                 بيانات الطلاب
             </a>
         </p>
@@ -26,9 +26,9 @@
 
 
 
-    <div class="subContainer @isActive("registerOrders")">
+    <div class="subContainer @isActive("registerRequests")">
         <p>
-            <a asp-area="Admin" asp-controller="CoursesAndSections" asp-action="Sections">
+            <a asp-area="Admin" asp-controller="Students" asp-action="RegisterRequests">
                 طلبات التسجيل
             </a>
         </p>
@@ -36,7 +36,7 @@
 
     <div class="subContainer @isActive("finicialClaims")">
         <p>
-            <a asp-area="Admin" asp-controller="CoursesAndSections" asp-action="Sections">
+            <a asp-area="Admin" asp-controller="Students" asp-action="">
                 المطالبات المالية
             </a>
         </p>

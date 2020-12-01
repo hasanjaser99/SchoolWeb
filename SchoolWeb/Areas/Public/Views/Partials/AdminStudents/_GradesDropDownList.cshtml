@@ -1,0 +1,12 @@
+﻿@model IEnumerable<SelectListItem>
+
+@if (Model != null)
+{
+    <select id="Grades" class="form-control" style="text-align-last: right;" onchange="PopulateSections()">
+
+        @foreach (var grade in Model)
+        {
+            <option value="@grade.Value" label="@grade.Text" selected="@grade.Selected"></option>
+        }
+    </select>
+}

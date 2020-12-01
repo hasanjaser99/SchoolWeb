@@ -11,7 +11,11 @@
 }
 
 <select id="sections" class="form-control" style="text-align-last: right; width:@width" onchange=@onChange>
-    <option disabled selected>اختر الشعبة</option>
+    @if (ViewBag.acceptRequest == null)
+    {
+        <option disabled selected>اختر الشعبة</option>
+
+    }
     @if (Model != null)
     {
         @foreach (var sect in Model)

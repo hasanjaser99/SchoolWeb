@@ -5,11 +5,16 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolWeb", "SchoolWeb\SchoolWeb.csproj", "{587511FE-D860-49F5-8831-86EB60E45A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolWeb.DataAccess", "SchoolWeb.DataAccess\SchoolWeb.DataAccess.csproj", "{204766B8-3098-49F9-827B-26A593E8951B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolWeb.DataAccess", "SchoolWeb.DataAccess\SchoolWeb.DataAccess.csproj", "{204766B8-3098-49F9-827B-26A593E8951B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolWeb.Models", "SchoolWeb.Models\SchoolWeb.Models.csproj", "{1FE38E95-9AC6-4754-9E68-53283469455B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolWeb.Models", "SchoolWeb.Models\SchoolWeb.Models.csproj", "{1FE38E95-9AC6-4754-9E68-53283469455B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolWeb.Utility", "SchoolWeb.Utility\SchoolWeb.Utility.csproj", "{89DE57E5-E63C-4C55-ADE7-9BEBB42233FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolWeb.Utility", "SchoolWeb.Utility\SchoolWeb.Utility.csproj", "{89DE57E5-E63C-4C55-ADE7-9BEBB42233FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38FD36E0-FBE2-44AD-B6B2-95DB66110C94}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -55,14 +55,14 @@ namespace SchoolWeb.Areas.Admin.Controllers
             return View(studentsInfoVM);
         }
 
-        //populate sections when grades value changed
+        //populate sections when grades value changed or when use modal in registers requests
         [HttpPost]
         public IActionResult PopulateSections(string grade, string operation)
 
         {
             var sections = new List<SelectListItem>();
 
-            if (grade != null && operation != "Upsert")
+            if (grade != null && operation == null)
             {
                 sections.Add(new SelectListItem { Text = "جميع الشعب", Value = "All" });
             }
@@ -77,10 +77,15 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 }));
 
 
-            if (operation == "Upsert")
+            if (operation == "Upsert" || operation == "AcceptRequest")
             {
                 ViewBag.sectionsDropDownWidth = "100%";
 
+            }
+
+            if (operation == "AcceptRequest")
+            {
+                ViewBag.acceptRequest = true;
             }
 
             return PartialView("~/Areas/Public/Views/Partials/AdminStudents/_SectionsDropDownList.cshtml"
@@ -611,6 +616,139 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
         }
 
+        public async Task<IActionResult> RegisterRequests()
+        {
+            var identityUsers = await _userManager
+                .GetUsersInRoleAsync(StaticData.Role_Waiting);
+
+
+            var registerRequestsVM = new RegisterRequestsVM()
+            {
+                Students = _unitOfWork.Student.GetAll(includeProperities: "Section")
+                    .Where(s => s.Id == getIdentityId(s.Id, identityUsers)),
+
+                Grades = StaticData.GradesList,
+
+                Sections = _unitOfWork.Section.GetAll()
+            };
+
+
+            return View(registerRequestsVM);
+        }
+
+        //populate grades when modal opened
+        [HttpPost]
+        public IActionResult PopulateGrades(string studentId)
+
+        {
+            var studentGrade = _unitOfWork.Student.GetFirstOrDefault(s => s.Id == studentId).Grade;
+
+
+            var grades = StaticData.GradesList.Select(s => new SelectListItem
+            {
+                Text = s.Text,
+                Value = s.Value,
+                Selected = s.Value == studentGrade
+            });
+
+
+            return PartialView("~/Areas/Public/Views/Partials/AdminStudents/_GradesDropDownList.cshtml"
+                , grades);
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AcceptStudent(RegisterRequestsVM registerRequestsVM)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var student = _unitOfWork.Student
+                    .GetFirstOrDefault(s => s.Id == registerRequestsVM.StudentId);
+
+                // create student fee
+                var studentFee = new StudentFee()
+                {
+                    Discount = registerRequestsVM.Discount,
+                    BusFees = registerRequestsVM.BusFees,
+                };
+
+                _unitOfWork.StudentFee.Add(studentFee);
+
+                _unitOfWork.Save();
+
+                student.StudentFeeId = studentFee.Id;
+                student.SectionId = registerRequestsVM.SelectedSection;
+                student.Grade = registerRequestsVM.SelectedGrade;
+
+                _unitOfWork.Student.Update(student);
+
+
+                //get school fees for selected grade
+                var schoolFee = _unitOfWork.SchoolFee
+                    .GetFirstOrDefault(s => s.Grade == student.Grade).SchoolFees;
+
+                // calculate discount if exists
+                var discountedSchoolFee = schoolFee -
+                    (schoolFee * studentFee.Discount / 100);
+
+
+
+                // create monthlyPayments for user
+                for (int month = 1; month <= StaticData.NumberOfMonths; month++)
+                {
+                    var monthlyPayment = new MonthlyPayment()
+                    {
+                        StudentFeeId = studentFee.Id,
+                        IsPaied = false,
+                        BusFeesAmount = studentFee.BusFees / StaticData.NumberOfMonths,
+                        Month = month,
+                        SchoolFeesAmount = discountedSchoolFee / StaticData.NumberOfMonths
+
+                    };
+
+                    _unitOfWork.MonthlyPayment.Add(monthlyPayment);
+                }
+
+                var section = _unitOfWork.Section
+                    .GetFirstOrDefault(s => s.Id == student.SectionId,
+                    includeProperities: "Classes");
+
+                var classes = section.Classes.GroupBy(c => c.CourseId)
+                    .Select(c => c.First()).ToList();
+
+                foreach (var claSs in classes)
+                {
+                    var mark = new Mark()
+                    {
+                        FirstMark = 0,
+                        SecondMark = 0,
+                        AssignmentsMark = 0,
+                        FinalMark = 0,
+                        StudentId = student.Id,
+                        CourseId = claSs.CourseId
+                    };
+
+                    _unitOfWork.Mark.Add(mark);
+                }
+
+
+                _unitOfWork.Save();
+
+                //change student role from identity
+                var identityUser = await _userManager.FindByIdAsync(student.Id);
+                await _userManager.RemoveFromRoleAsync(identityUser, StaticData.Role_Waiting);
+                await _userManager.AddToRoleAsync(identityUser, StaticData.Role_Student);
+
+                return RedirectToAction(nameof(RegisterRequests));
+            }
+
+            return Json(new { success = true, message = "تم قبول الطالب بنجاح" });
+
+        }
+
         //helpers functions
         private string getIdentityId(string studentId, IList<IdentityUser> identityUsers)
         {
@@ -664,6 +802,8 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
             return Json(new { success = true, message = "تم حذف الطالب بنجاح" });
         }
+
+
 
         #endregion
 

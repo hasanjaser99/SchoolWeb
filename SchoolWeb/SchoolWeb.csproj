@@ -43,4 +43,8 @@
     <Folder Include="wwwroot\images\students\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
 </Project>
