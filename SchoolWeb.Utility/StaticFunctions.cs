@@ -8,11 +8,11 @@ namespace SchoolWeb.Utility
     {
         public static string GetGrade(string grade)
         {
-            if (grade.ToUpper() == "KG1")
+            if (grade.ToUpper() == "KG2")
             {
                 return "تمهيدي";
             }
-            if (grade.ToUpper() == "KG2")
+            if (grade.ToUpper() == "KG1")
             {
                 return "بستان";
             }

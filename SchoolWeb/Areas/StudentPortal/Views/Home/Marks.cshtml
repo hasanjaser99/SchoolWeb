@@ -1,30 +1,80 @@
 ﻿
+@model SchoolWeb.Models.ViewModels.StudentMarksVM
 
+
+@using SchoolWeb.Utility
 
 @section Css {
     <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+    <link rel="stylesheet" href="~/css/studentPortal/marks.css" />
+    <link rel="stylesheet" href="~/css/AdminStudents/StudentDetails.css" />
 }
 
 
 @{
-    ViewData["Title"] = "الصفحة الشخصية";
+    ViewData["Title"] = "علامات المواد ";
     ViewData["Active"] = "studentPortal";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var pageTitle = "Marks";
+
+    List<SelectListItem> Semesters = new List<SelectListItem>() {
+                        new SelectListItem{ Text = "--الفصل الدراسي--", Value="none"
+                             , Selected = true}
+                    };
+    Semesters.AddRange(StaticData.SemestersList);
+
 }
 
-<div class="mt-5">
-    <div class="row flex-sm-row-reverse">
 
-        <div class="col-lg-6 col-md-6 ">
-            <img src="~/SVGs/Schedule.svg" width="220" height="220" />
+<div id="bodyContainer">
+    <div class="mt-5">
+
+
+        <div class="row flex-sm-row-reverse">
+
+            <div class="col-lg-6 col-md-6 center">
+                <img src="~/SVGs/graduation.svg" width="270" height="250" />
+
+            </div>
+            <partial name="~/Areas/Public/Views/Partials/Navs/_StudentPortalNav.cshtml"
+                     for="@pageTitle" />
 
         </div>
-        <partial name="~/Areas/Public/Views/Partials/Navs/_StudentPortalNav.cshtml"
-                 for="@pageTitle" />
+
 
     </div>
+
+
+    <div class=" row flex-row-reverse justify-content-center justify-content-lg-start">
+        <div class=" col-8 row flex-row-reverse justify-content-between mt-5 pt-1 pb-3">
+
+            <select class="dropdown drop-down-list col-4 mt-2 mb-2"
+                    id="grade"
+                    onchange="PopulateMarks()"
+                    asp-items="@Model.Grades">
+            </select>
+
+            <select class="dropdown drop-down-list col-4 mt-2 mb-2"
+                    id="Semesters"
+                    onchange="PopulateMarks()"
+                    asp-items="@Semesters">
+            </select>
+
+
+
+        </div>
+    </div>
+
 </div>
 
+
+<div  id="tableContainer" style="margin-bottom:100px;" class="row flex-row-reverse justify-content-center">
+
+</div>
+
+
+@section Scripts {
+    <script src="~/js/coursesMarks.js"></script>
+}
 
 

@@ -1,0 +1,20 @@
+﻿.drop-down-list {
+    text-align-last: right;
+    border-color: #038242;
+    color: #038242;
+    display: flex;
+    justify-items: center;
+    width: 200px;
+    min-width: 200px;
+    height: 50px;
+    min-height: 50px;
+    padding-right: 5px;
+    font-weight: bold;
+    font-size: 16px;
+}
+ @media only screen and (min-width: 768px) {
+    .center {
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+}
