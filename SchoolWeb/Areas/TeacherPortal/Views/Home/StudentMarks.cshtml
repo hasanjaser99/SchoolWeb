@@ -1,0 +1,97 @@
+﻿
+@model SchoolWeb.Models.ViewModels.MarksOfStudentsDDListsVM
+
+
+@using SchoolWeb.Utility
+
+@section Css {
+    <link rel="stylesheet" href="~/css/AboutSchool/AboutSchoolNav.css" />
+    <link rel="stylesheet" href="~/css/studentPortal/marks.css" />
+    <link rel="stylesheet" href="~/css/AdminStudents/StudentDetails.css" />
+}
+
+ 
+@{
+    ViewData["Title"] = "علامات الطلاب ";
+    ViewData["Active"] = "teacherPortal";
+    ViewData["Active"] = "teacherPortal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageTitle = "Marks";
+
+
+}
+
+
+<div id="bodyContainer">
+    <div class="mt-5">
+
+
+        <div class="row flex-sm-row-reverse">
+
+            <div class="col-lg-6 col-md-6 center">
+                <img src="~/SVGs/graduation.svg" width="270" height="250" />
+
+            </div>
+            <partial name="~/Areas/Public/Views/Partials/Navs/_TeacherPortalNav.cshtml"
+                     for="@pageTitle" />
+
+        </div>
+
+
+    </div>
+
+
+    <div class=" row flex-row-reverse justify-content-center justify-content-lg-start">
+        <div class=" col-12 row flex-row-reverse justify-content-between mt-5 pt-1 pb-3">
+
+            <!-- DropDownList for Courses -->
+            <div class=" col-3 mt-2 mb-2" id="coursesContainer">
+                <select class="dropdown drop-down-list"
+                        id="courses"
+                        onchange="PopulateGrades()"
+                        asp-items="@Model.CoursesList">
+                </select>
+            </div>
+
+            <!-- DropDownList for Grades -->
+            <div class=" col-3 mt-2 mb-2" id="gradesContainer">
+                <partial 
+                         for="@Model.GradesList"
+                         name="~/Areas/Public/Views/Partials/MarksOfStudents/_GradesDropDownList.cshtml" />
+            </div>
+
+            <!-- DropDownList for Sections -->
+            <div class=" col-3 mt-2 mb-2" id="sectionsContainer">
+                <partial 
+                         for="@Model.SectionsList"
+                         name="~/Areas/Public/Views/Partials/MarksOfStudents/_SectionsDropDownList.cshtml" />
+            </div>
+
+            <!-- DropDownList for Semesters -->
+            <div class=" col-3 mt-2 mb-2" id="semestersContainer">
+                <select class="dropdown drop-down-list"
+                        id="semester"
+                        onchange=""
+                        asp-items="@Model.SemestersList">
+                </select>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<div  id="tableContainer" style="margin-bottom:100px;" class="row flex-row-reverse justify-content-center">
+
+</div>
+
+
+@section Scripts {
+    <script src="~/js/MarksOfStudents.js"></script>
+}
+
+

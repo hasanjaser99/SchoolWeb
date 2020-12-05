@@ -4,8 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using SchoolWeb.DataAccess.Repository;
+using SchoolWeb.Models;
+using SchoolWeb.Models.ViewModels;
+using SchoolWeb.Utility;
 
 namespace SchoolWeb.Areas.TeacherPortal.Controllers
 {
@@ -21,13 +25,19 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        private string getCurrentTeacherId()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            return claims.Value;
+
+        }
+
         public IActionResult Index()
         {
-        //    var claimsIdentity = (ClaimsIdentity)User.Identity;
-        //    var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-        //    var userId = claims.Value;
-        var userId = _unitOfWork
-                            .Teacher.GetFirstOrDefault().Id;
+        
+        var userId = getCurrentTeacherId();
+        
         var Teacher = _unitOfWork.Teacher.GetFirstOrDefault(t => t.Id == userId);
             
 
@@ -36,20 +46,225 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
 
         public IActionResult ClassSchedule()
         {
-            //// getting user id
-            //var claimsIdentity = (ClaimsIdentity)User.Identity;
-            //var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            //var userId = claims.Value;
-            var userId = _unitOfWork
-                            .Teacher.GetFirstOrDefault().Id;
-
+            
+            var userId = getCurrentTeacherId();
+        
             var Classes = _unitOfWork
                             .Class
                             .GetAll(c => c.TeacherId == userId, includeProperities: "Course,Section");
 
-         
-
             return View(Classes);
         }
+
+        public IActionResult StudentMarks()
+        {
+
+            var userId = getCurrentTeacherId();
+
+            var teacher = _unitOfWork.Teacher
+                            .GetFirstOrDefault(t => t.Id == userId,
+                                    includeProperities: "CourseTeachers,CourseTeachers.Course");
+
+            // create courses list
+            List<SelectListItem> courses = new List<SelectListItem>()
+            {
+                new SelectListItem{ Text = "--المادة--", Value="none", Selected = true}
+            };
+
+            IDictionary<string, string> Filtering = new Dictionary<string, string>();
+
+            foreach (var course in teacher.CourseTeachers)
+            {
+                string courseName = course.Course.Name;
+                try
+                {
+                    Filtering.Add(courseName, courseName);
+                    courses.Add(new SelectListItem { Text = courseName, Value = course.CourseId.ToString() });
+                }
+                catch (Exception)
+                {
+
+                    continue;
+                }
+    
+            }
+
+
+
+            // create Semesters list
+            List<SelectListItem> Semesters = new List<SelectListItem>() {
+                        new SelectListItem{ Text = "--الفصل الدراسي--", Value="none"
+                             , Selected = true}
+                    };
+            Semesters.AddRange(StaticData.SemestersList);
+
+            // create Sections list
+            List<SelectListItem> Sections = new List<SelectListItem>()
+            {
+                new SelectListItem { Text = "-- الشعبة --", Value = "none", Selected = true }
+            };
+
+            // create Grades list
+            List<SelectListItem> Grades = new List<SelectListItem>()
+            {
+               new SelectListItem { Text = "-- الصف --", Value = "none", Selected = true }
+            };
+
+            MarksOfStudentsDDListsVM lists = new MarksOfStudentsDDListsVM()
+            {
+                CoursesList= courses,
+                SemestersList= Semesters,
+                SectionsList= Sections,
+                GradesList= Grades
+            };
+
+
+
+            return View(lists);
+        }
+
+
+        #region API
+
+        public IActionResult PopulateMarksTable(string grade, string semester)
+        {
+            var studentId = getCurrentTeacherId();
+            var student = _unitOfWork.Student
+               .GetFirstOrDefault(s => s.Id == studentId
+               , includeProperities: "Section,Section.Classes");
+
+
+            var classes = student.Section.Classes.GroupBy(c => c.CourseId)
+                .Select(c => c.First()).ToList();
+
+            var marks = Enumerable.Empty<Mark>();
+
+
+
+            marks = _unitOfWork.Mark.GetAll(
+                    m => m.StudentId == studentId
+                    && m.Course.Grade == grade
+                    && m.Course.Semester.ToString() == semester
+                    , includeProperities: "Course");
+
+
+            return PartialView("~/Areas/Public/Views/Partials/StudentsMarks/_CoursesMarksTable.cshtml"
+                , marks);
+
+        }
+
+
+
+        public IActionResult PopulateGradesList(string courseId)
+        {
+            // create Grades list
+            List<SelectListItem> Grades = new List<SelectListItem>()
+            {
+               new SelectListItem { Text = "-- الصف --", Value = "none", Selected = true }
+            };
+
+            var course = _unitOfWork.Course
+                            .GetFirstOrDefault(c => c.Id.ToString() == courseId);
+
+            if (course == null)
+            {
+                return PartialView("~/Areas/Public/Views/Partials/MarksOfStudents/_GradesDropDownList.cshtml"
+                , Grades);
+            }
+
+            var courses = _unitOfWork.Course
+                            .GetAll(c => c.Name == course.Name);
+
+            
+
+
+            foreach (var item in courses)
+            {
+                var grade = item.Grade;
+                Grades.Add(new SelectListItem { Text = StaticFunctions.GetGrade(grade), Value = grade });
+                
+
+            }
+
+            return PartialView("~/Areas/Public/Views/Partials/MarksOfStudents/_GradesDropDownList.cshtml"
+                , Grades);
+            
+        }
+
+
+        public IActionResult PopulateSectionsList(string grade,string courseId)
+        {
+            // create Grades list
+            List<SelectListItem> SectionsList = new List<SelectListItem>()
+            {
+               new SelectListItem { Text = "-- الشعبة --", Value = "none", Selected = true }
+            };
+
+            // getting course name
+            var course = _unitOfWork.Course
+                            .GetFirstOrDefault(c => c.Id.ToString() == courseId);
+            if (course == null)
+            {
+                return PartialView("~/Areas/Public/Views/Partials/MarksOfStudents/_SectionsDropDownList.cshtml"
+                , SectionsList);
+            }
+
+            var courseName = course.Name;
+
+            // getting teacher Id
+            var teacherId = getCurrentTeacherId();
+
+            // getting calsses
+            var classes = _unitOfWork.Class
+                            .GetAll(c => c.Course.Name == courseName
+                                    && c.TeacherId == teacherId
+                                    && c.Section.Grade==grade,
+                            includeProperities: "Section,Course");
+
+
+
+
+            //if there is no sections met the conditions return defalut List
+            if (classes.Count() == 0)
+            {
+                return PartialView("~/Areas/Public/Views/Partials/MarksOfStudents/_SectionsDropDownList.cshtml"
+                , SectionsList);
+            }
+
+            IDictionary<string, string> Filtering = new Dictionary<string, string>();
+
+            foreach (var item in classes)
+            {
+                try
+                {
+                    var id = item.Section.Id.ToString();
+                    var name = item.Section.Name;
+                    Filtering.Add(name, item.Section.Id.ToString());
+                    SectionsList.Add(new SelectListItem { Text = name, Value = id });
+
+
+                }
+                catch (Exception)
+                {
+
+                    continue;
+                }
+
+                
+
+            }
+
+            return PartialView("~/Areas/Public/Views/Partials/MarksOfStudents/_SectionsDropDownList.cshtml"
+                , SectionsList);
+
+        }
+        #endregion
+
+
+
+
+
+
+
     }
 }
