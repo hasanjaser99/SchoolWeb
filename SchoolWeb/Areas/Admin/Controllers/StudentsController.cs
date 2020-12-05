@@ -93,43 +93,6 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
         }
 
-        //populate table when dropdownlist value changed
-        [HttpPost]
-        public async Task<IActionResult> PopulateStudentsTable(string grade, string section)
-
-        {
-            var identityUsers = await _userManager.GetUsersInRoleAsync(StaticData.Role_Student);
-
-
-            //initialize empty students
-            var students = Enumerable.Empty<Student>();
-
-            if (grade == "All")
-            {
-                students = _unitOfWork.Student.GetAll().Where(
-                    s => s.Id == getIdentityId(s.Id, identityUsers));
-            }
-
-            else if (section == "All")
-            {
-                students = _unitOfWork.Student.GetAll()
-                    .Where(s => s.Grade == grade
-                    && s.Id == getIdentityId(s.Id, identityUsers));
-            }
-            else
-            {
-                students = _unitOfWork.Student.GetAll()
-                    .Where(s => s.Grade == grade
-                    && s.SectionId.ToString() == section
-                    && s.Id == getIdentityId(s.Id, identityUsers));
-            }
-
-
-            return PartialView("~/Areas/Public/Views/Partials/AdminStudents/_StudentsTable.cshtml"
-                , students);
-
-        }
-
 
         public IActionResult UpsertStudent(string id)
         {
@@ -749,7 +712,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                 _unitOfWork.Save();
 
-                //change student role from identity
+                //change role from waiting to student
                 var identityUser = await _userManager.FindByIdAsync(student.Id);
                 await _userManager.RemoveFromRoleAsync(identityUser, StaticData.Role_Waiting);
                 await _userManager.AddToRoleAsync(identityUser, StaticData.Role_Student);
@@ -788,6 +751,40 @@ namespace SchoolWeb.Areas.Admin.Controllers
         }
 
         #region API_CALLS
+
+        [HttpGet]
+        public async Task<IActionResult> GetStudents(string grade, string section)
+        {
+            var identityUsers = await _userManager.GetUsersInRoleAsync(StaticData.Role_Student);
+
+
+            //initialize empty students
+            var students = Enumerable.Empty<Student>();
+
+            if ((String.IsNullOrEmpty(grade) && String.IsNullOrEmpty(section)) || grade == "All")
+            {
+                students = _unitOfWork.Student.GetAll().Where(
+                    s => s.Id == getIdentityId(s.Id, identityUsers));
+            }
+
+            else if (section == "All")
+            {
+                students = _unitOfWork.Student.GetAll()
+                    .Where(s => s.Grade == grade
+                    && s.Id == getIdentityId(s.Id, identityUsers));
+            }
+            else
+            {
+                students = _unitOfWork.Student.GetAll()
+                    .Where(s => s.Grade == grade
+                    && s.SectionId.ToString() == section
+                    && s.Id == getIdentityId(s.Id, identityUsers));
+            }
+
+
+            return Json(new { data = students });
+        }
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteStudent(string id)
