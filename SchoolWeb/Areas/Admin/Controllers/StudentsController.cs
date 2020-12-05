@@ -37,19 +37,12 @@ namespace SchoolWeb.Areas.Admin.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        public async Task<IActionResult> StudentsInfo()
+        public IActionResult StudentsInfo()
         {
-
-            var identityUsers = await _userManager.GetUsersInRoleAsync(StaticData.Role_Student);
-
 
             var studentsInfoVM = new AdminStudentsInfoVM()
             {
-                Students = _unitOfWork.Student.GetAll().Where(
-                    s => s.Id == getIdentityId(s.Id, identityUsers)),
-
                 Grades = StaticData.SelectedGradesList,
-
             };
 
             return View(studentsInfoVM);
