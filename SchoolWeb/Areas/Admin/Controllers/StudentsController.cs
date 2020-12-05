@@ -584,16 +584,11 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
         }
 
-        public async Task<IActionResult> RegisterRequests()
+        public IActionResult RegisterRequests()
         {
-            var identityUsers = await _userManager
-                .GetUsersInRoleAsync(StaticData.Role_Waiting);
-
 
             var registerRequestsVM = new RegisterRequestsVM()
             {
-                Students = _unitOfWork.Student.GetAll(includeProperities: "Section")
-                    .Where(s => s.Id == getIdentityId(s.Id, identityUsers)),
 
                 Grades = StaticData.GradesList,
 
@@ -774,6 +769,17 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     && s.Id == getIdentityId(s.Id, identityUsers));
             }
 
+
+            return Json(new { data = students });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRequests()
+        {
+            var identityUsers = await _userManager.GetUsersInRoleAsync(StaticData.Role_Waiting);
+
+            var students = _unitOfWork.Student.GetAll(includeProperities: "Section")
+                    .Where(s => s.Id == getIdentityId(s.Id, identityUsers));
 
             return Json(new { data = students });
         }
