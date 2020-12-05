@@ -41,11 +41,11 @@
     </div>
 
 
-    <div class=" row flex-row-reverse justify-content-center justify-content-lg-start">
+    <div class=" row flex-row-reverse justify-content-center justify-content-lg-start p-0">
         <div class=" col-12 row flex-row-reverse justify-content-between mt-5 pt-1 pb-3">
 
             <!-- DropDownList for Courses -->
-            <div class=" col-3 mt-2 mb-2" id="coursesContainer">
+            <div class=" col-6 col-lg-3 mt-2 mb-2 center" id="coursesContainer">
                 <select class="dropdown drop-down-list"
                         id="courses"
                         onchange="PopulateGrades()"
@@ -54,24 +54,24 @@
             </div>
 
             <!-- DropDownList for Grades -->
-            <div class=" col-3 mt-2 mb-2" id="gradesContainer">
+            <div class=" col-6 col-lg-3 mt-2 mb-2 center" id="gradesContainer">
                 <partial 
                          for="@Model.GradesList"
                          name="~/Areas/Public/Views/Partials/MarksOfStudents/_GradesDropDownList.cshtml" />
             </div>
 
             <!-- DropDownList for Sections -->
-            <div class=" col-3 mt-2 mb-2" id="sectionsContainer">
+            <div class=" col-6 col-lg-3 mt-2 mb-2 center" id="sectionsContainer">
                 <partial 
                          for="@Model.SectionsList"
                          name="~/Areas/Public/Views/Partials/MarksOfStudents/_SectionsDropDownList.cshtml" />
             </div>
 
             <!-- DropDownList for Semesters -->
-            <div class=" col-3 mt-2 mb-2" id="semestersContainer">
+            <div class="col-6 col-lg-3 mt-2 mb-2 center" id="semestersContainer">
                 <select class="dropdown drop-down-list"
                         id="semester"
-                        onchange=""
+                        onchange="PopulateMarks()"
                         asp-items="@Model.SemestersList">
                 </select>
             </div>
@@ -85,8 +85,8 @@
 </div>
 
 
-<div  id="tableContainer" style="margin-bottom:100px;" class="row flex-row-reverse justify-content-center">
-
+<div id="tableContainer" style="margin-bottom:100px;" class="row flex-row-reverse justify-content-center">
+    <partial name="~/Areas/Public/Views/Partials/MarksOfStudents/_MarksOfStudentTable.cshtml" />
 </div>
 
 

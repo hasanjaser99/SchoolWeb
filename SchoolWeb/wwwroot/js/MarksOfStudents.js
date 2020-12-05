@@ -1,34 +1,77 @@
-﻿function PopulateMarks() {
+﻿
+
+
+
+var dataTable;
+
+$(document).ready(function () {
+    PopulateMarks();
+});
+
+
+function PopulateMarks() {
+
     // get data 
-    var semester = $('#Semesters').val();
-    var grade = $('#grade').val();
+    var grade = $('#grades').val();
+    var courseId = $('#courses').val();
+    var sectionId = $('#sections').val();
+    var semester = $('#semester').val();
 
-    // check if user select poth 
-    if (grade == "none" || semester == "none") {
-        $("#marksTable").remove();
-        return;
-    }
-     
-    // show spinner
-    $("#marksTable").remove();
-    $("#tableContainer").append('<div class="spinner-border text-success" id="spinner" role="status">'+
-        '<span class="sr-only">Loading...</span> </div>');
+
+
     
+    dataTable = $("#tblData").DataTable({
+        "bDestroy": true,
+        "ajax": {
+            "url": `/TeacherPortal/Home/PopulateMarksTable/?courseId=${courseId}&grade=${grade}&sectionId=${sectionId}&semester=${semester}`
+        },
+        success: function (res) {
+            console.log(res);
+        },
+        "iDisplayLength": 10,
+        "language": {
+            "sProcessing": "جارٍ التحميل...",
+            "sLengthMenu": "أظهر _MENU_ مدخلات",
+            "sZeroRecords": "لم يعثر على أية سجلات",
+            "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+            "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+            "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+            "sInfoPostFix": "",
+            "sSearch": "ابحث:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "الأول",
+                "sPrevious": "السابق",
+                "sNext": "التالي",
+                "sLast": "الأخير"
+            }
+        },
+        "columns": [
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `<span class="tableActionButtons">
+                        <a class="editButton btn p-sm-0"
+                           href="/Admin/Students/UpsertMark/?id=${data}">
+                            <p class="green-font font-weight-bold mt-1">تعديل</p>
+                        </a>
+                    </span>`;
+                }, "width": "16.6%"
+            },
+            { "data": "finalMark", "wdith": "16.6%" },
+            { "data": "assignmentsMark", "wdith": "16.6%" },
+            { "data": "secondMark", "wdith": "16.6%" },
+            { "data": "firstMark", "wdith": "16.6%" },
+            { "data": "student.arabicName", "wdith": "16.6%" },
 
-    $.ajax({
-        type: 'POST',
-        cache: false,
-        url: `/StudentPortal/Home/PopulateMarksTable/?grade=${grade}&semester=${semester}`,
-        success: function (response) {
-            //hide spinner and show marks table
-            $("#spinner").remove();
-            $("#tableContainer").append(response);
-            
-        }
 
+        ],
     });
 
 }
+
+
+
 
 
 function PopulateGrades() {

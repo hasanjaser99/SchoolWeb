@@ -126,30 +126,24 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
 
         #region API
 
-        public IActionResult PopulateMarksTable(string grade, string semester)
+        public IActionResult PopulateMarksTable(string courseId, string grade, string sectionId, string semester)
         {
-            var studentId = getCurrentTeacherId();
-            var student = _unitOfWork.Student
-               .GetFirstOrDefault(s => s.Id == studentId
-               , includeProperities: "Section,Section.Classes");
 
+            if (grade == "none" || courseId == "none" || sectionId == "none" || semester == "none")
+                return Json(new { });
 
-            var classes = student.Section.Classes.GroupBy(c => c.CourseId)
-                .Select(c => c.First()).ToList();
+            var course = _unitOfWork.Course
+                            .GetFirstOrDefault(c => c.Id.ToString() == courseId);
 
-            var marks = Enumerable.Empty<Mark>();
-
-
-
-            marks = _unitOfWork.Mark.GetAll(
-                    m => m.StudentId == studentId
+            var marks = _unitOfWork.Mark.GetAll(
+                    m => m.Course.Name == course.Name
                     && m.Course.Grade == grade
                     && m.Course.Semester.ToString() == semester
-                    , includeProperities: "Course");
+                    && m.Student.SectionId.ToString() == sectionId
+                    , includeProperities: "Course,Student");
 
 
-            return PartialView("~/Areas/Public/Views/Partials/StudentsMarks/_CoursesMarksTable.cshtml"
-                , marks);
+            return Json(new { data = marks });
 
         }
 

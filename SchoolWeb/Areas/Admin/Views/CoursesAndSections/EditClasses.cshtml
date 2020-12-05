@@ -12,7 +12,7 @@
 
 <div class="mt-5">
     <div class="row">
-        <div class="schoolLogo col-12">
+        <div class="schoolLogo col-12 center">
             <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
 
         </div>
@@ -69,43 +69,6 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="@Model.SectionId" />
         <div class="row flex-row-reverse">
-            <div class=" col-6 form-group">
-                <label asp-for="@Model.ClassNumbers"></label>
-                @Html.DropDownListFor(m => m.SelectedClassNumber, Model.ClassNumbers,
-               "-اختر رقم الحصة-", new
-                    {
-                        @class = "form-control",
-                   style = "text-align-last:right;"
-                    })
-
-                <span asp-validation-for="@Model.ClassNumbers" class="text-danger"></span>
-            </div>
-
-            <div class="col-6 form-group">
-                <label asp-for="@Model.Courses"></label>
-                @Html.DropDownListFor(m => m.SelectedCourse, Model.Courses,
-               "-اختر المادة-", new
-                    {
-                        @class = "form-control",
-                   style = "text-align-last:right;"
-                    })
-
-                <span asp-validation-for="@Model.Courses" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row flex-row-reverse mt-3">
-            <div class="col-6 form-group">
-                <label asp-for="@Model.Teachers"></label>
-                @Html.DropDownListFor(m => m.SelectedTeacher, Model.Teachers,
-               "-اختر المعلم-", new
-                    {
-                        @class = "form-control",
-                   style = "text-align-last:right;"
-                    })
-
-                <span asp-validation-for="@Model.Teachers" class="text-danger"></span>
-            </div>
 
             <div class="col-6 form-group">
                 <label asp-for="@Model.Days"></label>
@@ -118,6 +81,47 @@
 
                 <span asp-validation-for="@Model.Days" class="text-danger"></span>
             </div>
+            <div class=" col-6 form-group">
+                <label asp-for="@Model.ClassNumbers"></label>
+                @Html.DropDownListFor(m => m.SelectedClassNumber, Model.ClassNumbers,
+               "-اختر رقم الحصة-", new
+                    {
+                        @class = "form-control",
+                   style = "text-align-last:right;"
+                    })
+
+                <span asp-validation-for="@Model.ClassNumbers" class="text-danger"></span>
+            </div>
+            
+        </div>
+
+        <div class="row flex-row-reverse mt-3">
+
+
+            <div class="col-6 form-group">
+                <label asp-for="@Model.Courses"></label>
+                @Html.DropDownListFor(m => m.SelectedCourse, Model.Courses,
+               "-اختر المادة-", new
+                    {
+                        @class = "form-control",
+                   style = "text-align-last:right;"
+                    })
+
+                <span asp-validation-for="@Model.Courses" class="text-danger"></span>
+            </div>
+
+            <div class="col-6 form-group">
+                <label asp-for="@Model.Teachers"></label>
+                @Html.DropDownListFor(m => m.SelectedTeacher, Model.Teachers,
+               "-اختر المعلم-", new
+                    {
+                        @class = "form-control",
+                   style = "text-align-last:right;"
+                    })
+
+                <span asp-validation-for="@Model.Teachers" class="text-danger"></span>
+            </div>
+
         </div>
 
 
