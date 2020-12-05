@@ -1,4 +1,83 @@
-﻿function showAcceptStudentModal(studentId) {
+﻿var dataTable;
+
+$(document).ready(function () {
+    loadDataTable();
+});
+
+function loadDataTable() {
+    dataTable = $("#tblData").DataTable({
+        "ajax": {
+            "url": "/Admin/Students/GetRequests"
+        },
+        "iDisplayLength": 10,
+        "language": {
+            "sProcessing": "جارٍ التحميل...",
+            "sLengthMenu": "أظهر _MENU_ مدخلات",
+            "sZeroRecords": "لم يعثر على أية سجلات",
+            "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+            "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+            "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+            "sInfoPostFix": "",
+            "sSearch": "ابحث:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "الأول",
+                "sPrevious": "السابق",
+                "sNext": "التالي",
+                "sLast": "الأخير"
+            }
+        },
+        "columns": [
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `<span class="tableActionButtons">
+                               <a class="deleteButton btn p-sm-0"
+                                  onclick=DeleteRequest("/Admin/Students/DeleteRequest/?id=${data}")>
+                                   <p class="text-white font-weight-bold mt-1">رفض</p>
+                                </a>
+                                <a class="acceptStudent editButton btn p-sm-0"
+                                    data-backdrop="static"
+                                    data-keyboard="false"
+                                    data-toggle="modal"
+                                    href="#acceptStudentModal"
+                                    onclick=showAcceptStudentModal("${data}")>
+                                        <p class="green-font font-weight-bold mt-1">قبول</p>
+                                </a>
+                                </span>`;
+                }, "width": "14%"
+            },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `<span class="tableActionButtons">
+                               <a class="editButton btn p-sm-0"
+                                  href="/Admin/Students/StudentDetails/?id=${data}&from=Requests">
+                                     <p class="green-font font-weight-bold mt-1">المزيد</p>
+                               </a>
+                           </span>`;
+                }, "width": "14%"
+            },
+            { "data": "address", "wdith": "14%" },
+            { "data": "parentPhoneNumber", "wdith": "14%" },
+            {
+                "data": "grade",
+                "render": function (data) {
+                    return GetGrade(data);
+                }, "width": "14%"
+            },
+            { "data": "englishName", "wdith": "14%" },
+            { "data": "arabicName", "wdith": "14%" },
+
+
+        ],
+    });
+}
+
+
+
+
+function showAcceptStudentModal(studentId) {
     $('#studentId').val(studentId);
     PopulateGrades(studentId);
 };
@@ -61,8 +140,7 @@ function acceptDone() {
 }
 
 
-function DeleteRequest(studentId) {
-    var url = `/Admin/Students/DeleteRequest/?id=${studentId}`;
+function DeleteRequest(url) {
     swal({
         title: "هل متأكد من رفض طلب التسجيل ؟",
         text: "لن تستطيع اعادة بيانات الطلب اذا تم حذفها",
@@ -77,7 +155,7 @@ function DeleteRequest(studentId) {
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.message);
-                        $(`#${studentId}`).remove();
+                        dataTable.ajax.reload();
                     } else {
                         toastr.error(data.message);
                     }

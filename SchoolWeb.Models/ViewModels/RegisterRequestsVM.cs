@@ -9,8 +9,6 @@ namespace SchoolWeb.Models.ViewModels
 {
     public class RegisterRequestsVM
     {
-        public IEnumerable<Student> Students { get; set; }
-
 
         // For Accept Modal
         public IEnumerable<SelectListItem> Grades { get; set; }

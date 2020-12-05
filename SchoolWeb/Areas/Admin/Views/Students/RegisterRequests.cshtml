@@ -32,70 +32,29 @@
 
             <div id="table">
                 <table id="tblData" align="right" class="table table-bordered mt-5">
-                    <tr>
-                        <th></th>
-                        <th>
-                            <span>عرض المزيد</span>
-                        </th>
-                        <th>
-                            <span>العنوان</span>
-                        </th>
-                        <th>
-                            <span>رقم هاتف ولي الأمر</span>
-                        </th>
-                        <th>
-                            <span>الصف</span>
-                        </th>
-                        <th>
-                            <span>الإسم باللغة الإنجليزية</span>
-                        </th>
-                        <th>
-                            <span>الإسم باللغة العربية</span>
-                        </th>
-                    </tr>
-                    @foreach (var student in Model.Students)
-                    {
-                        <tr id="@student.Id">
-                            <td>
-                                <span class="tableActionButtons">
-                                    <a class="deleteButton btn p-sm-0" onclick="DeleteRequest(`@student.Id`)">
-                                        <p class="text-white font-weight-bold mt-1">رفض</p>
-                                    </a>
-
-                                    <a class="acceptStudent editButton btn p-sm-0"
-                                       data-backdrop="static"
-                                       data-keyboard="false"
-                                       data-toggle="modal"
-                                       href="#acceptStudentModal"
-                                       onclick="showAcceptStudentModal(`@student.Id`)">
-                                        <p class="green-font font-weight-bold mt-1">قبول</p>
-                                    </a>
-                                </span>
-                            </td>
-                            <td>
-                                <span class="tableActionButtons">
-                                    <a class="editButton btn p-sm-0"
-                                       asp-action="StudentDetails" asp-route-id="@student.Id" asp-route-from="Requests">
-                                        <p class="green-font font-weight-bold mt-1">المزيد</p>
-                                    </a>
-                                </span>
-                            </td>
-
-                            <td>@student.Address</td>
-
-                            <td>@student.ParentPhoneNumber</td>
-
-                            <td>@StaticFunctions.GetGrade(student.Grade)</td>
-
-                            <td>@student.EnglishName</td>
-
-                            <td>@student.ArabicName</td>
-
-
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <span>عرض المزيد</span>
+                            </th>
+                            <th>
+                                <span>العنوان</span>
+                            </th>
+                            <th>
+                                <span>رقم هاتف ولي الأمر</span>
+                            </th>
+                            <th>
+                                <span>الصف</span>
+                            </th>
+                            <th>
+                                <span>الإسم باللغة الإنجليزية</span>
+                            </th>
+                            <th>
+                                <span>الإسم باللغة العربية</span>
+                            </th>
                         </tr>
-
-
-                    }
+                    </thead>
                 </table>
             </div>
         </div>
