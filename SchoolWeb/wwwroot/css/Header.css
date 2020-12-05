@@ -87,3 +87,7 @@ nav img {
     display: none;
 }
 
+
+.navbar-nav .active-link div a:hover {
+    color: #038242;
+}
