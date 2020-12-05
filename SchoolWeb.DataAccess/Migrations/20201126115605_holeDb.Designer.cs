@@ -10,8 +10,8 @@ using SchoolWeb.Data;
 namespace SchoolWeb.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201116112457_changeBussAndSchoolFeesToDouble")]
-    partial class changeBussAndSchoolFeesToDouble
+    [Migration("20201126115605_holeDb")]
+    partial class holeDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -541,12 +541,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("Discount")
                         .HasColumnType("int");
 
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentFees");
                 });
@@ -720,7 +715,8 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany("MonthlyPayments")
-                        .HasForeignKey("StudentFeeId");
+                        .HasForeignKey("StudentFeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.NewsImages", b =>
@@ -748,13 +744,6 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany()
                         .HasForeignKey("StudentFeeId");
-                });
-
-            modelBuilder.Entity("SchoolWeb.Models.StudentFee", b =>
-                {
-                    b.HasOne("SchoolWeb.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
                 });
 #pragma warning restore 612, 618
         }

@@ -54,6 +54,7 @@ namespace SchoolWeb.Utility
                     new SelectListItem { Text = "الفصل الثاني", Value="2"},
         };
 
+       
         public static List<SelectListItem> ClassNumbersList = new List<SelectListItem>() {
                     new SelectListItem { Text = "الحصة الأولى", Value="1"},
                     new SelectListItem { Text = "الحصة الثانية", Value="2"},
