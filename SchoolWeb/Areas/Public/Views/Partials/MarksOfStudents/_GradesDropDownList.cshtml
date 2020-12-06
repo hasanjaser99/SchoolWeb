@@ -1,0 +1,8 @@
+﻿@model List<SelectListItem>
+
+
+<select class="dropdown drop-down-list"
+        id="grades"
+        onchange="PopulateSections()"
+        asp-items="@Model">
+</select>
