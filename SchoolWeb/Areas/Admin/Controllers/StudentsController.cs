@@ -712,31 +712,14 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
         }
 
-        //helpers functions
-        private string getIdentityId(string studentId, IList<IdentityUser> identityUsers)
+
+        public IActionResult FinanicalClaims()
         {
-            var identityUser = identityUsers.FirstOrDefault(i => i.Id == studentId);
 
-            if (identityUser != null)
-            {
-                return identityUser.Id;
-            }
+            return View(StaticData.SelectedGradesList);
 
-            return "";
         }
 
-
-        private int getCourseIdFromClass(int courseId, IEnumerable<Class> classes)
-        {
-            var claSs = classes.FirstOrDefault(c => c.CourseId == courseId);
-
-            if (claSs != null)
-            {
-                return (int)claSs.CourseId;
-            }
-
-            return -1;
-        }
 
         #region API_CALLS
 
@@ -782,6 +765,57 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     .Where(s => s.Id == getIdentityId(s.Id, identityUsers));
 
             return Json(new { data = students });
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetFinanicalClaimStudents(string grade)
+        {
+            var identityUsers = await _userManager.GetUsersInRoleAsync(StaticData.Role_Student);
+
+            var students = _unitOfWork.Student.GetAll(
+                includeProperities: "Section,StudentFee,StudentFee.MonthlyPayments")
+                .Where(s => s.Id == getIdentityId(s.Id, identityUsers));
+
+            if (!String.IsNullOrEmpty(grade) && grade != "All")
+            {
+                students = students.Where(s => s.Grade == grade);
+            }
+
+            var currentMonth = DateTime.Now.Month;
+
+            var claimsStudents = new List<FinancialClaimStudent>();
+
+            foreach (var student in students)
+            {
+                var price = 0.0;
+
+                foreach (var monthlyPayment in student.StudentFee.MonthlyPayments)
+                {
+                    var month = monthlyPayment.Date.Month;
+
+                    if (currentMonth <= month && monthlyPayment.IsPaied == false)
+                    {
+                        price += monthlyPayment.BusFeesAmount + monthlyPayment.SchoolFeesAmount;
+                    }
+
+
+                }
+
+                if ((int)price != 0)
+                {
+                    claimsStudents.Add(new FinancialClaimStudent()
+                    {
+                        Student = student,
+                        TotalFees = price,
+                    });
+
+                }
+
+            }
+
+
+            return Json(new { data = claimsStudents });
         }
 
 
@@ -834,8 +868,33 @@ namespace SchoolWeb.Areas.Admin.Controllers
         }
 
 
-
         #endregion
+
+        //helpers functions
+        private string getIdentityId(string studentId, IList<IdentityUser> identityUsers)
+        {
+            var identityUser = identityUsers.FirstOrDefault(i => i.Id == studentId);
+
+            if (identityUser != null)
+            {
+                return identityUser.Id;
+            }
+
+            return "";
+        }
+
+
+        private int getCourseIdFromClass(int courseId, IEnumerable<Class> classes)
+        {
+            var claSs = classes.FirstOrDefault(c => c.CourseId == courseId);
+
+            if (claSs != null)
+            {
+                return (int)claSs.CourseId;
+            }
+
+            return -1;
+        }
 
     }
 

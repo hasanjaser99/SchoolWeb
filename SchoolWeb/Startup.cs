@@ -37,7 +37,9 @@ namespace SchoolWeb
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>
