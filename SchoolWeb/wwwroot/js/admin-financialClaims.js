@@ -35,7 +35,7 @@ function loadDataTable(grade) {
                     return `<span class="tableActionButtons">
                         <a class="editButton btn p-sm-0"
                            style="width:100px;"
-                           href="#">
+                           href="/Admin/Students/FinanicalDetails/?studentId=${data}">
                             <p class="green-font font-weight-bold mt-1">التفاصيل</p>
                         </a>
                     </span>`;

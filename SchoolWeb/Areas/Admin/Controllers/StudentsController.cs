@@ -713,11 +713,21 @@ namespace SchoolWeb.Areas.Admin.Controllers
         }
 
 
+        //get finanical claims for all students
         public IActionResult FinanicalClaims()
         {
 
             return View(StaticData.SelectedGradesList);
 
+        }
+
+        // get finanical claims details for specific student
+        public IActionResult FinanicalDetails(string studentId)
+        {
+            var student = _unitOfWork.Student.GetFirstOrDefault(s => s.Id == studentId,
+                includeProperities: "StudentFee,StudentFee.MonthlyPayments");
+
+            return View(student.StudentFee.MonthlyPayments);
         }
 
 
