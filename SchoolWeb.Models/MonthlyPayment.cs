@@ -28,6 +28,8 @@ namespace SchoolWeb.Models
         [DisplayName("حالة الدفع")]
         public Boolean IsPaied { get; set; }
 
+        public DateTime Date { get; set; }
+
 
         //// relations
         public int? StudentFeeId { get; set; }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolWeb.Data;
 
 namespace SchoolWeb.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201107162641_deleteBornCertificateForStudent")]
+    partial class deleteBornCertificateForStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,7 +247,7 @@ namespace SchoolWeb.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ActivityId")
+                    b.Property<int>("ActivityId")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
@@ -269,13 +271,14 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("ClassNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
+                    b.Property<string>("Day")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SectionId")
+                    b.Property<int>("SectionId")
                         .HasColumnType("int");
 
                     b.Property<string>("TeacherId")
@@ -310,7 +313,12 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Courses");
                 });
@@ -320,7 +328,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<string>("TeacherId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.HasKey("TeacherId", "CourseId");
@@ -340,7 +348,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("AssignmentsMark")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<int>("FinalMark")
@@ -371,22 +379,20 @@ namespace SchoolWeb.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("BusFeesAmount")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("BusFeesAmount")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsPaied")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Month")
+                    b.Property<string>("Month")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SchoolFeesAmount")
                         .HasColumnType("int");
 
-                    b.Property<double>("SchoolFeesAmount")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("StudentFeeId")
+                    b.Property<int>("StudentFeeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -430,7 +436,7 @@ namespace SchoolWeb.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("NewsId")
+                    b.Property<int>("NewsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -514,10 +520,10 @@ namespace SchoolWeb.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SectionId")
+                    b.Property<int>("SectionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentFeeId")
+                    b.Property<int>("StudentFeeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -539,10 +545,15 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("BusFees")
                         .HasColumnType("int");
 
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentFees");
                 });
@@ -584,10 +595,6 @@ namespace SchoolWeb.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Experience")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -617,7 +624,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -626,7 +633,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -635,7 +642,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -644,13 +651,13 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -659,7 +666,7 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -667,23 +674,35 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.Activity", "Activity")
                         .WithMany("ActivityImages")
-                        .HasForeignKey("ActivityId");
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.Class", b =>
                 {
                     b.HasOne("SchoolWeb.Models.Course", "Course")
                         .WithMany("Classes")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.Section", "Section")
                         .WithMany("Classes")
-                        .HasForeignKey("SectionId");
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.Teacher", "Teacher")
                         .WithMany("Classes")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("TeacherId");
+                });
+
+            modelBuilder.Entity("SchoolWeb.Models.Course", b =>
+                {
+                    b.HasOne("SchoolWeb.Models.Student", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("StudentId");
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.CourseTeachers", b =>
@@ -691,13 +710,13 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("SchoolWeb.Models.Course", "Course")
                         .WithMany("CourseTeachers")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.Teacher", "Teacher")
                         .WithMany("CourseTeachers")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -705,7 +724,9 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.Student", "Student")
                         .WithMany()
@@ -717,22 +738,24 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany("MonthlyPayments")
                         .HasForeignKey("StudentFeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.NewsImages", b =>
                 {
                     b.HasOne("SchoolWeb.Models.News", "News")
                         .WithMany("NewsImages")
-                        .HasForeignKey("NewsId");
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.Section", b =>
                 {
                     b.HasOne("SchoolWeb.Models.Teacher", "Teacher")
                         .WithMany("Sections")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("TeacherId");
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.Student", b =>
@@ -740,11 +763,21 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("SchoolWeb.Models.Section", "Section")
                         .WithMany("Students")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany()
-                        .HasForeignKey("StudentFeeId");
+                        .HasForeignKey("StudentFeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SchoolWeb.Models.StudentFee", b =>
+                {
+                    b.HasOne("SchoolWeb.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
                 });
 #pragma warning restore 612, 618
         }
