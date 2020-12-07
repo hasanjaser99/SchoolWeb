@@ -1,0 +1,105 @@
+﻿
+
+@model SchoolWeb.Models.ViewModels.EditMarkVM
+
+@section Css {
+    <link rel="stylesheet" href="~/css/NewsAndActivitiesUpsert.css" />
+}
+
+@{
+    
+        ViewData["Title"] = "تعديل العلامة ";
+    
+    ViewData["Active"] = "teacherPortal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class=" mt-sm-5 row ">
+    <!------------------------ First col-Img container --------------------------->
+    <div class="col-lg-4 col-md-6 mr-auto" style="display:flex; justify-content:start;">
+
+            <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
+        
+    </div>
+
+    <!------------------------ second col-form --------------------------->
+    <div class="col-sm-6 registerFormContainer m-auto">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+        <form class="mt-5" method="post" enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="@Model.Id" />
+
+            <div class="form-group">
+                <label asp-for="@Model.StudentName"></label>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.FirstMark"></label>
+                <input class="form-control text-right" asp-for="@Model.FirstMark">
+                <span asp-validation-for="@Model.FirstMark" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.SecondMark"></label>
+                <input class="form-control text-right" asp-for="@Model.SecondMark">
+                <span asp-validation-for="@Model.SecondMark" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.AssignmentsMark"></label>
+                <input class="form-control text-right" asp-for="@Model.AssignmentsMark">
+                <span asp-validation-for="@Model.AssignmentsMark" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.FinalMark"></label>
+                <input class="form-control text-right" asp-for="@Model.FinalMark">
+                <span asp-validation-for="@Model.FinalMark" class="text-danger"></span>
+            </div>
+
+            <!-------------------------------- Form Actions-------------------------------->
+            <div class="registerationButton mt-5 mb-4" style="display:flex; justify-content:space-between;">
+                <a class="btn"
+                   style="background-color: #f3f3f3; border:2px solid #038242; width:200px; height:60px;"
+                   asp-area="TeacherPortal" asp-controller="Home" asp-action="StudentMarks">
+                    <p style="color: #038242;font-size: 1.1rem;padding: 4px 0; font-weight:bold">إلغاء</p>
+                </a>
+
+                <button class="btn"
+                        style="background-color: #038242;width:200px;height:60px;" type="submit">
+                    <p style="color:#fdfdfd; font-size:1.1rem;padding: 4px 0;font-weight:bold">@ViewData["Title"]</p>
+                </button>
+
+            </div>
+
+        </form>
+
+
+
+       
+    </div>
+</div>
+
+<script type="text/javascript">
+    function DeleteNewsImage(imgId) {
+        console.log(imgId);
+        imgId = 1 * imgId;
+        $.ajax({
+            type: "DELETE",
+            url: `/Admin/SchoolInfo/DeleteNewsImage/${imgId}`,
+            success: function (data) {
+                if (data.success) {
+                    $(`#${imgId}`).remove();
+                }
+                else {
+                    console.log(data.message)
+                }
+            }
+
+        });
+            
+    };
+</script>

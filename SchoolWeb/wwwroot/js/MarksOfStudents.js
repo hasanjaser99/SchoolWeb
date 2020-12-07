@@ -52,7 +52,7 @@ function PopulateMarks() {
                 "render": function (data) {
                     return `<span class="tableActionButtons">
                         <a class="editButton btn p-sm-0"
-                           href="/Admin/Students/UpsertMark/?id=${data}">
+                           href="/TeacherPortal/Home/EditMark/?id=${data}">
                             <p class="green-font font-weight-bold mt-1">تعديل</p>
                         </a>
                     </span>`;

@@ -124,6 +124,71 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult EditMark(string id)
+        {
+            var mark = _unitOfWork
+                        .Mark
+                        .GetFirstOrDefault(m => m.Id.ToString() == id,
+                                            includeProperities: "Student,Course,Course.CourseTeachers");
+            if (mark == null)
+            {
+                // there is no mark with this id
+               
+            }
+
+            var CurrentTeacherId = getCurrentTeacherId();
+            var CurrentTeacher = mark
+                                .Course
+                                .CourseTeachers
+                                .FirstOrDefault(ct => ct.TeacherId == CurrentTeacherId);
+
+            if (CurrentTeacher == null)
+            {
+                // user not autherize
+            }
+
+            EditMarkVM editableMark = new EditMarkVM()
+            {
+                Id =mark.Id ,
+                FirstMark = mark.FirstMark,
+                SecondMark = mark.SecondMark,
+                AssignmentsMark = mark.AssignmentsMark,
+                FinalMark=mark.FinalMark,
+                StudentName = mark.Student.ArabicName
+            };
+
+            return View(editableMark);
+        }
+
+
+        [HttpPost]
+        public IActionResult EditMark(EditMarkVM mark)
+        {
+            if (ModelState.IsValid)
+            {
+                var MarkItem = _unitOfWork
+                                .Mark
+                                .GetFirstOrDefault(m => m.Id == mark.Id);
+
+
+                    MarkItem.Id = mark.Id;
+                    MarkItem.FirstMark = mark.FirstMark;
+                    MarkItem.SecondMark = mark.SecondMark;
+                    MarkItem.AssignmentsMark = mark.AssignmentsMark;
+                    MarkItem.FinalMark = mark.FinalMark;
+               
+
+                _unitOfWork.Mark.Update(MarkItem);
+                _unitOfWork.Save();
+
+                return RedirectToAction(nameof(StudentMarks));
+            }
+
+            return View(mark);
+        }
+
+
         #region API
 
         public IActionResult PopulateMarksTable(string courseId, string grade, string sectionId, string semester)
@@ -252,12 +317,12 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
                 , SectionsList);
 
         }
+       
+        
+        
+     
+        
         #endregion
-
-
-
-
-
 
 
     }
