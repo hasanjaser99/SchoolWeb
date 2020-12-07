@@ -15,7 +15,7 @@
 }
 <div class=" mt-sm-5 row ">
     <!------------------------ First col-Img container --------------------------->
-    <div class="col-lg-4 col-md-6 mr-auto" style="display:flex; justify-content:start;">
+    <div class="col-lg-4 col-md-6 mr-auto center mb-4" style="align-items:flex-start;">
 
             <img src="~/SVGs/schoolLogo.svg" width="200px" height="200px" />
         
@@ -62,13 +62,13 @@
 
             <!-------------------------------- Form Actions-------------------------------->
             <div class="registerationButton mt-5 mb-4" style="display:flex; justify-content:space-between;">
-                <a class="btn"
+                <a class="btn m-4"
                    style="background-color: #f3f3f3; border:2px solid #038242; width:200px; height:60px;"
                    asp-area="TeacherPortal" asp-controller="Home" asp-action="StudentMarks">
                     <p style="color: #038242;font-size: 1.1rem;padding: 4px 0; font-weight:bold">إلغاء</p>
                 </a>
 
-                <button class="btn"
+                <button class="btn m-4" 
                         style="background-color: #038242;width:200px;height:60px;" type="submit">
                     <p style="color:#fdfdfd; font-size:1.1rem;padding: 4px 0;font-weight:bold">@ViewData["Title"]</p>
                 </button>

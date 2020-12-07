@@ -24,18 +24,18 @@
         </div>
     </div>
 
-    <div class="row flex-row-reverse mt-5">
-        <div class="col-6" style="display:flex;justify-content:flex-end">
+    <div class="row flex-row-reverse mt-5 mb-3">
+        <div class="col-12 col-md-6 mt-3" style="display:flex;justify-content:flex-end">
             @Html.DropDownListFor(m => m.Grades, Model.Grades,
  new
       {
 
      @class = "form-control",
      @onchange = "PopulateSections()",
-     style = "text-align-last:right; width:50%"
+     style = "text-align-last:right; width:250px"
  })
         </div>
-        <div class="col-6" style="display:flex;justify-content:flex-end" id="sectionsDiv">
+        <div class="col-12 col-md-6 mt-3" style="display:flex;justify-content:flex-end" id="sectionsDiv">
             <partial name="~/Areas/Public/Views/Partials/AdminStudents/_SectionsDropDownList.cshtml" ,
                      model="@Model.Sections" />
         </div>
