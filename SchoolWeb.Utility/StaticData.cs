@@ -85,6 +85,6 @@ namespace SchoolWeb.Utility
 
         public const int NumberOfMonths = 8;
 
-
+        public const string defaultDate = "01-01-0001 00:00:00";
     }
 }

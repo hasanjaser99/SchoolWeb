@@ -1,9 +1,21 @@
 ﻿@model SchoolWeb.Models.News;
+@{
+    string imageUrl;
+    try
+    {
+        imageUrl = Model.NewsImages.FirstOrDefault().ImageUrl;
+    }
+    catch (Exception e)
+    {
+        imageUrl = "/images/defaultNewsImage.png";
+    }
 
+
+}
 <div class="card  border-0  col-lg-3 col-md-6 col-sm-8 mb-sm-5 ">
 
     <!---------------------- Image ------------------------->
-    <img src="@Model.NewsImages.FirstOrDefault().ImageUrl"
+    <img src="@imageUrl"
          alt="صورة عن الخبر"
          style="height:200px; width:100%; margin:0;">
     <!---------------------- card body ------------------------->
@@ -24,15 +36,13 @@
             <a class="btn p-sm-0"
                style="background-color:#ff3232;width:100px;height:35px;"
                asp-area="Admin" asp-controller="SchoolInfo" asp-action="DeleteNews"
-               asp-route-id="@Model.Id"
-               >
+               asp-route-id="@Model.Id">
                 <p class="text-white font-weight-bold mt-1">حذف</p>
             </a>
             <a class="btn p-sm-0"
                style="background-color:#f3f3f3;width:100px;height:35px; border:1px solid #038242"
                asp-area="Admin" asp-controller="SchoolInfo" asp-action="UpsertNews"
-               asp-route-id="@Model.Id"
-               >
+               asp-route-id="@Model.Id">
                 <p class="green-font font-weight-bold mt-1">تعديل</p>
             </a>
         </span>

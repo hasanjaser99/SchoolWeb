@@ -27,7 +27,7 @@ namespace SchoolWeb.Areas.Public.Controllers
                             .Activity
                             .GetAll(includeProperities: "ActivityImages")
                             .ToList()
-                            .OrderBy(i => i.Date);
+                            .OrderByDescending(i => i.Date); ;
 
             return View(ListOfActivities);
         }
@@ -38,7 +38,8 @@ namespace SchoolWeb.Areas.Public.Controllers
                              .News
                              .GetAll(includeProperities: "NewsImages")
                              .ToList()
-                             .OrderBy(i => i.Date);
+                             .OrderByDescending(i => i.Date);
+                             
 
             return View(ListOfNews);
         }

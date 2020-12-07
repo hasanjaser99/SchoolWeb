@@ -1,6 +1,7 @@
 ﻿
 
 @model SchoolWeb.Models.ViewModels.NewsWithImagesVM
+@using SchoolWeb.Utility
 
 @section Css {
     <link rel="stylesheet" href="~/css/NewsAndActivitiesUpsert.css" />
@@ -45,7 +46,16 @@
             
             <div class="form-group">
                 <label asp-for="@Model.Date"></label>
-                <input class="form-control text-right" asp-for="@Model.Date">
+                @if (Model.Date.ToString() == StaticData.defaultDate)
+                {
+                    <input class="form-control text-right" asp-for="@Model.Date"
+                           value="@DateTime.Now.ToString()">
+                }
+                else
+                {
+                    <input class="form-control text-right" asp-for="@Model.Date">
+                }
+                
                 <span asp-validation-for="@Model.Date" class="text-danger"></span>
             </div>
 

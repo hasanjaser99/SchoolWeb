@@ -1,8 +1,21 @@
 ﻿@model SchoolWeb.Models.News;
 
+@{
+    string imageUrl;
+    try
+    {
+        imageUrl = Model.NewsImages.FirstOrDefault().ImageUrl;
+    }
+    catch (Exception e)
+    {
+        imageUrl = "/images/defaultNewsImage.png";
+    }
+
+
+}
 <a class="card  border-0 col-lg-3 col-md-6 col-sm-8 mb-sm-5 "
-   asp-route-ItemId="@Model.Id" asp-area="Public"  asp-controller="FullViewOfCards" asp-action="FullViewOfNewsItem">
-    <img src="@Model.NewsImages.FirstOrDefault().ImageUrl"
+   asp-route-ItemId="@Model.Id" asp-area="Public" asp-controller="FullViewOfCards" asp-action="FullViewOfNewsItem">
+    <img src="@imageUrl"
          alt="صورة عن الخبر"
          style="height:200px; width:100%; margin:0;">
     <div class="card-body p-0 ">
