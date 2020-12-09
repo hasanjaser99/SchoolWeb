@@ -30,5 +30,7 @@ namespace SchoolWeb.Models
         public IEnumerable<Class> Classes { get; set; }
 
         public IEnumerable<Student> Students { get; set; }
+
+        
     }
 }

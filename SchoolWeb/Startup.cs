@@ -33,13 +33,18 @@ namespace SchoolWeb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+           
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>
@@ -72,6 +77,7 @@ namespace SchoolWeb
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -79,6 +85,7 @@ namespace SchoolWeb
             app.UseSession();
 
             app.UseAuthentication();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

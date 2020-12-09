@@ -10,8 +10,8 @@ using SchoolWeb.Data;
 namespace SchoolWeb.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201112160245_changeClassesDayToInteger")]
-    partial class changeClassesDayToInteger
+    [Migration("20201208213559_deleteRelationBetweenCoursesTableAndSections")]
+    partial class deleteRelationBetweenCoursesTableAndSections
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -373,18 +373,20 @@ namespace SchoolWeb.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BusFeesAmount")
-                        .HasColumnType("int");
+                    b.Property<double>("BusFeesAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsPaied")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Month")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SchoolFeesAmount")
+                    b.Property<int>("Month")
                         .HasColumnType("int");
+
+                    b.Property<double>("SchoolFeesAmount")
+                        .HasColumnType("float");
 
                     b.Property<int?>("StudentFeeId")
                         .HasColumnType("int");
@@ -539,15 +541,10 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.Property<int>("BusFees")
                         .HasColumnType("int");
 
-                    b.Property<double>("Discount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Discount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentFees");
                 });
@@ -721,7 +718,8 @@ namespace SchoolWeb.DataAccess.Migrations
                 {
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany("MonthlyPayments")
-                        .HasForeignKey("StudentFeeId");
+                        .HasForeignKey("StudentFeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.NewsImages", b =>
@@ -749,13 +747,6 @@ namespace SchoolWeb.DataAccess.Migrations
                     b.HasOne("SchoolWeb.Models.StudentFee", "StudentFee")
                         .WithMany()
                         .HasForeignKey("StudentFeeId");
-                });
-
-            modelBuilder.Entity("SchoolWeb.Models.StudentFee", b =>
-                {
-                    b.HasOne("SchoolWeb.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
                 });
 #pragma warning restore 612, 618
         }

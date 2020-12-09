@@ -117,7 +117,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
             //initialize grades and semesters
             upsertCourseVM.Grades = StaticData.GradesList;
             upsertCourseVM.Semesters = StaticData.SemestersList;
-
+            upsertCourseVM.StaticCoursesName = StaticData.CoursesNamesList;
 
             return View(upsertCourseVM);
         }
@@ -404,6 +404,15 @@ namespace SchoolWeb.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                // to check if this class is the 1st class inserted of this course
+                var classItem = _unitOfWork.Class
+                                .GetFirstOrDefault(c => c.SectionId == editClassesVM.SectionId
+                                && c.TeacherId== editClassesVM.SelectedTeacher
+                                && c.CourseId == editClassesVM.SelectedCourse);
+
+                
+
                 var claSs = _unitOfWork.Class
                     .GetFirstOrDefault(c => c.SectionId == editClassesVM.SectionId
                     && c.Day == editClassesVM.SelectedDay
@@ -411,6 +420,35 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                 claSs.TeacherId = editClassesVM.SelectedTeacher;
                 claSs.CourseId = editClassesVM.SelectedCourse;
+
+
+
+                if (classItem == null)
+                {
+                    // this is the 1st class
+
+                    var students = _unitOfWork.Student
+                                            .GetAll(std => std.SectionId == editClassesVM.SectionId);
+
+                    foreach(var student in students)
+                    {
+                        Mark newMark = new Mark()
+                        {
+                            FirstMark = 0,
+                            SecondMark = 0,
+                            AssignmentsMark = 0,
+                            FinalMark = 0,
+                            CourseId = editClassesVM.SelectedCourse,
+                            StudentId = student.Id
+                        };
+
+                        _unitOfWork.Mark.Add(newMark);
+                    }
+
+                }
+
+
+
 
                 _unitOfWork.Save();
 

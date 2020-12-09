@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SelectListItem>
 
 @{
-    var width = "50%";
+    var width = "250px";
     var onChange = "PopulateTable()";
     if (ViewData["sectionsWidth"] == "100%" || ViewBag.sectionsDropDownWidth == "100%")
     {
@@ -10,7 +10,7 @@
     }
 }
 
-<select id="sections" class="form-control" style="text-align-last: right; width:250px" onchange=@onChange>
+<select id="sections" class="form-control" style="text-align-last: right; width:@width;" onchange=@onChange>
     @if (ViewBag.acceptRequest == null)
     {
         <option disabled selected>اختر الشعبة</option>

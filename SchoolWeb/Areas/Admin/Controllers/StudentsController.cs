@@ -186,7 +186,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                     var student = _unitOfWork.Student.GetFirstOrDefault
                         (s => s.Id == adminUpsertStudentVM.Student.Id,
-                        includeProperities: "StudentFee");
+                        includeProperities: "StudentFee,Section");
 
                     var studentFee = student.StudentFee;
 
@@ -218,6 +218,76 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                         return View(adminUpsertStudentVM);
                     }
+
+                    // update student marks if section changed
+
+                    if (student.SectionId != adminUpsertStudentVM.SelectedSection)
+                    {
+                        //get all student marks
+
+                        var StudentMarks = _unitOfWork
+                                        .Mark
+                                        .GetAll(m => m.StudentId == student.Id
+                                                && m.FinalMark==0
+                                                , includeProperities: "Course");
+                       
+                        
+
+                        // get new section 
+                        var newSection = _unitOfWork.Section
+                         .GetFirstOrDefault(s => s.Id == adminUpsertStudentVM.SelectedSection,
+                         includeProperities: "Classes,Classes.Course");
+
+                        var classes = newSection.Classes.GroupBy(c => c.CourseId)
+                            .Select(c => c.First()).ToList();
+
+                        classes = classes.FindAll(c=>c.Course!=null);
+
+
+                        foreach (var m in StudentMarks)
+                        {
+                            if (m.Course == null) 
+                                    continue;
+
+                            var classItem = classes.FirstOrDefault(c => c.Course.Name == m.Course.Name);
+
+
+                            if (classItem == null)
+                            {
+
+                                _unitOfWork.Mark.Remove(m);
+                            }
+                            else
+                            {
+                                m.CourseId = classItem.CourseId;
+                                _unitOfWork.Mark.Update(m);
+                                classes.Remove(classItem);
+                            }
+
+                            
+                        }
+
+                        foreach(var c in classes)
+                        {
+                            Mark mark = new Mark()
+                            {
+                                FirstMark = 0,
+                                SecondMark = 0,
+                                AssignmentsMark = 0,
+                                FinalMark = 0,
+                                CourseId = c.Course.Id,
+                                StudentId = student.Id
+                            };
+
+                            _unitOfWork.Mark.Add(mark);
+                        }
+
+                        
+
+
+                    }
+
+
 
                     // Update Student Info
                     student.Address = adminUpsertStudentVM.Student.Address;
@@ -328,6 +398,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     return RedirectToAction(nameof(StudentsInfo));
 
                 }
+
+                //create new student
+
                 //create asp.net identity user
                 var identityUser = new IdentityUser
                 {

@@ -17,6 +17,6 @@ namespace SchoolWeb.Models.ViewModels
 
         public IEnumerable<string> SelectedTeachers { get; set; }
 
-
+        public IEnumerable<SelectListItem> StaticCoursesName { get; set; }
     }
 }

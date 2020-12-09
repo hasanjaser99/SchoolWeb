@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SchoolWeb.Models
@@ -25,6 +26,7 @@ namespace SchoolWeb.Models
         public int Semester { get; set; }
 
         //// relations
+        
         public IEnumerable<Class> Classes { get; set; }
 
         [DisplayName("المعلمون")]

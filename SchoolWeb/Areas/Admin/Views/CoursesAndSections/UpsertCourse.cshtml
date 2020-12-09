@@ -25,7 +25,13 @@
 
                 <div class="form-group">
                     <label asp-for="@Model.Course.Name"></label>
-                    <input class="form-control text-right" asp-for="@Model.Course.Name">
+                    @Html.DropDownListFor(m => m.Course.Name, Model.StaticCoursesName,
+                   "-اختر المادة-", new
+                        {
+                            @class = "form-control",
+                       style = "text-align-last:right;"
+                        })
+
                     <span asp-validation-for="@Model.Course.Name" class="text-danger"></span>
                 </div>
 

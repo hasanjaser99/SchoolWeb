@@ -10,8 +10,8 @@ using SchoolWeb.Data;
 namespace SchoolWeb.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201205194823_addDateToMonthlyPayments")]
-    partial class addDateToMonthlyPayments
+    [Migration("20201208211243_addRelationBetweenCoursesTableAndSections")]
+    partial class addRelationBetweenCoursesTableAndSections
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -309,10 +309,15 @@ namespace SchoolWeb.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SectionId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SectionId");
 
                     b.ToTable("Courses");
                 });
@@ -686,6 +691,13 @@ namespace SchoolWeb.DataAccess.Migrations
                         .WithMany("Classes")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("SchoolWeb.Models.Course", b =>
+                {
+                    b.HasOne("SchoolWeb.Models.Section", "Section")
+                        .WithMany("Courses")
+                        .HasForeignKey("SectionId");
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.CourseTeachers", b =>

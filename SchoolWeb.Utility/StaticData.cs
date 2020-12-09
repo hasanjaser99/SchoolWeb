@@ -21,15 +21,15 @@ namespace SchoolWeb.Utility
 
         // dropDown data 
         public static List<SelectListItem> GradesList = new List<SelectListItem>() {
-                     new SelectListItem{ Text="تمهيدي", Value="KG1"},
-                     new SelectListItem{ Text="بستان", Value="KG2"},
+                     new SelectListItem{ Text="بستان", Value="KG1"},
+                     new SelectListItem{ Text="تمهيدي", Value="KG2"},
         };
 
         public static List<SelectListItem> SelectedGradesList = new List<SelectListItem>() {
                      new SelectListItem{ Text = "جميع المستويات الدراسية", Value="All"
                          , Selected = true},
-                     new SelectListItem{ Text="تمهيدي", Value="KG1"},
-                     new SelectListItem{ Text="بستان", Value="KG2"},
+                     new SelectListItem{ Text="بستان", Value="KG1"},
+                     new SelectListItem{ Text="تمهيدي", Value="KG2"},
         };
 
 
@@ -69,6 +69,16 @@ namespace SchoolWeb.Utility
                     new SelectListItem { Text = "الثلاثاء", Value="3"},
                     new SelectListItem { Text = "الأربعاء", Value="4"},
                     new SelectListItem { Text = "الخميس", Value="5"},
+        };
+
+        public static List<SelectListItem> CoursesNamesList = new List<SelectListItem>() {
+                    new SelectListItem { Text = "عربي", Value="عربي"},
+                    new SelectListItem { Text = "انجليزي", Value="انجليزي"},
+                    new SelectListItem { Text = "رياضيات", Value="رياضيات"},
+                    new SelectListItem { Text = "علوم", Value="علوم"},
+                    new SelectListItem { Text = "حاسوب", Value="حاسوب"},
+                    new SelectListItem { Text = "فن", Value="فن"},
+                    new SelectListItem { Text = "رياضة", Value="رياضة"},             
         };
 
 
