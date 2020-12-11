@@ -238,7 +238,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
                          .GetFirstOrDefault(s => s.Id == adminUpsertStudentVM.SelectedSection,
                          includeProperities: "Classes,Classes.Course");
 
-                        var classes = newSection.Classes.GroupBy(c => c.CourseId)
+                        var classes = newSection.Classes
+                            .Where(c => c.CourseId != null)
+                            .GroupBy(c => c.CourseId)
                             .Select(c => c.First()).ToList();
 
                         classes = classes.FindAll(c => c.Course != null);
@@ -519,7 +521,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
                         .GetFirstOrDefault(s => s.Id == student.SectionId,
                         includeProperities: "Classes");
 
-                    var classes = section.Classes.GroupBy(c => c.CourseId)
+                    var classes = section.Classes.Where(c => c.CourseId != null).GroupBy(c => c.CourseId)
                         .Select(c => c.First()).ToList();
 
                     foreach (var claSs in classes)
@@ -644,7 +646,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 , includeProperities: "Section,Section.Classes");
 
 
-            var classes = student.Section.Classes.GroupBy(c => c.CourseId)
+            var classes = student.Section.Classes
+                .Where(c => c.CourseId != null)
+                .GroupBy(c => c.CourseId)
                 .Select(c => c.First()).ToList();
 
             var marks = Enumerable.Empty<Mark>();
@@ -776,7 +780,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     .GetFirstOrDefault(s => s.Id == student.SectionId,
                     includeProperities: "Classes");
 
-                var classes = section.Classes.GroupBy(c => c.CourseId)
+                var classes = section.Classes
+                    .Where(c => c.CourseId != null)
+                    .GroupBy(c => c.CourseId)
                     .Select(c => c.First()).ToList();
 
                 foreach (var claSs in classes)
@@ -943,6 +949,12 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
             //remove student fee
             _unitOfWork.StudentFee.Remove(student.StudentFee);
+
+            //remove students marks
+
+            var marks = _unitOfWork.Mark.GetAll().Where(m => m.StudentId == id);
+
+            _unitOfWork.Mark.RemoveRange(marks);
 
             //remove student from students table
             _unitOfWork.Student.Remove(student);
