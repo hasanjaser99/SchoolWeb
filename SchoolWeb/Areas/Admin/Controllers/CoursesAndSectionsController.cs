@@ -372,13 +372,6 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 Classes = _unitOfWork.Class.GetAll(c => c.SectionId == sectionId,
                 includeProperities: "Teacher,Course"),
 
-                Teachers = _unitOfWork.Teacher.GetAll().Select(t => new SelectListItem
-                {
-                    Text = t.Name,
-                    Value = t.Id,
-
-                }),
-
                 Courses = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
                 {
                     Text = c.Name,
@@ -408,10 +401,10 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 // to check if this class is the 1st class inserted of this course
                 var classItem = _unitOfWork.Class
                                 .GetFirstOrDefault(c => c.SectionId == editClassesVM.SectionId
-                                && c.TeacherId== editClassesVM.SelectedTeacher
+                                && c.TeacherId == editClassesVM.SelectedTeacher
                                 && c.CourseId == editClassesVM.SelectedCourse);
 
-                
+
 
                 var claSs = _unitOfWork.Class
                     .GetFirstOrDefault(c => c.SectionId == editClassesVM.SectionId
@@ -430,7 +423,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     var students = _unitOfWork.Student
                                             .GetAll(std => std.SectionId == editClassesVM.SectionId);
 
-                    foreach(var student in students)
+                    foreach (var student in students)
                     {
                         Mark newMark = new Mark()
                         {
@@ -456,7 +449,61 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     new { sectionId = editClassesVM.SectionId });
             }
 
+
+
+            // if fail or error occured
+            if (editClassesVM.SelectedTeacher == null)
+            {
+                ModelState.AddModelError(string.Empty, "يرجى اختيار المعلم");
+            }
+
+            editClassesVM.Classes = _unitOfWork.Class.GetAll(c => c.SectionId == editClassesVM.SectionId,
+                includeProperities: "Teacher,Course");
+
+            editClassesVM.Courses = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString(),
+
+            });
+
+            var courseTeachers = _unitOfWork.CourseTeachers
+                .GetAll(includeProperities: "Teacher")
+                .Where(ct => ct.CourseId == editClassesVM.SelectedCourse);
+
+
+            editClassesVM.Teachers = courseTeachers.Select(ct => new SelectListItem
+            {
+                Text = ct.Teacher.Name,
+                Value = ct.Teacher.Id,
+            });
+
+            editClassesVM.ClassNumbers = StaticData.ClassNumbersList;
+
+            editClassesVM.Days = StaticData.DaysList;
+
+
+
             return View(editClassesVM);
+        }
+
+        public IActionResult PopulateTeachers(int courseId)
+        {
+            var courseTeachers = _unitOfWork.CourseTeachers
+                .GetAll(includeProperities: "Teacher")
+                .Where(ct => ct.CourseId == courseId);
+
+
+            var teachers = courseTeachers.Select(ct => new SelectListItem
+            {
+                Text = ct.Teacher.Name,
+                Value = ct.Teacher.Id,
+            });
+
+
+            return PartialView("~/Areas/Public/Views/Partials/CoursesAndSections/_TeachersDropDownList.cshtml"
+                , teachers);
+
         }
 
 

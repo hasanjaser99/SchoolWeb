@@ -3,7 +3,9 @@
 
 <table id="marksTable" align="right" class="table table-bordered mt-5">
     <tr>
-        <th></th>
+        <th>
+            <span>المجموع</span>
+        </th>
         <th>
             <span>النهائي</span>
         </th>
@@ -24,28 +26,23 @@
     {
         <tr id="@mark.Id">
             <td>
-                <span class="tableActionButtons">
-                    <a class="editButton btn p-sm-0"
-                       asp-action="EditMark" asp-route-id="@mark.Id">
-                        <p class="green-font font-weight-bold mt-1">تعديل</p>
-                    </a>
-                </span>
+                @(mark.FinalMark+ mark.AssignmentsMark+ mark.SecondMark+ mark.FirstMark)
+                <span>/100</span>
             </td>
 
-            <td>@mark.FinalMark</td>
+            <td>@mark.FinalMark<span> / 40</span></td>
 
-            <td>@mark.AssignmentsMark</td>
+            <td>@mark.AssignmentsMark<span> / 20</span></td>
 
-            <td>@mark.SecondMark</td>
+            <td>@mark.SecondMark<span> / 20</span></td>
 
-            <td>@mark.FirstMark</td>
+            <td>@mark.FirstMark<span> / 20</span></td>
 
             <th>
                 <span>@mark.Course.Name</span>
             </th>
 
         </tr>
-
 
     }
 </table>

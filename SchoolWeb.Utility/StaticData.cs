@@ -54,7 +54,7 @@ namespace SchoolWeb.Utility
                     new SelectListItem { Text = "الفصل الثاني", Value="2"},
         };
 
-       
+
         public static List<SelectListItem> ClassNumbersList = new List<SelectListItem>() {
                     new SelectListItem { Text = "الحصة الأولى", Value="1"},
                     new SelectListItem { Text = "الحصة الثانية", Value="2"},
@@ -78,7 +78,7 @@ namespace SchoolWeb.Utility
                     new SelectListItem { Text = "علوم", Value="علوم"},
                     new SelectListItem { Text = "حاسوب", Value="حاسوب"},
                     new SelectListItem { Text = "فن", Value="فن"},
-                    new SelectListItem { Text = "رياضة", Value="رياضة"},             
+                    new SelectListItem { Text = "رياضة", Value="رياضة"},
         };
 
 
@@ -99,5 +99,7 @@ namespace SchoolWeb.Utility
         public const int NumberOfMonths = 8;
 
         public const string defaultDate = "01-01-0001 00:00:00";
+
+        public const int startMonth = 9;
     }
 }

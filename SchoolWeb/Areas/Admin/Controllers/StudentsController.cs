@@ -228,26 +228,28 @@ namespace SchoolWeb.Areas.Admin.Controllers
                         var StudentMarks = _unitOfWork
                                         .Mark
                                         .GetAll(m => m.StudentId == student.Id
-                                                && m.FinalMark==0
+                                                && m.FinalMark == 0
                                                 , includeProperities: "Course");
-                       
-                        
+
+
 
                         // get new section 
                         var newSection = _unitOfWork.Section
                          .GetFirstOrDefault(s => s.Id == adminUpsertStudentVM.SelectedSection,
                          includeProperities: "Classes,Classes.Course");
 
-                        var classes = newSection.Classes.GroupBy(c => c.CourseId)
+                        var classes = newSection.Classes
+                            .Where(c => c.CourseId != null)
+                            .GroupBy(c => c.CourseId)
                             .Select(c => c.First()).ToList();
 
-                        classes = classes.FindAll(c=>c.Course!=null);
+                        classes = classes.FindAll(c => c.Course != null);
 
 
                         foreach (var m in StudentMarks)
                         {
-                            if (m.Course == null) 
-                                    continue;
+                            if (m.Course == null)
+                                continue;
 
                             var classItem = classes.FirstOrDefault(c => c.Course.Name == m.Course.Name);
 
@@ -264,10 +266,10 @@ namespace SchoolWeb.Areas.Admin.Controllers
                                 classes.Remove(classItem);
                             }
 
-                            
+
                         }
 
-                        foreach(var c in classes)
+                        foreach (var c in classes)
                         {
                             Mark mark = new Mark()
                             {
@@ -282,7 +284,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
                             _unitOfWork.Mark.Add(mark);
                         }
 
-                        
+
 
 
                     }
@@ -488,14 +490,25 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
 
                     // create monthlyPayments for user
-                    for (int month = 1; month <= StaticData.NumberOfMonths; month++)
+
+                    //StaticData.startMonth - 1, we substract 1  beacause we will add months in loop in first iteration
+                    var currentDate = new DateTime(DateTime.Now.Year, StaticData.startMonth - 1, 1);
+
+                    //StaticData.NumberOfMonths + 1 , we add one because we will skip one month (holiday)
+                    for (int month = 1; month <= StaticData.NumberOfMonths + 1; month++)
                     {
+                        //skip holiday month after create half of months
+                        if (month == StaticData.NumberOfMonths / 2 + 1) continue;
+
+                        var date = currentDate.AddMonths(month);
+
                         var monthlyPayment = new MonthlyPayment()
                         {
                             StudentFeeId = studentFee.Id,
                             IsPaied = false,
                             BusFeesAmount = studentFee.BusFees / StaticData.NumberOfMonths,
-                            Month = month,
+                            Month = month > StaticData.NumberOfMonths / 2 + 1 ? month - 1 : month,
+                            Date = date,
                             SchoolFeesAmount = discountedSchoolFee / StaticData.NumberOfMonths
 
                         };
@@ -508,7 +521,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
                         .GetFirstOrDefault(s => s.Id == student.SectionId,
                         includeProperities: "Classes");
 
-                    var classes = section.Classes.GroupBy(c => c.CourseId)
+                    var classes = section.Classes.Where(c => c.CourseId != null).GroupBy(c => c.CourseId)
                         .Select(c => c.First()).ToList();
 
                     foreach (var claSs in classes)
@@ -601,7 +614,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 var monthlyPayments = student.StudentFee.MonthlyPayments.OrderBy(m => m.Month);
 
 
-                var classes = student.Section.Classes.GroupBy(c => c.CourseId)
+                var classes = student.Section.Classes
+                    .Where(c => c.CourseId != null)
+                    .GroupBy(c => c.CourseId)
                     .Select(c => c.First()).ToList();
 
                 adminStudentDetailsVM.Semesters = StaticData.SelectedSemestersList;
@@ -631,7 +646,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 , includeProperities: "Section,Section.Classes");
 
 
-            var classes = student.Section.Classes.GroupBy(c => c.CourseId)
+            var classes = student.Section.Classes
+                .Where(c => c.CourseId != null)
+                .GroupBy(c => c.CourseId)
                 .Select(c => c.First()).ToList();
 
             var marks = Enumerable.Empty<Mark>();
@@ -733,14 +750,25 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
 
                 // create monthlyPayments for user
-                for (int month = 1; month <= StaticData.NumberOfMonths; month++)
+
+                //StaticData.startMonth - 1, we substract 1  beacause we will add months in loop in first iteration
+                var currentDate = new DateTime(DateTime.Now.Year, StaticData.startMonth - 1, 1);
+
+                //StaticData.NumberOfMonths + 1 , we add one because we will skip one month (holiday)
+                for (int month = 1; month <= StaticData.NumberOfMonths + 1; month++)
                 {
+                    //skip holiday month after create half of months
+                    if (month == StaticData.NumberOfMonths / 2 + 1) continue;
+
+                    var date = currentDate.AddMonths(month);
+
                     var monthlyPayment = new MonthlyPayment()
                     {
                         StudentFeeId = studentFee.Id,
                         IsPaied = false,
                         BusFeesAmount = studentFee.BusFees / StaticData.NumberOfMonths,
-                        Month = month,
+                        Month = month > StaticData.NumberOfMonths / 2 + 1 ? month - 1 : month,
+                        Date = date,
                         SchoolFeesAmount = discountedSchoolFee / StaticData.NumberOfMonths
 
                     };
@@ -752,7 +780,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
                     .GetFirstOrDefault(s => s.Id == student.SectionId,
                     includeProperities: "Classes");
 
-                var classes = section.Classes.GroupBy(c => c.CourseId)
+                var classes = section.Classes
+                    .Where(c => c.CourseId != null)
+                    .GroupBy(c => c.CourseId)
                     .Select(c => c.First()).ToList();
 
                 foreach (var claSs in classes)
@@ -865,7 +895,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 students = students.Where(s => s.Grade == grade);
             }
 
-            var currentMonth = DateTime.Now.Month;
+            var currentDate = DateTime.Now;
 
             var claimsStudents = new List<FinancialClaimStudent>();
 
@@ -875,9 +905,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                 foreach (var monthlyPayment in student.StudentFee.MonthlyPayments)
                 {
-                    var month = monthlyPayment.Date.Month;
+                    var date = monthlyPayment.Date;
 
-                    if (currentMonth <= month && monthlyPayment.IsPaied == false)
+                    if (currentDate >= date && monthlyPayment.IsPaied == false)
                     {
                         price += monthlyPayment.BusFeesAmount + monthlyPayment.SchoolFeesAmount;
                     }
@@ -919,6 +949,12 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
             //remove student fee
             _unitOfWork.StudentFee.Remove(student.StudentFee);
+
+            //remove students marks
+
+            var marks = _unitOfWork.Mark.GetAll().Where(m => m.StudentId == id);
+
+            _unitOfWork.Mark.RemoveRange(marks);
 
             //remove student from students table
             _unitOfWork.Student.Remove(student);

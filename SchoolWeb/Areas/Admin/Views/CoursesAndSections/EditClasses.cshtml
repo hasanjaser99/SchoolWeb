@@ -68,6 +68,7 @@
     <form class="mt-5" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="@Model.SectionId" />
+        <input type="hidden" asp-for="@Model.SelectedTeacher" id="selectedTeacher"/>
         <div class="row flex-row-reverse">
 
             <div class="col-6 form-group">
@@ -92,7 +93,7 @@
 
                 <span asp-validation-for="@Model.ClassNumbers" class="text-danger"></span>
             </div>
-            
+
         </div>
 
         <div class="row flex-row-reverse mt-3">
@@ -103,22 +104,21 @@
                 @Html.DropDownListFor(m => m.SelectedCourse, Model.Courses,
                "-اختر المادة-", new
                     {
-                        @class = "form-control",
-                   style = "text-align-last:right;"
-                    })
+                   @class = "form-control",
+                   id = "Courses",
+                   style = "text-align-last:right;",
+                   onchange = "PopulateTeachers()"
+               })
 
                 <span asp-validation-for="@Model.Courses" class="text-danger"></span>
             </div>
 
             <div class="col-6 form-group">
                 <label asp-for="@Model.Teachers"></label>
-                @Html.DropDownListFor(m => m.SelectedTeacher, Model.Teachers,
-               "-اختر المعلم-", new
-                    {
-                        @class = "form-control",
-                   style = "text-align-last:right;"
-                    })
-
+                <div id="teachersDiv">
+                    <partial name="~/Areas/Public/Views/Partials/CoursesAndSections/_TeachersDropDownList.cshtml" ,
+                             model="@Model.Teachers" />
+                </div>
                 <span asp-validation-for="@Model.Teachers" class="text-danger"></span>
             </div>
 
@@ -143,6 +143,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/admin-editClasses.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }
 
