@@ -104,7 +104,7 @@ body {
     background: #038242;
 }
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #038260;
-    }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #038260;
+}
