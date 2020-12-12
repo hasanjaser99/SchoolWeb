@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,8 @@ using SchoolWeb.Utility;
 namespace SchoolWeb.Areas.Public.Controllers
 {
     [Area("Public")]
+    [AllowAnonymous]
+
     public class FeesAndRegisterationController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;

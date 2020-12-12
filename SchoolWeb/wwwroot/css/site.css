@@ -27,10 +27,22 @@ a {
   border-color: #1861ac;
 }
 
+#logoutButton {
+    background-color:transparent;
+    border:0;
+    color:white;
+}
+
+#logoutButton:hover {
+    cursor:pointer;
+    color:#038242;
+}
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {

@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using SchoolWeb.DataAccess.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SchoolWeb.Models;
 using SchoolWeb.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolWeb.Areas.Public.Controllers
 {
     [Area("Public")]
+    [AllowAnonymous]
+
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public HomeController(IUnitOfWork unitOfWork)
+        public HomeController(IUnitOfWork unitOfWork, SignInManager<IdentityUser> signInManager)
         {
             _unitOfWork = unitOfWork;
+            _signInManager = signInManager;
         }
 
 
@@ -47,6 +49,15 @@ namespace SchoolWeb.Areas.Public.Controllers
             };
 
             return View(newsAndActivities);
+        }
+
+
+        //Post logout
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
     }

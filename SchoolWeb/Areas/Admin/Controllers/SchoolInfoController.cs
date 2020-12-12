@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SchoolWeb.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticData.Role_Admin)]
     public class SchoolInfoController : Controller
     {
 
@@ -24,7 +26,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
         public SchoolInfoController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
-            _hostEnvironment = hostEnvironment; 
+            _hostEnvironment = hostEnvironment;
             _unitOfWork = unitOfWork;
         }
 
@@ -110,7 +112,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
             var feesOfRegisterationVM = new FeesOfRegisterationVM()
             {
-                SchoolFees= schoolFees,
+                SchoolFees = schoolFees,
                 Grades = StaticData.GradesList
             };
 
@@ -128,7 +130,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
                                 .SchoolFee
                                 .GetFirstOrDefault(sf => sf.Grade.Equals(schoolFee.Grade));
 
-            if (schoolFeeItem==null)
+            if (schoolFeeItem == null)
             {
                 _unitOfWork.SchoolFee.Add(schoolFee);
             }
@@ -195,22 +197,22 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 var newsItem = _unitOfWork
                                 .News
                                 .GetFirstOrDefault(
-                                                    u=> u.Id == id , 
+                                                    u => u.Id == id,
                                                     includeProperities: "NewsImages"
                                                     );
 
 
-                
-                 var newsWithImages = new NewsWithImagesVM()
+
+                var newsWithImages = new NewsWithImagesVM()
                 {
                     Id = newsItem.Id,
                     Description = newsItem.Description,
                     Date = newsItem.Date,
                     Title = newsItem.Title,
-                    NewsImages= newsItem.NewsImages,
-                    
+                    NewsImages = newsItem.NewsImages,
+
                 };
-                
+
                 return View(newsWithImages);
             }
             else // adding newsItem
@@ -223,7 +225,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
             }
         }
         /*************************************************************************************/
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpsertNews(NewsWithImagesVM newsWithImagesVM)
@@ -231,23 +233,23 @@ namespace SchoolWeb.Areas.Admin.Controllers
             //check if page is used for update news
             bool isUpdate = !!(newsWithImagesVM.Id != 0);
 
-            IEnumerable<NewsImages> images=new List<NewsImages>();
+            IEnumerable<NewsImages> images = new List<NewsImages>();
 
             if (isUpdate)
             {
-                 images = _unitOfWork.NewsImages.GetAll(i => i.NewsId == newsWithImagesVM.Id);
-                
+                images = _unitOfWork.NewsImages.GetAll(i => i.NewsId == newsWithImagesVM.Id);
+
             }
 
             // if admin didn't upload new images delete modelState - NewsImagesFiles errors
-            if (isUpdate & ModelState["NewsImagesFiles"]!=null& images.Count()!=0)
+            if (isUpdate & ModelState["NewsImagesFiles"] != null & images.Count() != 0)
             {
                 ModelState["NewsImagesFiles"].Errors.Clear();
                 ModelState["NewsImagesFiles"].ValidationState = ModelValidationState.Valid;
-                
+
             }
 
-            
+
 
             if (ModelState.IsValid)
             {
@@ -257,11 +259,11 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                     var newsItem = new News()
                     {
-                        Id= newsWithImagesVM.Id,
+                        Id = newsWithImagesVM.Id,
                         Title = newsWithImagesVM.Title,
                         Date = newsWithImagesVM.Date,
                         Description = newsWithImagesVM.Description,
-                        NewsImages= newsWithImagesVM.NewsImages
+                        NewsImages = newsWithImagesVM.NewsImages
 
                     };
 
@@ -270,13 +272,13 @@ namespace SchoolWeb.Areas.Admin.Controllers
 
                     if (files.Count > 0)
                     {
-                        
+
                         // upload images 
                         foreach (var file in files)
                         {
-                            uploadAndCreateImage(webRootPath, files, file, newsItem.Id,"News");
+                            uploadAndCreateImage(webRootPath, files, file, newsItem.Id, "News");
                         }
-                       
+
                     }
                     _unitOfWork.News.Update(newsItem);
                     _unitOfWork.Save();
@@ -284,12 +286,12 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 }
                 else
                 {// page is used to add news
-                
 
-                string webRootPath = _hostEnvironment.WebRootPath;
-                var files = HttpContext.Request.Form.Files;
-                
-                
+
+                    string webRootPath = _hostEnvironment.WebRootPath;
+                    var files = HttpContext.Request.Form.Files;
+
+
 
                     if (files.Count > 0) //  new images uploaded
                     {
@@ -308,14 +310,14 @@ namespace SchoolWeb.Areas.Admin.Controllers
                         // upload images 
                         foreach (var file in files)
                         {
-                            uploadAndCreateImage(webRootPath, files, file, newsItem.Id,"News");
+                            uploadAndCreateImage(webRootPath, files, file, newsItem.Id, "News");
                         }
 
-                    _unitOfWork.Save();
-                     return RedirectToAction(nameof(News));
+                        _unitOfWork.Save();
+                        return RedirectToAction(nameof(News));
                     }
 
-                
+
 
                 }
             }
@@ -332,18 +334,18 @@ namespace SchoolWeb.Areas.Admin.Controllers
             // getting newsItem
             var newsItem = _unitOfWork
                                  .News
-                                 .GetFirstOrDefault(u => u.Id == id,includeProperities : "NewsImages");
+                                 .GetFirstOrDefault(u => u.Id == id, includeProperities: "NewsImages");
 
 
-            
+
             //deleting images from server
             foreach (var image in newsItem.NewsImages)
             {
                 // delete file from server
                 removeImageFromServer(image.ImageUrl);
-                
+
             }
-            
+
             _unitOfWork.News.Remove(newsItem);
             _unitOfWork.Save();
 
@@ -361,20 +363,20 @@ namespace SchoolWeb.Areas.Admin.Controllers
             {
                 var newsImage = _unitOfWork.NewsImages.GetFirstOrDefault(img => img.Id == id);
 
-            // delete file from server
-            string webRootPath = _hostEnvironment.WebRootPath;
-            var imagePath = Path.Combine(webRootPath, newsImage.ImageUrl.TrimStart('\\'));
-            if (System.IO.File.Exists(imagePath))
-            {
-                System.IO.File.Delete(imagePath);
-            }
-            else
-            {
-                return Json(new { success = false, message = "Delete falid" });
-            }
+                // delete file from server
+                string webRootPath = _hostEnvironment.WebRootPath;
+                var imagePath = Path.Combine(webRootPath, newsImage.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Delete falid" });
+                }
 
-            // delete newsImage 
-            _unitOfWork.NewsImages.Remove(newsImage);
+                // delete newsImage 
+                _unitOfWork.NewsImages.Remove(newsImage);
                 _unitOfWork.Save();
                 return Json(new { success = true, message = "Delete Successful" });
 
@@ -390,7 +392,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
         }
 
         #endregion
-       
+
         //________________________________ Activities related actions___________________________________
 
         public IActionResult Activities()
@@ -416,7 +418,7 @@ namespace SchoolWeb.Areas.Admin.Controllers
                 var activityItem = _unitOfWork
                                 .Activity
                                 .GetFirstOrDefault(
-                                    u => u.Id == id,includeProperities: "ActivityImages");
+                                    u => u.Id == id, includeProperities: "ActivityImages");
 
 
 
@@ -442,9 +444,9 @@ namespace SchoolWeb.Areas.Admin.Controllers
             }
         }
         /*************************************************************************************/
-       
 
-       
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpsertActivities(ActivityWithImagesVM activityWithImagesVM)

@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using SchoolWeb.DataAccess.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolWeb.Areas.Public.Controllers
 {
     [Area("Public")]
+    [AllowAnonymous]
+
     public class AboutSchoolController : Controller
     {
 
@@ -17,12 +20,12 @@ namespace SchoolWeb.Areas.Public.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        
-        
+
+
         // for activites page
         public IActionResult Index()
-        {           
-            
+        {
+
             var ListOfActivities = _unitOfWork
                             .Activity
                             .GetAll(includeProperities: "ActivityImages")
@@ -39,7 +42,7 @@ namespace SchoolWeb.Areas.Public.Controllers
                              .GetAll(includeProperities: "NewsImages")
                              .ToList()
                              .OrderByDescending(i => i.Date);
-                             
+
 
             return View(ListOfNews);
         }
@@ -56,7 +59,7 @@ namespace SchoolWeb.Areas.Public.Controllers
             var teachers = _unitOfWork.Teacher.GetAll();
             return View(teachers);
         }
-        
+
 
     }
 }

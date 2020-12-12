@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,8 @@ using SchoolWeb.Utility;
 namespace SchoolWeb.Areas.TeacherPortal.Controllers
 {
     [Area("TeacherPortal")]
+    [Authorize(Roles = StaticData.Role_Teacher)]
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -35,20 +38,20 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
 
         public IActionResult Index()
         {
-        
-        var userId = getCurrentTeacherId();
-        
-        var Teacher = _unitOfWork.Teacher.GetFirstOrDefault(t => t.Id == userId);
-            
+
+            var userId = getCurrentTeacherId();
+
+            var Teacher = _unitOfWork.Teacher.GetFirstOrDefault(t => t.Id == userId);
+
 
             return View(Teacher);
         }
 
         public IActionResult ClassSchedule()
         {
-            
+
             var userId = getCurrentTeacherId();
-        
+
             var Classes = _unitOfWork
                             .Class
                             .GetAll(c => c.TeacherId == userId, includeProperities: "Course,Section");
@@ -86,7 +89,7 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
 
                     continue;
                 }
-    
+
             }
 
 
@@ -112,10 +115,10 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
 
             MarksOfStudentsDDListsVM lists = new MarksOfStudentsDDListsVM()
             {
-                CoursesList= courses,
-                SemestersList= Semesters,
-                SectionsList= Sections,
-                GradesList= Grades
+                CoursesList = courses,
+                SemestersList = Semesters,
+                SectionsList = Sections,
+                GradesList = Grades
             };
 
 
@@ -134,7 +137,7 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
             if (mark == null)
             {
                 // there is no mark with this id
-               
+
             }
 
             var CurrentTeacherId = getCurrentTeacherId();
@@ -150,11 +153,11 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
 
             EditMarkVM editableMark = new EditMarkVM()
             {
-                Id =mark.Id ,
+                Id = mark.Id,
                 FirstMark = mark.FirstMark,
                 SecondMark = mark.SecondMark,
                 AssignmentsMark = mark.AssignmentsMark,
-                FinalMark=mark.FinalMark,
+                FinalMark = mark.FinalMark,
                 StudentName = mark.Student.ArabicName
             };
 
@@ -172,12 +175,12 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
                                 .GetFirstOrDefault(m => m.Id == mark.Id);
 
 
-                    MarkItem.Id = mark.Id;
-                    MarkItem.FirstMark = mark.FirstMark;
-                    MarkItem.SecondMark = mark.SecondMark;
-                    MarkItem.AssignmentsMark = mark.AssignmentsMark;
-                    MarkItem.FinalMark = mark.FinalMark;
-               
+                MarkItem.Id = mark.Id;
+                MarkItem.FirstMark = mark.FirstMark;
+                MarkItem.SecondMark = mark.SecondMark;
+                MarkItem.AssignmentsMark = mark.AssignmentsMark;
+                MarkItem.FinalMark = mark.FinalMark;
+
 
                 _unitOfWork.Mark.Update(MarkItem);
                 _unitOfWork.Save();
@@ -234,24 +237,24 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
             var courses = _unitOfWork.Course
                             .GetAll(c => c.Name == course.Name);
 
-            
+
 
 
             foreach (var item in courses)
             {
                 var grade = item.Grade;
                 Grades.Add(new SelectListItem { Text = StaticFunctions.GetGrade(grade), Value = grade });
-                
+
 
             }
 
             return PartialView("~/Areas/Public/Views/Partials/MarksOfStudents/_GradesDropDownList.cshtml"
                 , Grades);
-            
+
         }
 
 
-        public IActionResult PopulateSectionsList(string grade,string courseId)
+        public IActionResult PopulateSectionsList(string grade, string courseId)
         {
             // create Grades list
             List<SelectListItem> SectionsList = new List<SelectListItem>()
@@ -277,7 +280,7 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
             var classes = _unitOfWork.Class
                             .GetAll(c => c.Course.Name == courseName
                                     && c.TeacherId == teacherId
-                                    && c.Section.Grade==grade,
+                                    && c.Section.Grade == grade,
                             includeProperities: "Section,Course");
 
 
@@ -309,7 +312,7 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
                     continue;
                 }
 
-                
+
 
             }
 
@@ -317,11 +320,11 @@ namespace SchoolWeb.Areas.TeacherPortal.Controllers
                 , SectionsList);
 
         }
-       
-        
-        
-     
-        
+
+
+
+
+
         #endregion
 
 

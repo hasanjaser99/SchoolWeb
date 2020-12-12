@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Models;
 using SchoolWeb.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolWeb.Areas.Public.Controllers
 {
     [Area("Public")]
+    [AllowAnonymous]
+
     public class FullViewOfCardsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -24,7 +27,7 @@ namespace SchoolWeb.Areas.Public.Controllers
         //Get viewNewsCard
         public IActionResult FullViewOfNewsItem(int ItemId)
         {
-            var newsItem= _unitOfWork
+            var newsItem = _unitOfWork
                             .News
                             .GetFirstOrDefault(news => news.Id == ItemId,
                                                 includeProperities: "NewsImages");

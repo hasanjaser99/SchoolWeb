@@ -15,6 +15,8 @@ using SchoolWeb.Utility;
 namespace SchoolWeb.Areas.StudentPortal.Controllers
 {
     [Area("StudentPortal")]
+    [Authorize(Roles = StaticData.Role_Student)]
+
     public class HomeController : Controller
     {
 
@@ -34,7 +36,7 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             return claims.Value;
-            
+
         }
 
         /********************************** profile ***********************************/
@@ -50,7 +52,7 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
 
         public IActionResult AccountStatment()
         {
-           
+
             var userId = getCurrentStudentId();
 
             var student = _unitOfWork.Student
@@ -104,18 +106,18 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
                             .GetAll(mark => mark.StudentId == userId,
                                     includeProperities: "Course,Student");
 
-            List<SelectListItem> grades= new List<SelectListItem>() 
+            List<SelectListItem> grades = new List<SelectListItem>()
             {
                 new SelectListItem{ Text = "--الصف--", Value="none", Selected = true}
             };
 
             foreach (var mark in marks)
             {
-                if (mark.Course !=null)
+                if (mark.Course != null)
                 {
 
-                string grade = mark.Course.Grade;
-                grades.Add(new SelectListItem { Text = StaticFunctions.GetGrade(grade), Value = grade });
+                    string grade = mark.Course.Grade;
+                    grades.Add(new SelectListItem { Text = StaticFunctions.GetGrade(grade), Value = grade });
 
                 }
             }
@@ -131,7 +133,7 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
 
         #region API
 
-        public IActionResult PopulateMarksTable(string grade,string semester)
+        public IActionResult PopulateMarksTable(string grade, string semester)
         {
             var studentId = getCurrentStudentId();
             var student = _unitOfWork.Student
@@ -151,7 +153,7 @@ namespace SchoolWeb.Areas.StudentPortal.Controllers
                     && m.Course.Grade == grade
                     && m.Course.Semester.ToString() == semester
                     , includeProperities: "Course");
-           
+
 
             return PartialView("~/Areas/Public/Views/Partials/StudentsMarks/_CoursesMarksTable.cshtml"
                 , marks);
