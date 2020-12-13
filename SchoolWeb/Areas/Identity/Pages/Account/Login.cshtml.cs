@@ -80,7 +80,12 @@ namespace SchoolWeb.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    if (User.IsInRole(StaticData.Role_Waiting))
+                    // Resolve the user via their email
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    // Get the roles for the user
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Contains(StaticData.Role_Waiting))
                     {
                         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
